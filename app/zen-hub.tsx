@@ -8,6 +8,9 @@ const LINKS = {
   pioneer: "https://aipioneer.zen.ai/",
   arena: "https://us.zenai.biz/guest",
   cards: "https://www.zenai.world/legacydossier",
+  fieldwork: "https://www.zenai.world/geo2",
+  foundation:
+    "https://www.zenai.world/ai-literacy-foundation-zen-ai-co-official-source",
   github: "https://github.com/Bluenot3",
   linkedin: "https://www.linkedin.com/company/z3nai/",
   x: "https://x.com/ZEN_AGI",
@@ -30,7 +33,8 @@ const ROUTES = [
     index: "02",
     verb: "Build",
     title: "Arsenal",
-    detail: "Agents, automations, files, programs, and operating systems in one place.",
+    detail:
+      "Agents, automations, files, programs, and operating systems in one place.",
     href: LINKS.arsenal,
     signal: "Execution layer",
     tone: "violet",
@@ -39,7 +43,8 @@ const ROUTES = [
     index: "03",
     verb: "Explore",
     title: "AI Arena",
-    detail: "Enter as a guest and compare the frontier models available to you.",
+    detail:
+      "Enter as a guest and compare the frontier models available to you.",
     href: LINKS.arena,
     signal: "Model access",
     tone: "gold",
@@ -48,10 +53,91 @@ const ROUTES = [
     index: "04",
     verb: "Verify",
     title: "ZEN Proof",
-    detail: "Projects, portfolios, credentials, and portable proof of capability.",
+    detail:
+      "Projects, portfolios, credentials, and portable proof of capability.",
     href: LINKS.cards,
     signal: "Proof layer",
     tone: "emerald",
+  },
+] as const;
+
+const SIGNALS = [
+  {
+    value: "41+",
+    label: "U.S. states",
+    detail: "Youth builders represented across the country.",
+  },
+  {
+    value: "10+",
+    label: "countries",
+    detail: "A growing international field of real AI work.",
+  },
+  {
+    value: "11–18",
+    label: "builder age range",
+    detail: "Young people learning through deployment.",
+  },
+  {
+    value: "Live",
+    label: "cloud-hosted work",
+    detail: "Apps and agents made to be used, not merely graded.",
+  },
+] as const;
+
+const FIELDWORK = [
+  {
+    number: "A–01",
+    place: "Nigeria",
+    kind: "Environmental vision",
+    title: "Recycling intelligence",
+    detail:
+      "A computer-vision agent designed to identify materials and support cleaner communities.",
+    tone: "cyan",
+  },
+  {
+    number: "B–07",
+    place: "India",
+    kind: "STEM reasoning",
+    title: "Exam-level math tutor",
+    detail:
+      "A reasoning system built to work through advanced math problems with learners.",
+    tone: "orange",
+  },
+  {
+    number: "C–14",
+    place: "Brazil",
+    kind: "Language access",
+    title: "Speech translation bridge",
+    detail:
+      "A voice-first translation tool connecting spoken language across communities.",
+    tone: "green",
+  },
+  {
+    number: "D–21",
+    place: "Philippines",
+    kind: "Public resilience",
+    title: "Disaster awareness assistant",
+    detail:
+      "An information assistant focused on practical disaster readiness and awareness.",
+    tone: "blue",
+  },
+  {
+    number: "E–28",
+    place: "Canada",
+    kind: "Human well-being",
+    title: "Cognitive wellness journal",
+    detail:
+      "A reflective AI journal designed around healthier thinking and self-awareness.",
+    tone: "orange",
+  },
+  {
+    number: "F–35",
+    place: "United Kingdom",
+    kind: "Knowledge systems",
+    title: "Historical RAG timeline",
+    detail:
+      "A retrieval-powered timeline that turns historical sources into an explorable system.",
+    tone: "cyan",
   },
 ] as const;
 
@@ -77,6 +163,7 @@ const LEDGER = [
     heading: "Prove",
     copy: "Evidence that travels",
     links: [
+      ["Global fieldwork", LINKS.fieldwork],
       ["Legacy Dossier", LINKS.cards],
       ["Credential pathway", LINKS.arsenal],
     ],
@@ -106,8 +193,8 @@ function GuillocheField() {
     let frame = 0;
     let width = 0;
     let height = 0;
-    let pointerX = 0.72;
-    let pointerY = 0.38;
+    let pointerX = 0.74;
+    let pointerY = 0.36;
     let targetX = pointerX;
     let targetY = pointerY;
     let lastDraw = 0;
@@ -117,7 +204,7 @@ function GuillocheField() {
 
     const resize = () => {
       const bounds = canvas.getBoundingClientRect();
-      const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.65);
       width = Math.max(1, bounds.width);
       height = Math.max(1, bounds.height);
       canvas.width = Math.round(width * pixelRatio);
@@ -130,41 +217,122 @@ function GuillocheField() {
       targetY = event.clientY / window.innerHeight;
     };
 
-    const drawRosette = (
+    const rosette = (
       centerX: number,
       centerY: number,
       radius: number,
       phase: number,
+      warm = false,
     ) => {
-      const rings = width < 700 ? 18 : 34;
+      const rings = width < 700 ? 24 : 44;
 
       for (let ring = 0; ring < rings; ring += 1) {
         const normalized = ring / rings;
+        const points = width < 700 ? 180 : 260;
         context.beginPath();
-        const points = 220;
 
         for (let point = 0; point <= points; point += 1) {
           const theta = (point / points) * Math.PI * 2;
+          const frequency = 11 + (ring % 7);
           const lace =
-            Math.sin(theta * (9 + (ring % 5)) + phase + ring * 0.17) *
+            Math.sin(theta * frequency + phase + ring * 0.21) *
             radius *
-            (0.038 + normalized * 0.018);
-          const orbit =
-            Math.sin(theta * 3 - phase * 0.42 + ring * 0.31) *
+            (0.03 + normalized * 0.016);
+          const interference =
+            Math.cos(theta * 5 - phase * 0.66 + ring * 0.37) *
             radius *
-            0.015;
+            0.012;
           const currentRadius =
-            radius * (0.22 + normalized * 0.78) + lace + orbit;
-          const x = centerX + Math.cos(theta) * currentRadius * 1.03;
+            radius * (0.16 + normalized * 0.84) + lace + interference;
+          const x = centerX + Math.cos(theta) * currentRadius * 1.08;
           const y = centerY + Math.sin(theta) * currentRadius;
 
           if (point === 0) context.moveTo(x, y);
           else context.lineTo(x, y);
         }
 
-        const hue = ring % 3 === 0 ? "108, 238, 210" : "245, 207, 112";
-        context.strokeStyle = `rgba(${hue}, ${0.055 + normalized * 0.1})`;
-        context.lineWidth = ring % 7 === 0 ? 0.95 : 0.55;
+        const ink = warm
+          ? ring % 3 === 0
+            ? "221, 100, 40"
+            : "190, 139, 38"
+          : ring % 4 === 0
+            ? "16, 116, 104"
+            : "29, 83, 128";
+        context.strokeStyle = `rgba(${ink}, ${0.045 + normalized * 0.115})`;
+        context.lineWidth = ring % 8 === 0 ? 0.95 : 0.48;
+        context.stroke();
+      }
+    };
+
+    const waveField = (phase: number) => {
+      const lineCount = width < 700 ? 36 : 68;
+      const step = Math.max(6, width / 230);
+
+      for (let line = 0; line < lineCount; line += 1) {
+        const baseY = (height / (lineCount - 1)) * line;
+        context.beginPath();
+
+        for (let x = -20; x <= width + 20; x += step) {
+          const normalizedX = x / Math.max(width, 1);
+          const normalizedY = baseY / Math.max(height, 1);
+          const proximity =
+            1 -
+            Math.min(
+              1,
+              Math.abs(normalizedX - pointerX) * 1.65 +
+                Math.abs(normalizedY - pointerY) * 0.68,
+            );
+          const envelope =
+            Math.sin(normalizedX * Math.PI * 5.6 + line * 0.22 + phase) *
+              (5 + proximity * 24) +
+            Math.sin(
+              normalizedX * Math.PI * 15.5 - line * 0.145 - phase * 1.65,
+            ) *
+              (1.7 + proximity * 6.4);
+          const y = baseY + envelope;
+
+          if (x === -20) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        }
+
+        const zone = line / lineCount;
+        context.strokeStyle =
+          zone > 0.66
+            ? `rgba(215, 94, 36, ${0.025 + zone * 0.05})`
+            : zone > 0.33
+              ? `rgba(13, 119, 99, ${0.03 + zone * 0.045})`
+              : `rgba(34, 96, 147, ${0.045 + (1 - zone) * 0.055})`;
+        context.lineWidth = line % 11 === 0 ? 0.9 : 0.46;
+        context.stroke();
+      }
+    };
+
+    const verticalLathe = (phase: number) => {
+      const lines = width < 700 ? 24 : 48;
+      const rightEdge = width * 0.97;
+      const leftEdge = width < 700 ? width * 0.5 : width * 0.55;
+
+      for (let line = 0; line < lines; line += 1) {
+        const normalized = line / lines;
+        const xBase = leftEdge + (rightEdge - leftEdge) * normalized;
+        context.beginPath();
+
+        for (let y = -24; y <= height + 24; y += 7) {
+          const normalizedY = y / Math.max(height, 1);
+          const fold =
+            Math.sin(normalizedY * Math.PI * 7 + line * 0.24 - phase * 1.25) *
+              (7 + Math.sin(normalized * Math.PI) * 31) +
+            Math.sin(normalizedY * Math.PI * 17 + line * 0.17 + phase) * 4;
+          const x = xBase + fold;
+          if (y === -24) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        }
+
+        context.strokeStyle =
+          line % 3 === 0
+            ? `rgba(22, 111, 97, ${0.035 + normalized * 0.055})`
+            : `rgba(41, 92, 137, ${0.03 + normalized * 0.045})`;
+        context.lineWidth = line % 9 === 0 ? 0.85 : 0.45;
         context.stroke();
       }
     };
@@ -175,53 +343,28 @@ function GuillocheField() {
         return;
       }
       lastDraw = time;
-
-      pointerX += (targetX - pointerX) * 0.035;
-      pointerY += (targetY - pointerY) * 0.035;
+      pointerX += (targetX - pointerX) * 0.028;
+      pointerY += (targetY - pointerY) * 0.028;
 
       context.clearRect(0, 0, width, height);
-      const phase = reducedMotion ? 0 : time * 0.00013;
-      const lineCount = width < 700 ? 28 : 52;
-      const step = Math.max(7, width / 190);
+      const phase = reducedMotion ? 0 : time * 0.0001;
+      waveField(phase);
+      verticalLathe(phase);
 
-      for (let line = 0; line < lineCount; line += 1) {
-        const baseY = (height / (lineCount - 1)) * line;
-        context.beginPath();
-
-        for (let x = -20; x <= width + 20; x += step) {
-          const normalizedX = x / Math.max(width, 1);
-          const proximity =
-            1 -
-            Math.min(
-              1,
-              Math.abs(normalizedX - pointerX) * 1.8 +
-                Math.abs(baseY / height - pointerY) * 0.72,
-            );
-          const wave =
-            Math.sin(normalizedX * Math.PI * 6.2 + line * 0.28 + phase) *
-              (8 + proximity * 27) +
-            Math.sin(normalizedX * Math.PI * 14 - line * 0.17 - phase * 1.7) *
-              (2.5 + proximity * 7);
-          const y = baseY + wave;
-          if (x === -20) context.moveTo(x, y);
-          else context.lineTo(x, y);
-        }
-
-        const warm = line > lineCount * 0.48;
-        context.strokeStyle = warm
-          ? `rgba(243, 207, 112, ${0.045 + (line / lineCount) * 0.08})`
-          : `rgba(96, 229, 213, ${0.05 + (1 - line / lineCount) * 0.08})`;
-        context.lineWidth = line % 9 === 0 ? 0.9 : 0.52;
-        context.stroke();
-      }
-
-      const sealX = width < 900 ? width * 0.71 : width * 0.77;
-      const sealY = height * 0.36;
-      drawRosette(
-        sealX + (pointerX - 0.5) * 16,
-        sealY + (pointerY - 0.5) * 14,
-        Math.min(width, height) * (width < 700 ? 0.3 : 0.37),
+      const sealX = width < 760 ? width * 0.77 : width * 0.79;
+      const sealY = height * 0.35;
+      rosette(
+        sealX + (pointerX - 0.5) * 17,
+        sealY + (pointerY - 0.5) * 13,
+        Math.min(width, height) * (width < 700 ? 0.34 : 0.43),
         phase,
+      );
+      rosette(
+        width * 0.08 - (pointerX - 0.5) * 9,
+        height * 0.76,
+        Math.min(width, height) * 0.22,
+        -phase * 0.7,
+        true,
       );
 
       if (!reducedMotion) frame = requestAnimationFrame(draw);
@@ -358,15 +501,16 @@ export default function ZenHub() {
   return (
     <main className="site-shell">
       <GuillocheField />
+      <div className="living-gradient" aria-hidden="true" />
       <div className="paper-grain" aria-hidden="true" />
       <div className="hologram-wash" aria-hidden="true" />
 
       <header className="topbar">
         <Brand />
         <nav className="desktop-nav" aria-label="Primary">
+          <a href="#proof">Accomplishments</a>
           <a href="#routes">Choose a path</a>
           <a href="#ledger">Ecosystem</a>
-          <a href={LINKS.contact}>Partner</a>
         </nav>
         <div className="topbar-actions">
           <button
@@ -396,20 +540,24 @@ export default function ZenHub() {
           <span className="corner corner--br">26</span>
         </div>
         <div className="security-thread" aria-hidden="true">
-          <span>ZEN · VERIFIED CAPABILITY · ZEN · VERIFIED CAPABILITY</span>
+          <span>
+            ZEN · VERIFIED CAPABILITY · BUILT IN PUBLIC · ZEN · VERIFIED
+            CAPABILITY · BUILT IN PUBLIC
+          </span>
         </div>
 
         <div className="hero-copy">
           <span className="eyebrow hero-eyebrow">
-            ZEN sovereign intelligence treasury · Series 2026
+            A new treasury of human capability · Series 2026
           </span>
           <h1>
-            Intelligence is abundant.
-            <span>Capability is sovereign.</span>
+            Intelligence
+            <span>becomes capability.</span>
           </h1>
           <p>
-            ZEN AI Co. is the gateway from learning AI to building real systems
-            and carrying proof of what you can do.
+            ZEN AI Co. turns curiosity into working systems—connecting
+            education, creation, deployment, and portable proof in one living
+            ecosystem.
           </p>
           <div className="hero-actions">
             <a
@@ -422,11 +570,9 @@ export default function ZenHub() {
             </a>
             <a
               className="secondary-button"
-              href={LINKS.pioneer}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#proof"
             >
-              Explore AI Pioneer
+              Explore the work
             </a>
           </div>
           <div className="proof-line">
@@ -478,8 +624,110 @@ export default function ZenHub() {
 
         <div className="hero-serial" aria-hidden="true">
           <span>A 00000001 Z</span>
-          <span>LEGAL TENDER FOR HUMAN CAPABILITY</span>
-          <span>EST. MMXXIII</span>
+          <span>Issued against work completed</span>
+          <span>Est. MMXXIII</span>
+        </div>
+      </section>
+
+      <section id="proof" className="proof-archive">
+        <div className="archive-shell">
+          <div className="archive-intro">
+            <div>
+              <span className="eyebrow">The work is the record</span>
+              <h2>
+                A treasury of
+                <span>things made real.</span>
+              </h2>
+            </div>
+            <div className="archive-statement">
+              <span className="archive-folio">Folio / 001–041</span>
+              <p>
+                Young builders across the United States and around the world
+                have moved beyond consuming AI. They have built cloud-hosted
+                assistants, reasoning systems, creative tools, and public-good
+                prototypes of their own.
+              </p>
+              <a
+                href={LINKS.fieldwork}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View the source fieldwork <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+
+          <div className="signal-grid" aria-label="ZEN field signals">
+            {SIGNALS.map((signal, index) => (
+              <article className="signal-card" key={signal.label}>
+                <span className="signal-number">0{index + 1}</span>
+                <strong>{signal.value}</strong>
+                <h3>{signal.label}</h3>
+                <p>{signal.detail}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="fieldwork-head">
+            <div>
+              <span className="eyebrow">Selected global fieldwork</span>
+              <h3>Proof has a place, a purpose, and a maker.</h3>
+            </div>
+            <span>Six selected works · many more in the archive</span>
+          </div>
+
+          <div className="fieldwork-grid">
+            {FIELDWORK.map((project) => (
+              <article
+                className={`fieldwork-card fieldwork-card--${project.tone}`}
+                key={project.number}
+              >
+                <div className="fieldwork-topline">
+                  <span>{project.number}</span>
+                  <span>{project.place}</span>
+                </div>
+                <div className="fieldwork-medallion" aria-hidden="true">
+                  <span>{project.number.slice(0, 1)}</span>
+                </div>
+                <div className="fieldwork-copy">
+                  <span>{project.kind}</span>
+                  <h4>{project.title}</h4>
+                  <p>{project.detail}</p>
+                </div>
+                <a
+                  href={LINKS.fieldwork}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`View ${project.title} in the global fieldwork archive`}
+                >
+                  View archive <span aria-hidden="true">↗</span>
+                </a>
+              </article>
+            ))}
+          </div>
+
+          <div className="program-ribbon">
+            <div>
+              <span>AI Pioneer</span>
+              <small>Youth build and deployment</small>
+            </div>
+            <div>
+              <span>Vanguard</span>
+              <small>Advanced capability pathways</small>
+            </div>
+            <div>
+              <span>Arsenal</span>
+              <small>Agentic creation infrastructure</small>
+            </div>
+            <div>
+              <span>AI Arena</span>
+              <small>Frontier model exploration</small>
+            </div>
+            <div>
+              <span>ZEN Proof</span>
+              <small>Projects and credentials</small>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -488,8 +736,8 @@ export default function ZenHub() {
           <span className="eyebrow">Four doors. One ecosystem.</span>
           <h2>Choose what you came to do.</h2>
           <p>
-            Every click has a destination. No dead cards, no maze, no generic
-            “learn more.”
+            Every click has a destination. Start with learning, building,
+            exploring, or the proof already created.
           </p>
         </div>
         <div className="route-grid">
@@ -541,7 +789,7 @@ export default function ZenHub() {
               ["01", "Learn", "AI Pioneer · Vanguard"],
               ["02", "Build", "Arsenal · Agents · Files"],
               ["03", "Deploy", "Apps · Automations · Systems"],
-              ["04", "Prove", "Projects · Credentials · Zen Cards"],
+              ["04", "Prove", "Projects · Credentials · ZEN Cards"],
             ].map(([number, title, detail]) => (
               <div className="ledger-row" key={number}>
                 <span>{number}</span>

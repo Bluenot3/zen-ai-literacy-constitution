@@ -39,7 +39,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s | ZEN AI Co.",
     },
     description:
-      "Build-first AI education, Arsenal-powered execution, and proof of real capability.",
+      "Build-first AI education, global youth fieldwork, Arsenal-powered execution, and proof of real capability.",
     icons: {
       icon: "/zen-mark.png",
       shortcut: "/zen-mark.png",
@@ -50,13 +50,13 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "ZEN AI Co.",
       title: "ZEN AI Co. | Intelligence Into Capability",
       description:
-        "Learn AI. Build real systems. Prove what you can do.",
+        "Explore the work. Build real systems. Prove what you can do.",
       images: [
         {
           url: socialImage,
           width: 1680,
           height: 945,
-          alt: "ZEN AI Co. — Intelligence is abundant. Capability is sovereign.",
+          alt: "ZEN AI Co. — Intelligence becomes capability.",
         },
       ],
     },
@@ -64,7 +64,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: "ZEN AI Co. | Intelligence Into Capability",
       description:
-        "Learn AI. Build real systems. Prove what you can do.",
+        "Explore the work. Build real systems. Prove what you can do.",
       images: [socialImage],
     },
   };

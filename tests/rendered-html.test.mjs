@@ -40,8 +40,13 @@ test("server-renders the finished ZEN gateway", async () => {
     html,
     /<title>ZEN AI Co\. \| Intelligence Into Capability \| ZEN AI Co\.<\/title>/i,
   );
-  assert.match(html, /Intelligence is abundant\./);
-  assert.match(html, /Capability is sovereign\./);
+  assert.match(html, /Intelligence/);
+  assert.match(html, /becomes capability\./);
+  assert.match(html, /A treasury of/);
+  assert.match(html, /41\+/);
+  assert.match(html, /10\+/);
+  assert.match(html, /Recycling intelligence/);
+  assert.match(html, /Speech translation bridge/);
   assert.match(html, /Choose what you came to do\./);
   assert.match(html, /https:\/\/arsenal\.world/);
   assert.match(html, /https:\/\/aipioneer\.zen\.ai\//);
@@ -64,6 +69,8 @@ test("removes starter-only preview infrastructure", async () => {
   assert.match(layout, /socialImage/);
   assert.match(hub, /GuillocheField/);
   assert.match(hub, /DestinationDrawer/);
+  assert.match(hub, /FIELDWORK/);
+  assert.match(hub, /SIGNALS/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(page, /codex-preview|SkeletonPreview/);
