@@ -141,6 +141,44 @@ const FIELDWORK = [
   },
 ] as const;
 
+const ECOSYSTEM = [
+  {
+    code: "P–01",
+    name: "AI Pioneer",
+    detail: "Youth build and deployment",
+    href: LINKS.pioneer,
+    tone: "cyan",
+  },
+  {
+    code: "V–02",
+    name: "Vanguard",
+    detail: "Advanced capability pathways",
+    href: LINKS.arsenal,
+    tone: "green",
+  },
+  {
+    code: "A–03",
+    name: "Arsenal",
+    detail: "Agentic creation infrastructure",
+    href: LINKS.arsenal,
+    tone: "violet",
+  },
+  {
+    code: "R–04",
+    name: "AI Arena",
+    detail: "Frontier model exploration",
+    href: LINKS.arena,
+    tone: "orange",
+  },
+  {
+    code: "Z–05",
+    name: "ZEN Proof",
+    detail: "Projects and credentials",
+    href: LINKS.cards,
+    tone: "gold",
+  },
+] as const;
+
 const LEDGER = [
   {
     heading: "Learn",
@@ -495,8 +533,78 @@ function DestinationDrawer({
   );
 }
 
+function CurrencyRail({
+  chapter,
+  title,
+  code,
+}: {
+  chapter: string;
+  title: string;
+  code: string;
+}) {
+  return (
+    <div className="currency-rail" aria-hidden="true">
+      <span className="currency-rail__chapter">{chapter}</span>
+      <div className="currency-rail__track">
+        <span>{title}</span>
+        <i />
+        <span>ZEN AI CO.</span>
+        <i />
+        <span>{code}</span>
+        <i />
+        <span>{title}</span>
+        <i />
+        <span>ZEN AI CO.</span>
+        <i />
+        <span>{code}</span>
+      </div>
+      <span className="currency-rail__register">◈</span>
+    </div>
+  );
+}
+
+function RouteSigil({ index }: { index: string }) {
+  return (
+    <div className={`route-sigil route-sigil--${index}`} aria-hidden="true">
+      <span />
+      <span />
+      <span />
+      <span />
+      <i>{index}</i>
+    </div>
+  );
+}
+
 export default function ZenHub() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    const elements = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-reveal]"),
+    );
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (reducedMotion || !("IntersectionObserver" in window)) {
+      elements.forEach((element) => element.classList.add("is-revealed"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-revealed");
+          observer.unobserve(entry.target);
+        });
+      },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.08 },
+    );
+
+    elements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <main className="site-shell">
@@ -629,9 +737,21 @@ export default function ZenHub() {
         </div>
       </section>
 
+      <CurrencyRail
+        chapter="I"
+        title="Recorded capability"
+        code="FIELD / 041+ / 010+"
+      />
+
       <section id="proof" className="proof-archive">
+        <div className="archive-frame" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
         <div className="archive-shell">
-          <div className="archive-intro">
+          <div className="archive-intro" data-reveal>
             <div>
               <span className="eyebrow">The work is the record</span>
               <h2>
@@ -657,18 +777,40 @@ export default function ZenHub() {
             </div>
           </div>
 
-          <div className="signal-grid" aria-label="ZEN field signals">
-            {SIGNALS.map((signal, index) => (
-              <article className="signal-card" key={signal.label}>
-                <span className="signal-number">0{index + 1}</span>
-                <strong>{signal.value}</strong>
-                <h3>{signal.label}</h3>
-                <p>{signal.detail}</p>
-              </article>
-            ))}
+          <div className="evidence-note" data-reveal>
+            <div className="evidence-note__watermark" aria-hidden="true">
+              Z
+            </div>
+            <div className="evidence-note__head">
+              <span>ZEN AI CO. / CAPABILITY REGISTER</span>
+              <strong>Authenticated field signals</strong>
+              <span>SPECIMEN MMXXVI</span>
+            </div>
+            <div className="signal-grid" aria-label="ZEN field signals">
+              {SIGNALS.map((signal, index) => (
+                <article className="signal-card" key={signal.label}>
+                  <span className="signal-number">0{index + 1}</span>
+                  <div className="signal-rosette" aria-hidden="true">
+                    <i />
+                    <i />
+                    <i />
+                  </div>
+                  <strong>{signal.value}</strong>
+                  <h3>{signal.label}</h3>
+                  <p>{signal.detail}</p>
+                </article>
+              ))}
+            </div>
+            <div className="evidence-note__foot">
+              <span>REGISTERED / LEARN</span>
+              <i>◈</i>
+              <span>VERIFIED / BUILD</span>
+              <i>◈</i>
+              <span>PORTABLE / PROVE</span>
+            </div>
           </div>
 
-          <div className="fieldwork-head">
+          <div className="fieldwork-head" data-reveal>
             <div>
               <span className="eyebrow">Selected global fieldwork</span>
               <h3>Proof has a place, a purpose, and a maker.</h3>
@@ -681,10 +823,18 @@ export default function ZenHub() {
               <article
                 className={`fieldwork-card fieldwork-card--${project.tone}`}
                 key={project.number}
+                data-reveal
               >
                 <div className="fieldwork-topline">
                   <span>{project.number}</span>
                   <span>{project.place}</span>
+                </div>
+                <div className="fieldwork-engraving" aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                  <span />
                 </div>
                 <div className="fieldwork-medallion" aria-hidden="true">
                   <span>{project.number.slice(0, 1)}</span>
@@ -706,33 +856,79 @@ export default function ZenHub() {
             ))}
           </div>
 
-          <div className="program-ribbon">
-            <div>
-              <span>AI Pioneer</span>
-              <small>Youth build and deployment</small>
+          <div className="ecosystem-atlas" data-reveal>
+            <div className="atlas-copy">
+              <span className="eyebrow">One connected instrument</span>
+              <h3>Every capability has somewhere to go next.</h3>
+              <p>
+                ZEN connects the learning path, the building environment, model
+                exploration, deployment, and the evidence that remains after
+                the work is finished.
+              </p>
+              <button
+                className="atlas-map-button"
+                type="button"
+                onClick={() => setDrawerOpen(true)}
+              >
+                Open the complete ZEN map <span aria-hidden="true">↗</span>
+              </button>
             </div>
-            <div>
-              <span>Vanguard</span>
-              <small>Advanced capability pathways</small>
+            <div className="atlas-instrument">
+              <div className="atlas-seal" aria-hidden="true">
+                <span className="atlas-seal__orbit" />
+                <span className="atlas-seal__orbit" />
+                <span className="atlas-seal__orbit" />
+                <Image
+                  src="/zen-mark.png"
+                  alt=""
+                  width={122}
+                  height={122}
+                  unoptimized
+                />
+              </div>
+              <div className="atlas-axis atlas-axis--horizontal" aria-hidden="true" />
+              <div className="atlas-axis atlas-axis--vertical" aria-hidden="true" />
+              <span className="atlas-register atlas-register--one" aria-hidden="true">
+                +
+              </span>
+              <span className="atlas-register atlas-register--two" aria-hidden="true">
+                +
+              </span>
             </div>
-            <div>
-              <span>Arsenal</span>
-              <small>Agentic creation infrastructure</small>
-            </div>
-            <div>
-              <span>AI Arena</span>
-              <small>Frontier model exploration</small>
-            </div>
-            <div>
-              <span>ZEN Proof</span>
-              <small>Projects and credentials</small>
+            <div className="atlas-nodes">
+              {ECOSYSTEM.map((item, index) => (
+                <a
+                  className={`atlas-node atlas-node--${item.tone}`}
+                  href={item.href}
+                  key={item.code}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span>{item.code}</span>
+                  <strong>{item.name}</strong>
+                  <small>{item.detail}</small>
+                  <i aria-hidden="true">{String(index + 1).padStart(2, "0")}</i>
+                </a>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
+      <CurrencyRail
+        chapter="II"
+        title="Choose your instrument"
+        code="ROUTE / 001—004"
+      />
+
       <section id="routes" className="routes-section">
-        <div className="section-intro">
+        <div className="route-note-frame" aria-hidden="true">
+          <span>Z</span>
+          <span>AI</span>
+          <span>04</span>
+          <span>MMXXVI</span>
+        </div>
+        <div className="section-intro" data-reveal>
           <span className="eyebrow">Four doors. One ecosystem.</span>
           <h2>Choose what you came to do.</h2>
           <p>
@@ -748,12 +944,14 @@ export default function ZenHub() {
               key={route.index}
               target="_blank"
               rel="noopener noreferrer"
+              data-reveal
             >
               <div className="route-card-head">
                 <RouteMark index={route.index} />
                 <span className="route-signal">{route.signal}</span>
               </div>
-              <div>
+              <RouteSigil index={route.index} />
+              <div className="route-card-copy">
                 <span className="route-verb">{route.verb}</span>
                 <h3>{route.title}</h3>
                 <p>{route.detail}</p>
@@ -764,62 +962,193 @@ export default function ZenHub() {
             </a>
           ))}
         </div>
+        <div className="route-sequence" data-reveal>
+          {[
+            ["01", "Learn", "Understand the medium"],
+            ["02", "Build", "Shape a working system"],
+            ["03", "Deploy", "Put capability in motion"],
+            ["04", "Prove", "Carry the evidence forward"],
+          ].map(([number, label, detail]) => (
+            <div key={number}>
+              <span>{number}</span>
+              <strong>{label}</strong>
+              <small>{detail}</small>
+            </div>
+          ))}
+        </div>
       </section>
 
+      <CurrencyRail
+        chapter="III"
+        title="The ZEN standard"
+        code="LEARN / BUILD / DEPLOY / PROVE"
+      />
+
       <section id="ledger" className="ledger-section">
-        <div className="ledger-frame">
-          <div className="ledger-copy">
-            <span className="eyebrow">The ZEN standard</span>
-            <h2>Real work creates its own currency.</h2>
-            <p>
-              Learning, building, files, deployment, and proof stay connected
-              across the ZEN ecosystem—so capability can be seen, shared, and
-              trusted.
-            </p>
-            <button
-              className="secondary-button"
-              type="button"
-              onClick={() => setDrawerOpen(true)}
-            >
-              Open destination map
-            </button>
+        <div className="standard-certificate" data-reveal>
+          <div className="certificate-frame" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+            <span />
           </div>
-          <div className="capability-ledger">
-            {[
-              ["01", "Learn", "AI Pioneer · Vanguard"],
-              ["02", "Build", "Arsenal · Agents · Files"],
-              ["03", "Deploy", "Apps · Automations · Systems"],
-              ["04", "Prove", "Projects · Credentials · ZEN Cards"],
-            ].map(([number, title, detail]) => (
-              <div className="ledger-row" key={number}>
-                <span>{number}</span>
-                <strong>{title}</strong>
-                <small>{detail}</small>
-                <i aria-hidden="true">✓</i>
+          <div className="certificate-head">
+            <span>ZEN AI CO. / CAPABILITY INSTRUMENT</span>
+            <strong>Series MMXXVI</strong>
+            <span>No. Z–00000001</span>
+          </div>
+          <div className="ledger-frame">
+            <div className="ledger-copy">
+              <span className="eyebrow">The ZEN standard</span>
+              <h2>Real work creates its own currency.</h2>
+              <p>
+                Learning, building, files, deployment, and proof stay connected
+                across the ZEN ecosystem—so capability can be seen, shared, and
+                trusted.
+              </p>
+              <button
+                className="secondary-button"
+                type="button"
+                onClick={() => setDrawerOpen(true)}
+              >
+                Open destination map
+              </button>
+            </div>
+            <div className="certificate-seal" aria-hidden="true">
+              <div className="certificate-seal__rays" />
+              <div className="certificate-seal__core">
+                <Image
+                  src="/zen-mark.png"
+                  alt=""
+                  width={150}
+                  height={150}
+                  unoptimized
+                />
               </div>
-            ))}
+              <span>Capability / issued through work</span>
+            </div>
+            <div className="capability-ledger">
+              {[
+                ["01", "Learn", "AI Pioneer · Vanguard"],
+                ["02", "Build", "Arsenal · Agents · Files"],
+                ["03", "Deploy", "Apps · Automations · Systems"],
+                ["04", "Prove", "Projects · Credentials · ZEN Cards"],
+              ].map(([number, title, detail]) => (
+                <div className="ledger-row" key={number}>
+                  <span>{number}</span>
+                  <strong>{title}</strong>
+                  <small>{detail}</small>
+                  <i aria-hidden="true">✓</i>
+                </div>
+              ))}
+            </div>
           </div>
+          <div className="certificate-signatures">
+            <div>
+              <span>Designed for</span>
+              <strong>Human agency</strong>
+            </div>
+            <div>
+              <span>Secured by</span>
+              <strong>Visible proof</strong>
+            </div>
+            <div>
+              <span>Activated through</span>
+              <strong>Real work</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <CurrencyRail
+        chapter="IV"
+        title="The next issuance"
+        code="MAKE / WHAT / MATTERS"
+      />
+
+      <section className="issuance-section">
+        <div className="issuance-linefield" aria-hidden="true">
+          {Array.from({ length: 12 }, (_, index) => (
+            <span key={index} />
+          ))}
+        </div>
+        <div className="issuance-copy" data-reveal>
+          <span className="eyebrow">The next record can be yours</span>
+          <h2>
+            What will you
+            <span>make real?</span>
+          </h2>
+          <p>
+            Enter Arsenal to build, start with AI Pioneer to learn through
+            creation, or bring ZEN to a school, community, or institution.
+          </p>
+          <div className="issuance-actions">
+            <a
+              className="primary-button"
+              href={LINKS.arsenal}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Enter Arsenal <span aria-hidden="true">↗</span>
+            </a>
+            <a className="secondary-button" href={LINKS.contact}>
+              Partner with ZEN
+            </a>
+          </div>
+        </div>
+        <div className="issuance-seal" data-reveal>
+          <div className="issuance-seal__orbit" aria-hidden="true" />
+          <div className="issuance-seal__orbit" aria-hidden="true" />
+          <div className="issuance-seal__orbit" aria-hidden="true" />
+          <div className="issuance-seal__core">
+            <Image
+              src="/zen-mark.png"
+              alt="ZEN AI Co."
+              width={180}
+              height={180}
+              unoptimized
+            />
+          </div>
+          <span className="issuance-seal__type">BUILD · VERIFY · ADVANCE</span>
+        </div>
+        <div className="issuance-serial" aria-hidden="true">
+          <span>Z 2026 00000001</span>
+          <span>Intelligence into capability</span>
+          <span>ZEN AI CO.</span>
         </div>
       </section>
 
       <footer className="footer">
-        <Brand />
-        <p>Learn AI. Build what matters. Prove what you can do.</p>
-        <div className="footer-actions">
-          <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer">
-            LinkedIn
-          </a>
-          <a href={LINKS.youtube} target="_blank" rel="noopener noreferrer">
-            YouTube
-          </a>
-          <a href={LINKS.x} target="_blank" rel="noopener noreferrer">
-            X
-          </a>
-          <a href={LINKS.contact}>Contact</a>
+        <div className="footer-plate">
+          <div className="footer-brand">
+            <Brand />
+            <p>Learn AI. Build what matters. Prove what you can do.</p>
+          </div>
+          <div className="footer-actions">
+            <span>Continue the signal</span>
+            <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer">
+              LinkedIn <i aria-hidden="true">↗</i>
+            </a>
+            <a href={LINKS.youtube} target="_blank" rel="noopener noreferrer">
+              YouTube <i aria-hidden="true">↗</i>
+            </a>
+            <a href={LINKS.x} target="_blank" rel="noopener noreferrer">
+              X <i aria-hidden="true">↗</i>
+            </a>
+            <a href={LINKS.contact}>Contact <i aria-hidden="true">↗</i></a>
+          </div>
+          <div className="footer-origin">
+            <span>Origin</span>
+            <strong>Washington, D.C. / Everywhere intelligence is built</strong>
+          </div>
+          <div className="footer-microtype" aria-hidden="true">
+            ZEN AI CO. · SOVEREIGN CAPABILITY INFRASTRUCTURE · LEARN · BUILD ·
+            DEPLOY · PROVE · ZEN AI CO. · SOVEREIGN CAPABILITY INFRASTRUCTURE
+          </div>
+          <span className="footer-serial">
+            © MMXXVI ZEN AI CO. · SERIES 03 · ALL CAPABILITY RESERVED
+          </span>
         </div>
-        <span className="footer-serial">
-          © MMXXVI ZEN AI CO. · SOVEREIGN CAPABILITY INFRASTRUCTURE
-        </span>
       </footer>
 
       <div className="mobile-dock">

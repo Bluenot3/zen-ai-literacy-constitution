@@ -48,6 +48,10 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /Recycling intelligence/);
   assert.match(html, /Speech translation bridge/);
   assert.match(html, /Choose what you came to do\./);
+  assert.match(html, /One connected instrument/);
+  assert.match(html, /Real work creates its own currency\./);
+  assert.match(html, /What will you/);
+  assert.match(html, /make real\?/);
   assert.match(html, /https:\/\/arsenal\.world/);
   assert.match(html, /https:\/\/aipioneer\.zen\.ai\//);
   assert.match(html, /https:\/\/us\.zenai\.biz\/guest/);
@@ -71,6 +75,12 @@ test("removes starter-only preview infrastructure", async () => {
   assert.match(hub, /DestinationDrawer/);
   assert.match(hub, /FIELDWORK/);
   assert.match(hub, /SIGNALS/);
+  assert.match(hub, /CurrencyRail/);
+  assert.match(hub, /RouteSigil/);
+  assert.match(hub, /IntersectionObserver/);
+  assert.match(css, /ecosystem-atlas/);
+  assert.match(css, /standard-certificate/);
+  assert.match(css, /issuance-section/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(page, /codex-preview|SkeletonPreview/);
