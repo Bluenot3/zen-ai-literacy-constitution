@@ -4,13 +4,13 @@ import test from "node:test";
 
 const templateRoot = new URL("../", import.meta.url);
 
-async function render() {
+async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("https://preview.zenai.world/", {
+    new Request(`https://preview.zenai.world${path}`, {
       headers: {
         accept: "text/html",
         host: "preview.zenai.world",
@@ -42,30 +42,56 @@ test("server-renders the finished ZEN gateway", async () => {
   );
   assert.match(html, /Intelligence/);
   assert.match(html, /becomes capability\./);
-  assert.match(html, /A treasury of/);
-  assert.match(html, /41\+/);
-  assert.match(html, /10\+/);
-  assert.match(html, /Recycling intelligence/);
-  assert.match(html, /Speech translation bridge/);
+  assert.match(html, /Learn it clearly\./);
+  assert.match(html, /4/);
+  assert.match(html, /learning modules/);
+  assert.match(html, /8/);
+  assert.match(html, /guided sections/);
+  assert.match(html, /Text Genie/);
+  assert.match(html, /Image Studio/);
   assert.match(html, /Choose what you came to do\./);
   assert.match(html, /One connected instrument/);
   assert.match(html, /Real work creates its own currency\./);
   assert.match(html, /What will you/);
   assert.match(html, /make real\?/);
   assert.match(html, /https:\/\/arsenal\.world/);
-  assert.match(html, /https:\/\/aipioneer\.zen\.ai\//);
-  assert.match(html, /https:\/\/us\.zenai\.biz\/guest/);
+  assert.match(
+    html,
+    /https:\/\/ai-pioneer-courses-20260725\.zenagi\.chatgpt\.site\/programs\/pioneer\/preview/,
+  );
+  assert.match(html, /https:\/\/us-ai-literacy\.lovable\.app\/programs\/vanguard/);
+  assert.match(html, /href="\/work\?category=accomplishments"/);
+  assert.doesNotMatch(html, /aipioneer\.zen\.ai|us\.zenai\.biz\/guest/);
   assert.match(html, /https:\/\/preview\.zenai\.world\/og\.png/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
 });
 
+test("serves public policies and preserves legacy public links", async () => {
+  const privacy = await render("/privacy-policy");
+  assert.equal(privacy.status, 200);
+  assert.match(await privacy.text(), /Privacy Policy/);
+
+  const legacy = await render("/legacydossier");
+  assert.equal(legacy.status, 308);
+  assert.equal(
+    legacy.headers.get("location"),
+    "https://preview.zenai.world/work?category=accomplishments",
+  );
+});
+
 test("removes starter-only preview infrastructure", async () => {
-  const [page, layout, packageJson, hub, css] = await Promise.all([
+  const [page, layout, packageJson, hub, css, contentServer, contentRenderer] =
+    await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/zen-hub.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/work/content.server.ts", import.meta.url), "utf8"),
+    readFile(
+      new URL("../app/work/site-page-renderer.tsx", import.meta.url),
+      "utf8",
+    ),
   ]);
 
   assert.match(page, /<ZenHub \/>/);
@@ -82,6 +108,9 @@ test("removes starter-only preview infrastructure", async () => {
   assert.match(css, /standard-certificate/);
   assert.match(css, /issuance-section/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
+  assert.match(contentServer, /site_publications/);
+  assert.match(contentRenderer, /sandbox="allow-scripts"/);
+  assert.match(contentRenderer, /allowEmbed/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(page, /codex-preview|SkeletonPreview/);
 

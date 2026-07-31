@@ -5,6 +5,8 @@ import handler from "vinext/server/app-router-entry";
 interface Env {
   ASSETS: Fetcher;
   DB: D1Database;
+  SUPABASE_URL?: string;
+  SUPABASE_PUBLISHABLE_KEY?: string;
   IMAGES: {
     input(stream: ReadableStream): {
       transform(options: Record<string, unknown>): {
@@ -28,6 +30,28 @@ interface ExecutionContext {
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
+    (
+      globalThis as typeof globalThis & {
+        __ZEN_RUNTIME_ENV__?: {
+          SUPABASE_URL?: string;
+          SUPABASE_PUBLISHABLE_KEY?: string;
+        };
+      }
+    ).__ZEN_RUNTIME_ENV__ = {
+      SUPABASE_URL: env?.SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY: env?.SUPABASE_PUBLISHABLE_KEY,
+    };
+    const legacyDestinations: Record<string, string> = {
+      "/legacydossier": "/work?category=accomplishments",
+      "/geo2": "/work?category=accomplishments",
+      "/ai-literacy-foundation-zen-ai-co-official-source":
+        "/work?category=initiatives",
+    };
+    const legacyDestination = legacyDestinations[url.pathname];
+
+    if (legacyDestination) {
+      return Response.redirect(new URL(legacyDestination, url.origin), 308);
+    }
 
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];

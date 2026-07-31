@@ -5,12 +5,15 @@ import { useEffect, useRef, useState } from "react";
 
 const LINKS = {
   arsenal: "https://arsenal.world",
-  pioneer: "https://aipioneer.zen.ai/",
-  arena: "https://us.zenai.biz/guest",
-  cards: "https://www.zenai.world/legacydossier",
-  fieldwork: "https://www.zenai.world/geo2",
-  foundation:
-    "https://www.zenai.world/ai-literacy-foundation-zen-ai-co-official-source",
+  pioneer:
+    "https://ai-pioneer-courses-20260725.zenagi.chatgpt.site/programs/pioneer/preview?source=zenai.world&utm_source=zenai.world&utm_medium=owned&utm_campaign=pioneer_launch",
+  vanguard:
+    "https://us-ai-literacy.lovable.app/programs/vanguard?source=zenai.world&utm_source=zenai.world&utm_medium=owned",
+  work: "/work",
+  accomplishments: "/work?category=accomplishments",
+  initiatives: "/work?category=initiatives",
+  partners: "/work?category=partners",
+  knowledge: "/work?category=knowledge",
   github: "https://github.com/Bluenot3",
   linkedin: "https://www.linkedin.com/company/z3nai/",
   x: "https://x.com/ZEN_AGI",
@@ -24,53 +27,53 @@ const ROUTES = [
     index: "01",
     verb: "Learn",
     title: "AI Pioneer",
-    detail: "Ages 11–18 build, deploy, showcase, and prove real AI work.",
+    detail: "Ages 11–18 learn AI by making useful apps, agents, and portfolio projects.",
     href: LINKS.pioneer,
     signal: "Youth capability",
     tone: "aqua",
   },
   {
     index: "02",
+    verb: "Advance",
+    title: "Vanguard",
+    detail:
+      "A deeper pathway for learners ready to take on advanced AI systems.",
+    href: LINKS.vanguard,
+    signal: "Advanced pathway",
+    tone: "emerald",
+  },
+  {
+    index: "03",
     verb: "Build",
     title: "Arsenal",
     detail:
-      "Agents, automations, files, programs, and operating systems in one place.",
+      "Create with agents, automations, files, programs, and operating tools.",
     href: LINKS.arsenal,
     signal: "Execution layer",
     tone: "violet",
   },
   {
-    index: "03",
-    verb: "Explore",
-    title: "AI Arena",
-    detail:
-      "Enter as a guest and compare the frontier models available to you.",
-    href: LINKS.arena,
-    signal: "Model access",
-    tone: "gold",
-  },
-  {
     index: "04",
-    verb: "Verify",
-    title: "ZEN Proof",
+    verb: "Connect",
+    title: "Partner with ZEN",
     detail:
-      "Projects, portfolios, credentials, and portable proof of capability.",
-    href: LINKS.cards,
-    signal: "Proof layer",
-    tone: "emerald",
+      "Bring practical AI learning and creation to a school, community, or institution.",
+    href: LINKS.contact,
+    signal: "Community pathway",
+    tone: "gold",
   },
 ] as const;
 
 const SIGNALS = [
   {
-    value: "41+",
-    label: "U.S. states",
-    detail: "Youth builders represented across the country.",
+    value: "4",
+    label: "learning modules",
+    detail: "A focused path from AI basics to a portfolio-ready build.",
   },
   {
-    value: "10+",
-    label: "countries",
-    detail: "A growing international field of real AI work.",
+    value: "8",
+    label: "guided sections",
+    detail: "Short lessons, clear vocabulary, hands-on practice, and checkpoints.",
   },
   {
     value: "11–18",
@@ -78,65 +81,65 @@ const SIGNALS = [
     detail: "Young people learning through deployment.",
   },
   {
-    value: "Live",
-    label: "cloud-hosted work",
-    detail: "Apps and agents made to be used, not merely graded.",
+    value: "Hands-on",
+    label: "learning format",
+    detail: "Learners practice inside interactive tools and save proof of their work.",
   },
 ] as const;
 
 const FIELDWORK = [
   {
     number: "A–01",
-    place: "Nigeria",
-    kind: "Environmental vision",
-    title: "Recycling intelligence",
+    place: "Module 1",
+    kind: "Prompt design",
+    title: "Text Genie",
     detail:
-      "A computer-vision agent designed to identify materials and support cleaner communities.",
+      "Learn how clear instructions shape an AI response, then test and improve your own prompt.",
     tone: "cyan",
   },
   {
-    number: "B–07",
-    place: "India",
-    kind: "STEM reasoning",
-    title: "Exam-level math tutor",
+    number: "B–02",
+    place: "Module 2",
+    kind: "Creative models",
+    title: "Image Studio",
     detail:
-      "A reasoning system built to work through advanced math problems with learners.",
+      "Turn an idea into a visual, compare results, and discover how models interpret words.",
     tone: "orange",
   },
   {
-    number: "C–14",
-    place: "Brazil",
-    kind: "Language access",
-    title: "Speech translation bridge",
+    number: "C–03",
+    place: "Module 3",
+    kind: "App building",
+    title: "Code Agent",
     detail:
-      "A voice-first translation tool connecting spoken language across communities.",
+      "Guide an AI through a small working app and learn what code, inputs, and outputs do.",
     tone: "green",
   },
   {
-    number: "D–21",
-    place: "Philippines",
-    kind: "Public resilience",
-    title: "Disaster awareness assistant",
+    number: "D–04",
+    place: "Module 3",
+    kind: "Knowledge tools",
+    title: "Source Explorer",
     detail:
-      "An information assistant focused on practical disaster readiness and awareness.",
+      "Ask questions about trusted material and see why sources matter when AI explains an answer.",
     tone: "blue",
   },
   {
-    number: "E–28",
-    place: "Canada",
-    kind: "Human well-being",
-    title: "Cognitive wellness journal",
+    number: "E–05",
+    place: "Module 4",
+    kind: "Model thinking",
+    title: "AI Decision Lab",
     detail:
-      "A reflective AI journal designed around healthier thinking and self-awareness.",
+      "Experiment with confidence, bias, and tradeoffs before deciding when an AI result is useful.",
     tone: "orange",
   },
   {
-    number: "F–35",
-    place: "United Kingdom",
-    kind: "Knowledge systems",
-    title: "Historical RAG timeline",
+    number: "F–06",
+    place: "Portfolio",
+    kind: "Proof of capability",
+    title: "Project Showcase",
     detail:
-      "A retrieval-powered timeline that turns historical sources into an explorable system.",
+      "Package your strongest work with a short reflection, live link, and evidence of what you learned.",
     tone: "cyan",
   },
 ] as const;
@@ -153,7 +156,7 @@ const ECOSYSTEM = [
     code: "V–02",
     name: "Vanguard",
     detail: "Advanced capability pathways",
-    href: LINKS.arsenal,
+    href: LINKS.vanguard,
     tone: "green",
   },
   {
@@ -164,17 +167,17 @@ const ECOSYSTEM = [
     tone: "violet",
   },
   {
-    code: "R–04",
-    name: "AI Arena",
-    detail: "Frontier model exploration",
-    href: LINKS.arena,
+    code: "W–04",
+    name: "Public Work",
+    detail: "Accomplishments and proof",
+    href: LINKS.accomplishments,
     tone: "orange",
   },
   {
-    code: "Z–05",
-    name: "ZEN Proof",
-    detail: "Projects and credentials",
-    href: LINKS.cards,
+    code: "I–05",
+    name: "Initiatives",
+    detail: "Programs and partnerships",
+    href: LINKS.initiatives,
     tone: "gold",
   },
 ] as const;
@@ -185,7 +188,7 @@ const LEDGER = [
     copy: "Project-first AI pathways",
     links: [
       ["AI Pioneer", LINKS.pioneer],
-      ["Programs in Arsenal", LINKS.arsenal],
+      ["Vanguard", LINKS.vanguard],
     ],
   },
   {
@@ -193,7 +196,6 @@ const LEDGER = [
     copy: "From prompt to working system",
     links: [
       ["Arsenal", LINKS.arsenal],
-      ["AI Arena", LINKS.arena],
       ["ZEN GitHub", LINKS.github],
     ],
   },
@@ -201,9 +203,9 @@ const LEDGER = [
     heading: "Prove",
     copy: "Evidence that travels",
     links: [
-      ["Global fieldwork", LINKS.fieldwork],
-      ["Legacy Dossier", LINKS.cards],
-      ["Credential pathway", LINKS.arsenal],
+      ["Accomplishments", LINKS.accomplishments],
+      ["Public work", LINKS.work],
+      ["Knowledge", LINKS.knowledge],
     ],
   },
   {
@@ -211,12 +213,19 @@ const LEDGER = [
     copy: "Bring ZEN to your community",
     links: [
       ["Partner with ZEN", LINKS.contact],
+      ["Partnerships", LINKS.partners],
       ["LinkedIn", LINKS.linkedin],
       ["YouTube", LINKS.youtube],
       ["X / Twitter", LINKS.x],
     ],
   },
 ] as const;
+
+function externalLinkProps(href: string) {
+  return href.startsWith("https://")
+    ? ({ target: "_blank", rel: "noopener noreferrer" } as const)
+    : {};
+}
 
 function GuillocheField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -510,12 +519,7 @@ function DestinationDrawer({
                   <a
                     key={label}
                     href={href}
-                    target={href.startsWith("mailto:") ? undefined : "_blank"}
-                    rel={
-                      href.startsWith("mailto:")
-                        ? undefined
-                        : "noopener noreferrer"
-                    }
+                    {...externalLinkProps(href)}
                   >
                     {label}
                     <span aria-hidden="true">↗</span>
@@ -616,9 +620,10 @@ export default function ZenHub() {
       <header className="topbar">
         <Brand />
         <nav className="desktop-nav" aria-label="Primary">
-          <a href="#proof">Accomplishments</a>
-          <a href="#routes">Choose a path</a>
-          <a href="#ledger">Ecosystem</a>
+          <a href="#routes">Programs</a>
+          <a href={LINKS.accomplishments}>Accomplishments</a>
+          <a href={LINKS.initiatives}>Initiatives</a>
+          <a href={LINKS.partners}>Partners</a>
         </nav>
         <div className="topbar-actions">
           <button
@@ -631,11 +636,11 @@ export default function ZenHub() {
           </button>
           <a
             className="primary-button primary-button--small"
-            href={LINKS.arsenal}
+            href={LINKS.pioneer}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Enter Arsenal <span aria-hidden="true">↗</span>
+            Explore AI Pioneer <span aria-hidden="true">↗</span>
           </a>
         </div>
       </header>
@@ -670,17 +675,19 @@ export default function ZenHub() {
           <div className="hero-actions">
             <a
               className="primary-button"
+              href={LINKS.pioneer}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Explore AI Pioneer <span aria-hidden="true">↗</span>
+            </a>
+            <a
+              className="secondary-button"
               href={LINKS.arsenal}
               target="_blank"
               rel="noopener noreferrer"
             >
-              Build in Arsenal <span aria-hidden="true">↗</span>
-            </a>
-            <a
-              className="secondary-button"
-              href="#proof"
-            >
-              Explore the work
+              Enter Arsenal
             </a>
           </div>
           <div className="proof-line">
@@ -739,8 +746,8 @@ export default function ZenHub() {
 
       <CurrencyRail
         chapter="I"
-        title="Recorded capability"
-        code="FIELD / 041+ / 010+"
+        title="The Pioneer learning path"
+        code="MODULES / 004 / SECTIONS / 008"
       />
 
       <section id="proof" className="proof-archive">
@@ -753,26 +760,25 @@ export default function ZenHub() {
         <div className="archive-shell">
           <div className="archive-intro" data-reveal>
             <div>
-              <span className="eyebrow">The work is the record</span>
+              <span className="eyebrow">The learning path is the record</span>
               <h2>
-                A treasury of
-                <span>things made real.</span>
+                Learn it clearly.
+                <span>Build it for real.</span>
               </h2>
             </div>
             <div className="archive-statement">
-              <span className="archive-folio">Folio / 001–041</span>
+              <span className="archive-folio">Pioneer / Modules 01–04</span>
               <p>
-                Young builders across the United States and around the world
-                have moved beyond consuming AI. They have built cloud-hosted
-                assistants, reasoning systems, creative tools, and public-good
-                prototypes of their own.
+                AI Pioneer gives ages 11–18 a guided way to understand AI,
+                practice inside interactive labs, build useful projects, and
+                collect evidence of what they can do.
               </p>
               <a
-                href={LINKS.fieldwork}
+                href={LINKS.pioneer}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                View the source fieldwork <span aria-hidden="true">↗</span>
+                Explore the program <span aria-hidden="true">↗</span>
               </a>
             </div>
           </div>
@@ -783,7 +789,7 @@ export default function ZenHub() {
             </div>
             <div className="evidence-note__head">
               <span>ZEN AI CO. / CAPABILITY REGISTER</span>
-              <strong>Authenticated field signals</strong>
+              <strong>Program at a glance</strong>
               <span>SPECIMEN MMXXVI</span>
             </div>
             <div className="signal-grid" aria-label="ZEN field signals">
@@ -812,10 +818,10 @@ export default function ZenHub() {
 
           <div className="fieldwork-head" data-reveal>
             <div>
-              <span className="eyebrow">Selected global fieldwork</span>
-              <h3>Proof has a place, a purpose, and a maker.</h3>
+              <span className="eyebrow">Hands-on learning</span>
+              <h3>Each idea becomes something learners can try.</h3>
             </div>
-            <span>Six selected works · many more in the archive</span>
+            <span>Read · experiment · build · reflect</span>
           </div>
 
           <div className="fieldwork-grid">
@@ -845,12 +851,12 @@ export default function ZenHub() {
                   <p>{project.detail}</p>
                 </div>
                 <a
-                  href={LINKS.fieldwork}
+                  href={LINKS.pioneer}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`View ${project.title} in the global fieldwork archive`}
+                  aria-label={`Explore ${project.title} in AI Pioneer`}
                 >
-                  View archive <span aria-hidden="true">↗</span>
+                  Explore program <span aria-hidden="true">↗</span>
                 </a>
               </article>
             ))}
@@ -901,8 +907,7 @@ export default function ZenHub() {
                   className={`atlas-node atlas-node--${item.tone}`}
                   href={item.href}
                   key={item.code}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  {...externalLinkProps(item.href)}
                 >
                   <span>{item.code}</span>
                   <strong>{item.name}</strong>
@@ -932,8 +937,8 @@ export default function ZenHub() {
           <span className="eyebrow">Four doors. One ecosystem.</span>
           <h2>Choose what you came to do.</h2>
           <p>
-            Every click has a destination. Start with learning, building,
-            exploring, or the proof already created.
+            Every click has a destination. Start with learning, advancing,
+            building, or bringing ZEN to your community.
           </p>
         </div>
         <div className="route-grid">
@@ -942,8 +947,7 @@ export default function ZenHub() {
               className={`route-card route-card--${route.tone}`}
               href={route.href}
               key={route.index}
-              target="_blank"
-              rel="noopener noreferrer"
+              {...externalLinkProps(route.href)}
               data-reveal
             >
               <div className="route-card-head">
@@ -1136,6 +1140,9 @@ export default function ZenHub() {
               X <i aria-hidden="true">↗</i>
             </a>
             <a href={LINKS.contact}>Contact <i aria-hidden="true">↗</i></a>
+            <a href="/privacy-policy">Privacy</a>
+            <a href="/terms-and-conditions">Terms</a>
+            <a href="/accessibility-statement">Accessibility</a>
           </div>
           <div className="footer-origin">
             <span>Origin</span>
@@ -1152,8 +1159,8 @@ export default function ZenHub() {
       </footer>
 
       <div className="mobile-dock">
-        <a href={LINKS.arsenal} target="_blank" rel="noopener noreferrer">
-          Enter Arsenal <span aria-hidden="true">↗</span>
+        <a href={LINKS.pioneer} target="_blank" rel="noopener noreferrer">
+          Explore AI Pioneer <span aria-hidden="true">↗</span>
         </a>
         <button type="button" onClick={() => setDrawerOpen(true)}>
           ZEN Map

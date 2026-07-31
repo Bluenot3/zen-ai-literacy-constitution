@@ -39,7 +39,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s | ZEN AI Co.",
     },
     description:
-      "Build-first AI education, global youth fieldwork, Arsenal-powered execution, and proof of real capability.",
+      "Build-first AI education, Arsenal-powered execution, and proof of real capability.",
     icons: {
       icon: "/zen-mark.png",
       shortcut: "/zen-mark.png",
