@@ -77,6 +77,13 @@ test("serves public policies and preserves legacy public links", async () => {
     legacy.headers.get("location"),
     "https://preview.zenai.world/work?category=accomplishments",
   );
+
+  const favicon = await render("/favicon.ico");
+  assert.equal(favicon.status, 308);
+  assert.equal(
+    favicon.headers.get("location"),
+    "https://preview.zenai.world/favicon.svg",
+  );
 });
 
 test("removes starter-only preview infrastructure", async () => {

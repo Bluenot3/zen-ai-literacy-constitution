@@ -42,6 +42,7 @@ const worker = {
       SUPABASE_PUBLISHABLE_KEY: env?.SUPABASE_PUBLISHABLE_KEY,
     };
     const legacyDestinations: Record<string, string> = {
+      "/favicon.ico": "/favicon.svg",
       "/legacydossier": "/work?category=accomplishments",
       "/geo2": "/work?category=accomplishments",
       "/ai-literacy-foundation-zen-ai-co-official-source":
