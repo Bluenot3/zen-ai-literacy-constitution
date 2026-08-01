@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { TreasuryBackdrop, TreasuryPageFrame } from "../treasury-chrome";
 import styles from "./legal.module.css";
 
 const policyLinks = [
@@ -21,6 +22,8 @@ export function LegalPage({
 }) {
   return (
     <div className={styles.page}>
+      <TreasuryBackdrop variant="legal" />
+      <TreasuryPageFrame chapter="PUBLIC POLICY" serial="ZEN-LEGAL-MMXXVI" />
       <header className={styles.header}>
         <Link className={styles.brand} href="/">
           <Image src="/zen-mark.png" alt="" width={34} height={34} unoptimized />

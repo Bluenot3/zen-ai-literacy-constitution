@@ -208,7 +208,7 @@ button {
 .desktop-nav {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: clamp(0.75rem, 1.45vw, 2rem);
 }
 
 .desktop-nav a {

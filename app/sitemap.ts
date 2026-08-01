@@ -5,6 +5,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     "",
     "/work",
+    "/start",
+    "/ai-literacy-constitution",
     "/privacy-policy",
     "/terms-and-conditions",
     "/refund-policy",
@@ -12,6 +14,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ].map((path) => ({
     url: `${base}${path}`,
     changeFrequency: path === "" ? "weekly" : "monthly",
-    priority: path === "" ? 1 : path === "/work" ? 0.8 : 0.4,
+    priority:
+      path === ""
+        ? 1
+        : path === "/work" || path === "/start"
+          ? 0.8
+          : path === "/ai-literacy-constitution"
+            ? 0.7
+            : 0.4,
   }));
 }

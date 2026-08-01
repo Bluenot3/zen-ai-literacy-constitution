@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { notFound } from "next/navigation";
 
 import { getPublication } from "../content.server";
 import { SitePageRenderer } from "../site-page-renderer";
@@ -35,23 +35,7 @@ export default async function PublishedWorkPage({ params }: PageProps) {
   const publication = await getPublication(slug);
 
   if (!publication) {
-    return (
-      <main
-        style={{
-          minHeight: "100vh",
-          display: "grid",
-          placeItems: "center",
-          padding: "2rem",
-          textAlign: "center",
-        }}
-      >
-        <div>
-          <h1>This public page is not available.</h1>
-          <p>It may still be in review or may have been archived.</p>
-          <Link href="/work">Return to public work →</Link>
-        </div>
-      </main>
-    );
+    notFound();
   }
 
   return (

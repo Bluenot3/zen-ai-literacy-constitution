@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { TreasuryBackdrop, TreasuryPageFrame } from "../treasury-chrome";
 import type { SiteBlock, SitePageDocument } from "./content";
 import styles from "./work.module.css";
 
@@ -208,8 +209,19 @@ export function SitePageRenderer({
     dateStyle: "medium",
   }).format(new Date(publishedAt));
 
+  const treasuryVariant =
+    document.listing.category === "knowledge" ||
+    document.listing.category === "partners"
+      ? "charter"
+      : "archive";
+
   return (
     <main className={styles.shell}>
+      <TreasuryBackdrop variant={treasuryVariant} />
+      <TreasuryPageFrame
+        chapter={`PUBLIC RECORD / ${document.listing.category}`}
+        serial={`ZEN-${slug.toUpperCase()}`}
+      />
       <header className={styles.topbar}>
         <Link href="/" className={styles.brand} aria-label="ZEN AI World home">
           <Image src="/zen-mark.png" alt="" width={34} height={34} unoptimized />

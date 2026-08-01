@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { Cormorant_Garamond, Manrope, Space_Mono } from "next/font/google";
 import "./globals.css";
+import "./treasury-chrome.css";
 
 const display = Cormorant_Garamond({
   variable: "--font-display",
@@ -54,8 +55,8 @@ export async function generateMetadata(): Promise<Metadata> {
       images: [
         {
           url: socialImage,
-          width: 1680,
-          height: 945,
+          width: 1672,
+          height: 941,
           alt: "ZEN AI Co. — Intelligence becomes capability.",
         },
       ],

@@ -2,9 +2,12 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import GatewayExpansion from "./gateway-expansion";
 
 const LINKS = {
   arsenal: "https://arsenal.world",
+  businessSpace:
+    "https://arsenal.world/login?next=%2Fbusiness-spaces%2Fnew&utm_source=zenai.world&utm_medium=owned&utm_campaign=business_space_intake",
   pioneer:
     "https://ai-pioneer-courses-20260725.zenagi.chatgpt.site/programs/pioneer/preview?source=zenai.world&utm_source=zenai.world&utm_medium=owned&utm_campaign=pioneer_launch",
   vanguard:
@@ -14,6 +17,8 @@ const LINKS = {
   initiatives: "/work?category=initiatives",
   partners: "/work?category=partners",
   knowledge: "/work?category=knowledge",
+  start: "/start",
+  constitution: "/ai-literacy-constitution",
   github: "https://github.com/Bluenot3",
   linkedin: "https://www.linkedin.com/company/z3nai/",
   x: "https://x.com/ZEN_AGI",
@@ -54,12 +59,12 @@ const ROUTES = [
   },
   {
     index: "04",
-    verb: "Connect",
-    title: "Partner with ZEN",
+    verb: "Begin",
+    title: "Start with ZEN",
     detail:
-      "Bring practical AI learning and creation to a school, community, or institution.",
-    href: LINKS.contact,
-    signal: "Community pathway",
+      "Tell us what you are building so we can route your business, school, community, or partnership with context.",
+    href: LINKS.start,
+    signal: "Guided intake",
     tone: "gold",
   },
 ] as const;
@@ -210,8 +215,10 @@ const LEDGER = [
   },
   {
     heading: "Connect",
-    copy: "Bring ZEN to your community",
+    copy: "Arrive with context",
     links: [
+      ["Start with ZEN", LINKS.start],
+      ["AI Literacy Constitution", LINKS.constitution],
       ["Partner with ZEN", LINKS.contact],
       ["Partnerships", LINKS.partners],
       ["LinkedIn", LINKS.linkedin],
@@ -245,6 +252,7 @@ function GuillocheField() {
     let targetX = pointerX;
     let targetY = pointerY;
     let lastDraw = 0;
+    let pageVisible = !document.hidden;
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -385,6 +393,8 @@ function GuillocheField() {
     };
 
     const draw = (time: number) => {
+      if (!pageVisible) return;
+
       if (!reducedMotion && time - lastDraw < 28) {
         frame = requestAnimationFrame(draw);
         return;
@@ -417,15 +427,24 @@ function GuillocheField() {
       if (!reducedMotion) frame = requestAnimationFrame(draw);
     };
 
+    const handleVisibility = () => {
+      const nextVisible = !document.hidden;
+      const shouldResume = nextVisible && !pageVisible;
+      pageVisible = nextVisible;
+      if (shouldResume) frame = requestAnimationFrame(draw);
+    };
+
     resize();
     window.addEventListener("resize", resize);
     window.addEventListener("pointermove", trackPointer, { passive: true });
+    document.addEventListener("visibilitychange", handleVisibility);
     frame = requestAnimationFrame(draw);
 
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", trackPointer);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
   }, []);
 
@@ -468,23 +487,60 @@ function DestinationDrawer({
   open: boolean;
   close: () => void;
 }) {
+  const panelRef = useRef<HTMLElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+
   useEffect(() => {
     if (!open) return;
+    previousFocusRef.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") close();
+      if (event.key === "Escape") {
+        event.preventDefault();
+        close();
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const focusable = Array.from(
+        panelRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      );
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
+
     window.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
+    const focusFrame = requestAnimationFrame(() => closeButtonRef.current?.focus());
+
     return () => {
+      cancelAnimationFrame(focusFrame);
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
+      previousFocusRef.current?.focus();
     };
   }, [close, open]);
 
   return (
     <div
+      id="zen-destination-drawer"
       className={`destination-drawer ${open ? "is-open" : ""}`}
       aria-hidden={!open}
+      inert={!open}
     >
       <button
         className="drawer-backdrop"
@@ -493,17 +549,23 @@ function DestinationDrawer({
         aria-label="Close destination map"
       />
       <aside
+        ref={panelRef}
         className="drawer-panel"
         role="dialog"
         aria-modal="true"
-        aria-label="ZEN destination map"
+        aria-labelledby="zen-destination-title"
       >
         <div className="drawer-head">
           <div>
             <span className="eyebrow">ZEN command map</span>
-            <h2>Where do you want to go?</h2>
+            <h2 id="zen-destination-title">Where do you want to go?</h2>
           </div>
-          <button className="close-button" type="button" onClick={close}>
+          <button
+            ref={closeButtonRef}
+            className="close-button"
+            type="button"
+            onClick={close}
+          >
             Close
           </button>
         </div>
@@ -620,16 +682,20 @@ export default function ZenHub() {
       <header className="topbar">
         <Brand />
         <nav className="desktop-nav" aria-label="Primary">
-          <a href="#routes">Programs</a>
-          <a href={LINKS.accomplishments}>Accomplishments</a>
-          <a href={LINKS.initiatives}>Initiatives</a>
-          <a href={LINKS.partners}>Partners</a>
+          <a href="#company">Company</a>
+          <a href="#impact">Impact</a>
+          <a href={LINKS.work}>Public work</a>
+          <a href={LINKS.constitution}>Constitution</a>
+          <a href="#team">Team</a>
         </nav>
         <div className="topbar-actions">
           <button
             className="map-button"
             type="button"
             onClick={() => setDrawerOpen(true)}
+            aria-expanded={drawerOpen}
+            aria-controls="zen-destination-drawer"
+            aria-haspopup="dialog"
           >
             <span aria-hidden="true">⌁</span>
             Map
@@ -875,6 +941,9 @@ export default function ZenHub() {
                 className="atlas-map-button"
                 type="button"
                 onClick={() => setDrawerOpen(true)}
+                aria-expanded={drawerOpen}
+                aria-controls="zen-destination-drawer"
+                aria-haspopup="dialog"
               >
                 Open the complete ZEN map <span aria-hidden="true">↗</span>
               </button>
@@ -919,6 +988,8 @@ export default function ZenHub() {
           </div>
         </div>
       </section>
+
+      <GatewayExpansion />
 
       <CurrencyRail
         chapter="II"
@@ -1014,6 +1085,9 @@ export default function ZenHub() {
                 className="secondary-button"
                 type="button"
                 onClick={() => setDrawerOpen(true)}
+                aria-expanded={drawerOpen}
+                aria-controls="zen-destination-drawer"
+                aria-haspopup="dialog"
               >
                 Open destination map
               </button>
@@ -1083,12 +1157,19 @@ export default function ZenHub() {
             <span>make real?</span>
           </h2>
           <p>
-            Enter Arsenal to build, start with AI Pioneer to learn through
-            creation, or bring ZEN to a school, community, or institution.
+            Prepare a guided brief for ZEN, enter Arsenal to build, start with
+            AI Pioneer to learn through creation, or bring ZEN to your
+            organization or community.
           </p>
           <div className="issuance-actions">
             <a
               className="primary-button"
+              href={LINKS.start}
+            >
+              Start your ZEN route <span aria-hidden="true">→</span>
+            </a>
+            <a
+              className="secondary-button"
               href={LINKS.arsenal}
               target="_blank"
               rel="noopener noreferrer"
@@ -1162,7 +1243,13 @@ export default function ZenHub() {
         <a href={LINKS.pioneer} target="_blank" rel="noopener noreferrer">
           Explore AI Pioneer <span aria-hidden="true">↗</span>
         </a>
-        <button type="button" onClick={() => setDrawerOpen(true)}>
+        <button
+          type="button"
+          onClick={() => setDrawerOpen(true)}
+          aria-expanded={drawerOpen}
+          aria-controls="zen-destination-drawer"
+          aria-haspopup="dialog"
+        >
           ZEN Map
         </button>
       </div>

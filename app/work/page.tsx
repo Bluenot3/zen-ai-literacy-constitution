@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { TreasuryBackdrop, TreasuryPageFrame } from "../treasury-chrome";
 import { listPublications } from "./content.server";
 import styles from "./work.module.css";
 
@@ -39,6 +40,8 @@ export default async function WorkIndex({
 
   return (
     <main className={styles.shell}>
+      <TreasuryBackdrop variant="archive" />
+      <TreasuryPageFrame chapter="PUBLIC RECORD / 01" serial="ZEN-WORK-MMXXVI" />
       <header className={styles.topbar}>
         <Link href="/" className={styles.brand} aria-label="ZEN AI World home">
           <Image src="/zen-mark.png" alt="" width={34} height={34} unoptimized />

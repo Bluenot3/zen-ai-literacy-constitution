@@ -38,7 +38,7 @@ test("server-renders the finished ZEN gateway", async () => {
   const html = await response.text();
   assert.match(
     html,
-    /<title>ZEN AI Co\. \| Intelligence Into Capability \| ZEN AI Co\.<\/title>/i,
+    /<title>ZEN AI Co\. \| Intelligence Into Capability<\/title>/i,
   );
   assert.match(html, /Intelligence/);
   assert.match(html, /becomes capability\./);
@@ -54,6 +54,11 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /Real work creates its own currency\./);
   assert.match(html, /What will you/);
   assert.match(html, /make real\?/);
+  assert.match(html, /A capability company for the intelligence era\./);
+  assert.match(html, /Proof before proclamation\./);
+  assert.match(html, /Human-led by design\./);
+  assert.match(html, /href="\/start"/);
+  assert.match(html, /href="\/ai-literacy-constitution"/);
   assert.match(html, /https:\/\/arsenal\.world/);
   assert.match(
     html,
@@ -64,6 +69,25 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.doesNotMatch(html, /aipioneer\.zen\.ai|us\.zenai\.biz\/guest/);
   assert.match(html, /https:\/\/preview\.zenai\.world\/og\.png/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
+});
+
+test("serves the structured ZEN intake and AI literacy charter", async () => {
+  const start = await render("/start");
+  assert.equal(start.status, 200);
+  const startHtml = await start.text();
+  assert.match(startHtml, /Start with context\./);
+  assert.match(startHtml, /Business or organization/);
+  assert.match(startHtml, /Nothing leaves this page|remain in this page/i);
+
+  const constitution = await render("/ai-literacy-constitution");
+  assert.equal(constitution.status, 200);
+  const constitutionHtml = await constitution.text();
+  assert.match(constitutionHtml, /AI Literacy/);
+  assert.match(constitutionHtml, /Human agency is the first capability\./);
+  assert.match(constitutionHtml, /Living public draft/);
+
+  const missingWork = await render("/work/not-a-real-page");
+  assert.equal(missingWork.status, 404);
 });
 
 test("serves public policies and preserves legacy public links", async () => {
