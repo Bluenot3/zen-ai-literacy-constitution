@@ -31,6 +31,35 @@ export default function NationalFirstMonument() {
         <span>No. US–YL–0001</span>
       </header>
 
+      <figure className={styles.proclamation} data-reveal>
+        <div className={styles.proclamationLines} aria-hidden="true">
+          {Array.from({ length: 9 }, (_, index) => <span key={index} />)}
+        </div>
+        <div className={styles.proclamationImage}>
+          <Image
+            src="/og.png"
+            alt="ZEN AI Co. — The first youth AI literacy program in United States history. Intelligence into capability."
+            width={1672}
+            height={941}
+            sizes="(max-width: 780px) 94vw, 90vw"
+            unoptimized
+          />
+        </div>
+        <figcaption>
+          <div>
+            <span>Historic proclamation · original ZEN artwork</span>
+            <strong>A national first, rendered as a new treasury of human capability.</strong>
+          </div>
+          <a
+            href="https://ai-pioneer-courses-20260725.zenagi.chatgpt.site/programs/pioneer/preview?source=zenai.world&utm_source=zenai.world&utm_medium=owned&utm_campaign=pioneer_launch"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Enter AI Pioneer <i aria-hidden="true">↗</i>
+          </a>
+        </figcaption>
+      </figure>
+
       <div className={styles.grid}>
         <div className={styles.claim} data-reveal>
           <span className={styles.kicker}>A United States First</span>

@@ -725,3 +725,193 @@
     animation-iteration-count: 1 !important;
   }
 }
+
+.proclamation {
+  position: relative;
+  z-index: 3;
+  overflow: hidden;
+  margin: clamp(3rem, 6vw, 5.5rem) clamp(0.5rem, 2vw, 2rem) 0;
+  padding: clamp(0.55rem, 1vw, 0.9rem);
+  border: 1px solid rgba(111, 226, 202, 0.2);
+  border-radius: 1.5rem;
+  background:
+    repeating-linear-gradient(74deg, transparent 0 18px, rgba(111, 226, 202, 0.024) 19px),
+    linear-gradient(145deg, rgba(13, 55, 65, 0.94), rgba(2, 20, 27, 0.98));
+  box-shadow:
+    0 45px 120px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.025);
+}
+
+.proclamation::before,
+.proclamation::after {
+  position: absolute;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(234, 164, 87, 0.48);
+  background: #06232b;
+  box-shadow: inset 0 0 0 6px rgba(108, 225, 201, 0.06);
+  content: "";
+  pointer-events: none;
+  transform: rotate(45deg);
+}
+
+.proclamation::before { top: -17px; left: -17px; }
+.proclamation::after { right: -17px; bottom: -17px; }
+
+.proclamationImage {
+  position: relative;
+  z-index: 3;
+  overflow: hidden;
+  border: 1px solid rgba(235, 187, 120, 0.25);
+  border-radius: 1rem;
+  background: #f1eee3;
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.28);
+}
+
+.proclamationImage::after {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 50px rgba(16, 79, 91, 0.08),
+    inset 0 0 0 7px rgba(255, 255, 255, 0.08);
+  content: "";
+  pointer-events: none;
+}
+
+.proclamationImage img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: filter 700ms ease, transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.proclamation:hover .proclamationImage img {
+  filter: saturate(1.06) contrast(1.025);
+  transform: scale(1.008);
+}
+
+.proclamation figcaption {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.4rem 0.6rem 0.55rem;
+}
+
+.proclamation figcaption > div span,
+.proclamation figcaption > div strong { display: block; }
+
+.proclamation figcaption > div span {
+  color: rgba(233, 166, 90, 0.72);
+  font: 700 0.4rem/1.5 var(--font-mono), monospace;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.proclamation figcaption > div strong {
+  max-width: 760px;
+  margin-top: 0.45rem;
+  color: rgba(232, 245, 238, 0.78);
+  font: 500 clamp(1.45rem, 2.4vw, 2.4rem)/1.04 var(--font-display), serif;
+}
+
+.proclamation figcaption > a {
+  display: inline-flex;
+  min-height: 46px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  border: 1px solid rgba(111, 226, 202, 0.18);
+  border-radius: 999px;
+  padding: 0.72rem 1rem;
+  color: rgba(234, 245, 239, 0.8);
+  background: rgba(255, 255, 255, 0.025);
+  font-size: 0.68rem;
+  font-weight: 800;
+  transition: border-color 200ms ease, color 200ms ease, transform 200ms ease;
+}
+
+.proclamation figcaption > a:hover,
+.proclamation figcaption > a:focus-visible {
+  border-color: rgba(111, 226, 202, 0.46);
+  color: #ffffff;
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.proclamation figcaption > a i {
+  color: rgba(234, 164, 87, 0.85);
+  font-style: normal;
+}
+
+.proclamationLines {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.proclamationLines span {
+  position: absolute;
+  right: -8%;
+  width: 58%;
+  height: 30%;
+  border: 1px solid rgba(110, 224, 201, 0.055);
+  border-radius: 50%;
+  transform: skewX(-15deg) rotate(var(--proclamation-angle, 0deg));
+  animation: proclamationDrift 15s ease-in-out infinite alternate;
+}
+
+.proclamationLines span:nth-child(1) { top: -12%; --proclamation-angle: 10deg; }
+.proclamationLines span:nth-child(2) { top: 1%; --proclamation-angle: -7deg; }
+.proclamationLines span:nth-child(3) { top: 14%; --proclamation-angle: 12deg; }
+.proclamationLines span:nth-child(4) { top: 27%; --proclamation-angle: -9deg; }
+.proclamationLines span:nth-child(5) { top: 40%; --proclamation-angle: 7deg; }
+.proclamationLines span:nth-child(6) { top: 53%; --proclamation-angle: -5deg; }
+.proclamationLines span:nth-child(7) { top: 66%; --proclamation-angle: 11deg; }
+.proclamationLines span:nth-child(8) { top: 79%; --proclamation-angle: -8deg; }
+.proclamationLines span:nth-child(9) { top: 92%; --proclamation-angle: 6deg; }
+
+@keyframes proclamationDrift {
+  to { transform: translate(-3%, 6%) skewX(-15deg) rotate(var(--proclamation-angle, 0deg)); }
+}
+
+@media (max-width: 780px) {
+  .proclamation {
+    margin: 2.5rem 0.15rem 0;
+    padding: 0.35rem;
+    border-radius: 1rem;
+  }
+
+  .proclamationImage { border-radius: 0.7rem; }
+
+  .proclamation figcaption {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1.1rem;
+    padding: 1.05rem 0.55rem 0.65rem;
+  }
+
+  .proclamation figcaption > div strong {
+    font-size: clamp(1.45rem, 7vw, 2.1rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proclamationLines span {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .proclamationImage img {
+    transform: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}

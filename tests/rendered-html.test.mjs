@@ -46,6 +46,8 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /A United States First/);
   assert.match(html, /first youth AI literacy program in United States history/i);
   assert.match(html, /National capability record/);
+  assert.match(html, /Historic proclamation/);
+  assert.match(html, /src="\/og\.png"/);
   assert.match(html, /Learn it clearly\./);
   assert.match(html, /4/);
   assert.match(html, /learning modules/);
