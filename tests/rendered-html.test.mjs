@@ -48,18 +48,29 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /National capability record/);
   assert.match(html, /Historic proclamation/);
   assert.match(html, /src="\/og\.png"/);
-  assert.match(html, /Learn it clearly\./);
-  assert.match(html, /4/);
-  assert.match(html, /learning modules/);
-  assert.match(html, /8/);
-  assert.match(html, /guided sections/);
-  assert.match(html, /Text Genie/);
+  assert.match(html, /Two divisions\./);
+  assert.match(html, /One mission\./);
+  assert.match(html, /Smart Business Solutions/);
+  assert.match(html, /Custom Agentic Solutions/);
+  assert.match(html, /Intelligent Automation/);
+  assert.match(html, /AI Strategy &amp; Systems Integration/);
+  assert.match(html, /Literacy &amp; Advancement Programs/);
+  assert.match(html, /AI Pioneer Program/);
+  assert.match(html, /Vanguard Program/);
+  assert.match(html, /Web3 literacy/);
+  assert.match(html, /ZEN Homeschool Kit/);
+  assert.match(html, /Train-a-Trainer/);
+  assert.match(html, /AI Literacy Constitution/);
+  assert.match(html, /Design a business solution/);
+  assert.match(html, /Create a Business Space/);
   assert.doesNotMatch(
     html,
-    /Image Studio|Code Agent|Source Explorer|AI Decision Lab|Project Showcase/,
+    /Text Genie|Image Studio|Code Agent|Source Explorer|AI Decision Lab|Project Showcase/,
   );
+  assert.doesNotMatch(html, /learning modules|guided sections|practical build formats/);
+  assert.doesNotMatch(html, /ages 11[–-]18|interactive labs|advanced AI systems/i);
   assert.match(html, /Choose what you came to do\./);
-  assert.match(html, /One connected instrument/);
+  assert.match(html, /One connected company/);
   assert.match(html, /Real work creates its own currency\./);
   assert.match(html, /What will you/);
   assert.match(html, /make real\?/);
@@ -254,8 +265,7 @@ test("removes starter-only preview infrastructure", async () => {
   assert.match(layout, /socialImage/);
   assert.match(hub, /GuillocheField/);
   assert.match(hub, /DestinationDrawer/);
-  assert.match(hub, /FIELDWORK/);
-  assert.match(hub, /SIGNALS/);
+  assert.match(hub, /CompanyPortfolio/);
   assert.match(hub, /CurrencyRail/);
   assert.match(hub, /RouteSigil/);
   assert.match(hub, /IntersectionObserver/);

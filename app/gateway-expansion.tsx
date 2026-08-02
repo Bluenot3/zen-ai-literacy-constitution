@@ -3,24 +3,24 @@ import styles from "./gateway-expansion.module.css";
 
 const OPERATING_RECORD = [
   {
-    value: "4",
-    label: "published learning modules",
-    detail: "The current AI Pioneer path moves from fundamentals to portfolio proof.",
+    value: "02",
+    label: "core operating divisions",
+    detail: "Smart Business Solutions and Literacy & Advancement Programs.",
   },
   {
-    value: "8",
-    label: "guided learning sections",
-    detail: "Vocabulary, practice, checkpoints, and build work stay connected.",
+    value: "04",
+    label: "named program pathways",
+    detail: "AI Pioneer, Vanguard, ZEN Homeschool Kit, and Train-a-Trainer.",
   },
   {
-    value: "6",
-    label: "practical build formats",
-    detail: "Prompts, images, apps, sources, model thinking, and project proof.",
+    value: "01",
+    label: "agentic operating platform",
+    detail: "Arsenal unites agents, workflows, Business Spaces, files, and deployment.",
   },
   {
-    value: "4",
-    label: "ecosystem entry routes",
-    detail: "Learn, advance, build, or begin a structured ZEN engagement.",
+    value: "Human-led",
+    label: "delivery standard",
+    detail: "Solutions and programs designed around context, agency, and accountable outcomes.",
   },
 ] as const;
 
@@ -69,14 +69,16 @@ export default function GatewayExpansion() {
           <span />
         </div>
         <div className={styles.companyCopy} data-reveal>
-          <span className={styles.eyebrow}>Company register · A United States first</span>
+          <span className={styles.eyebrow}>Company register · Two operating divisions</span>
           <h2>A capability company advancing human agency in the intelligence era.</h2>
           <p>
             ZEN AI Co. began with a national first: the first youth AI literacy
-            program in United States history. From that foundation, we are
-            building the learning paths, creation infrastructure, public
-            standards, and proof systems that help people and organizations
-            advance with AI without surrendering agency.
+            program in United States history. Today, Smart Business Solutions
+            brings together custom agentic systems and Arsenal for
+            organizations, while Literacy &amp; Advancement Programs serve youth,
+            families, educators, and communities. Both divisions share one
+            purpose: advance human capability without surrendering human
+            agency.
           </p>
           <div className={styles.companyActions}>
             <Link href="/start">Start with context <span aria-hidden="true">→</span></Link>
@@ -105,7 +107,7 @@ export default function GatewayExpansion() {
           </div>
           <div>
             <span>Method</span>
-            <strong>Learn, build, deploy, prove</strong>
+            <strong>Build the systems. Prepare the people.</strong>
           </div>
         </div>
       </section>
@@ -118,9 +120,9 @@ export default function GatewayExpansion() {
           </div>
           <p>
             A historic distinction should create a durable public record. ZEN
-            separates what is operating now from what is still being built;
-            the architecture figures below are not inflated people-served
-            claims.
+            separates what is operating now from what is still being built. The
+            portfolio record below uses confirmed company structure and named
+            offerings—not inflated people-served claims.
           </p>
         </div>
         <div className={styles.historicRecord} data-reveal>
@@ -136,9 +138,9 @@ export default function GatewayExpansion() {
             <span>AI Pioneer · Youth capability record</span>
             <h3>The first youth AI literacy program in United States history.</h3>
             <p>
-              A build-first educational pathway for ages 11–18: understand AI,
-              exercise judgment, create useful work, and preserve evidence of
-              capability.
+              AI Pioneer is the program through which ZEN established that
+              historic distinction and placed youth AI literacy at the center
+              of a broader mission to advance human capability.
             </p>
           </div>
           <div className={styles.historicAction}>

@@ -71,10 +71,10 @@ export default function NationalFirstMonument() {
           <p className={styles.historyLine}>in United States history.</p>
           <p className={styles.statement}>
             ZEN AI Co. created the nation&apos;s first youth AI literacy
-            program to give young people more than access to artificial
-            intelligence. AI Pioneer gives ages 11–18 a build-first path to
-            understand it, direct it, create with it, and carry proof of what
-            they can do.
+            program to place human agency at the center of a new era of
+            intelligence. AI Pioneer is the founding program behind that
+            historic distinction and the beginning of ZEN&apos;s broader mission
+            to advance human capability.
           </p>
           <div className={styles.actions}>
             <a
@@ -145,7 +145,7 @@ export default function NationalFirstMonument() {
       <footer className={styles.footer}>
         <span>Established MMXXIII · Washington, D.C.</span>
         <span>Learn · Build · Deploy · Prove</span>
-        <span>Independent educational initiative · Human-led by design</span>
+        <span>ZEN AI Co. initiative · Human-led by design</span>
       </footer>
     </section>
   );

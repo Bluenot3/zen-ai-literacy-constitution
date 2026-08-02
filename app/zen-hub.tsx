@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import CompanyPortfolio from "./company-portfolio";
 import GatewayExpansion from "./gateway-expansion";
 import NationalFirstMonument from "./national-first-monument";
 import {
@@ -38,7 +39,8 @@ const ROUTES = [
     index: "01",
     verb: "Learn",
     title: "AI Pioneer",
-    detail: "Ages 11–18 learn AI by making useful apps, agents, and portfolio projects.",
+    detail:
+      "The first youth AI literacy program in United States history.",
     href: LINKS.pioneer,
     signal: "Youth capability",
     tone: "aqua",
@@ -48,9 +50,9 @@ const ROUTES = [
     verb: "Advance",
     title: "Vanguard",
     detail:
-      "A deeper pathway for learners ready to take on advanced AI systems.",
+      "ZEN AI Co.’s Web3 literacy program for a new generation of digital systems.",
     href: LINKS.vanguard,
-    signal: "Advanced pathway",
+    signal: "Web3 literacy",
     tone: "emerald",
   },
   {
@@ -58,9 +60,9 @@ const ROUTES = [
     verb: "Build",
     title: "Arsenal",
     detail:
-      "Create with agents, automations, files, programs, and operating tools.",
+      "Build with agents, workflows, Business Spaces, files, and deployable systems.",
     href: LINKS.arsenal,
-    signal: "Execution layer",
+    signal: "Agentic platform",
     tone: "violet",
   },
   {
@@ -75,60 +77,25 @@ const ROUTES = [
   },
 ] as const;
 
-const SIGNALS = [
-  {
-    value: "4",
-    label: "learning modules",
-    detail: "A focused path from AI basics to a portfolio-ready build.",
-  },
-  {
-    value: "8",
-    label: "guided sections",
-    detail: "Short lessons, clear vocabulary, hands-on practice, and checkpoints.",
-  },
-  {
-    value: "11–18",
-    label: "builder age range",
-    detail: "Young people learning through deployment.",
-  },
-  {
-    value: "Hands-on",
-    label: "learning format",
-    detail: "Learners practice inside interactive tools and save proof of their work.",
-  },
-] as const;
-
-const FIELDWORK = [
-  {
-    number: "A–01",
-    place: "Module 1",
-    kind: "Prompt design",
-    title: "Text Genie",
-    detail:
-      "Learn how clear instructions shape an AI response, then test and improve your own prompt.",
-    tone: "cyan",
-  },
-] as const;
-
 const ECOSYSTEM = [
   {
     code: "P–01",
     name: "AI Pioneer",
-    detail: "Youth build and deployment",
+    detail: "Historic youth AI literacy program",
     href: LINKS.pioneer,
     tone: "cyan",
   },
   {
     code: "V–02",
     name: "Vanguard",
-    detail: "Advanced capability pathways",
+    detail: "Web3 literacy program",
     href: LINKS.vanguard,
     tone: "green",
   },
   {
     code: "A–03",
     name: "Arsenal",
-    detail: "Agentic creation infrastructure",
+    detail: "Agentic operating infrastructure",
     href: LINKS.arsenal,
     tone: "violet",
   },
@@ -151,7 +118,7 @@ const ECOSYSTEM = [
 const LEDGER = [
   {
     heading: "Learn",
-    copy: "Project-first AI pathways",
+    copy: "AI and Web3 literacy pathways",
     links: [
       ["AI Pioneer", LINKS.pioneer],
       ["Vanguard", LINKS.vanguard],
@@ -159,7 +126,7 @@ const LEDGER = [
   },
   {
     heading: "Build",
-    copy: "From prompt to working system",
+    copy: "Agentic systems for organizations",
     links: [
       ["Arsenal", LINKS.arsenal],
       ["ZEN GitHub", LINKS.github],
@@ -751,7 +718,8 @@ export default function ZenHub({
         <Brand />
         <nav className="desktop-nav" aria-label="Primary">
           <a href="#national-first">U.S. First</a>
-          <a href="#company">Company</a>
+          <a href="#solutions">Solutions</a>
+          <a href="#programs">Programs</a>
           <a href="#impact">Impact</a>
           <a href={LINKS.work}>Public work</a>
           <a href={LINKS.constitution}>Constitution</a>
@@ -776,11 +744,9 @@ export default function ZenHub({
           </button>
           <a
             className="primary-button primary-button--small"
-            href={LINKS.pioneer}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={LINKS.start}
           >
-            Explore AI Pioneer <span aria-hidden="true">↗</span>
+            Start with ZEN <span aria-hidden="true">→</span>
           </a>
         </div>
       </header>
@@ -820,9 +786,9 @@ export default function ZenHub({
             <span>becomes capability.</span>
           </h1>
           <p>
-            ZEN AI Co. turns curiosity into working systems—connecting
-            education, creation, deployment, and portable proof in one living
-            ecosystem.
+            ZEN AI Co. builds agentic systems for organizations and landmark
+            literacy programs for people—turning intelligence into useful,
+            human-led capability.
           </p>
           <div className="hero-actions">
             <a
@@ -844,13 +810,13 @@ export default function ZenHub({
           </div>
           <div className="proof-line">
             <span>
-              <strong>Learn</strong> build-first pathways
+              <strong>Solve</strong> smart business solutions
             </span>
             <span>
-              <strong>Build</strong> agents and systems
+              <strong>Build</strong> Arsenal + custom agents
             </span>
             <span>
-              <strong>Prove</strong> real capability
+              <strong>Advance</strong> literacy + human agency
             </span>
           </div>
         </div>
@@ -900,9 +866,11 @@ export default function ZenHub({
 
       <CurrencyRail
         chapter="I"
-        title="The first in United States history"
-        code="YOUTH AI LITERACY / AI PIONEER / EST. MMXXIII"
+        title="The ZEN capability portfolio"
+        code="SOLUTIONS / PROGRAMS / HUMAN ADVANCEMENT"
       />
+
+      <CompanyPortfolio />
 
       <section id="proof" className="proof-archive">
         <div className="archive-frame" aria-hidden="true">
@@ -912,118 +880,14 @@ export default function ZenHub({
           <span />
         </div>
         <div className="archive-shell">
-          <div className="archive-intro" data-reveal>
-            <div>
-              <span className="eyebrow">The program that made history</span>
-              <h2>
-                Learn it clearly.
-                <span>Build it for real.</span>
-              </h2>
-            </div>
-            <div className="archive-statement">
-              <span className="archive-folio">Pioneer / Modules 01–04</span>
-              <p>
-                AI Pioneer gives ages 11–18 a guided way to understand AI,
-                practice inside interactive labs, build useful projects, and
-                collect evidence of what they can do.
-              </p>
-              <a
-                href={LINKS.pioneer}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Explore the program <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-          </div>
-
-          <div className="evidence-note" data-reveal>
-            <div className="evidence-note__watermark" aria-hidden="true">
-              Z
-            </div>
-            <div className="evidence-note__head">
-              <span>ZEN AI CO. / CAPABILITY REGISTER</span>
-              <strong>Program at a glance</strong>
-              <span>SPECIMEN MMXXVI</span>
-            </div>
-            <div className="signal-grid" aria-label="ZEN field signals">
-              {SIGNALS.map((signal, index) => (
-                <article className="signal-card" key={signal.label}>
-                  <span className="signal-number">0{index + 1}</span>
-                  <div className="signal-rosette" aria-hidden="true">
-                    <i />
-                    <i />
-                    <i />
-                  </div>
-                  <strong>{signal.value}</strong>
-                  <h3>{signal.label}</h3>
-                  <p>{signal.detail}</p>
-                </article>
-              ))}
-            </div>
-            <div className="evidence-note__foot">
-              <span>REGISTERED / LEARN</span>
-              <i>◈</i>
-              <span>VERIFIED / BUILD</span>
-              <i>◈</i>
-              <span>PORTABLE / PROVE</span>
-            </div>
-          </div>
-
-          <div className="fieldwork-head" data-reveal>
-            <div>
-              <span className="eyebrow">Hands-on learning</span>
-              <h3>Each idea becomes something learners can try.</h3>
-            </div>
-            <span>Read · experiment · build · reflect</span>
-          </div>
-
-          <div className="fieldwork-grid">
-            {FIELDWORK.map((project) => (
-              <article
-                className={`fieldwork-card fieldwork-card--${project.tone}`}
-                key={project.number}
-                data-reveal
-              >
-                <div className="fieldwork-topline">
-                  <span>{project.number}</span>
-                  <span>{project.place}</span>
-                </div>
-                <div className="fieldwork-engraving" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                </div>
-                <div className="fieldwork-medallion" aria-hidden="true">
-                  <span>{project.number.slice(0, 1)}</span>
-                </div>
-                <div className="fieldwork-copy">
-                  <span>{project.kind}</span>
-                  <h4>{project.title}</h4>
-                  <p>{project.detail}</p>
-                </div>
-                <a
-                  href={LINKS.pioneer}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Explore ${project.title} in AI Pioneer`}
-                >
-                  Explore program <span aria-hidden="true">↗</span>
-                </a>
-              </article>
-            ))}
-          </div>
-
           <div className="ecosystem-atlas" data-reveal>
             <div className="atlas-copy">
-              <span className="eyebrow">One connected instrument</span>
-              <h3>Every capability has somewhere to go next.</h3>
+              <span className="eyebrow">One connected company</span>
+              <h3>Every ambition has a next capability.</h3>
               <p>
-                ZEN connects the learning path, the building environment, model
-                exploration, deployment, and the evidence that remains after
-                the work is finished.
+                ZEN connects Smart Business Solutions, Arsenal, literacy
+                programs, public work, partnerships, and the principles that
+                keep advancement human-led.
               </p>
               <button
                 className="atlas-map-button"
@@ -1093,11 +957,11 @@ export default function ZenHub({
           <span>MMXXVI</span>
         </div>
         <div className="section-intro" data-reveal>
-          <span className="eyebrow">Four doors. One ecosystem.</span>
+          <span className="eyebrow">Four doors. One company.</span>
           <h2>Choose what you came to do.</h2>
           <p>
-            Every click has a destination. Start with learning, advancing,
-            building, or bringing ZEN to your community.
+            Enter a landmark program, explore Web3 literacy, build inside
+            Arsenal, or bring a challenge directly to ZEN.
           </p>
         </div>
         <div className="route-grid">
@@ -1165,9 +1029,9 @@ export default function ZenHub({
               <span className="eyebrow">The ZEN standard</span>
               <h2>Real work creates its own currency.</h2>
               <p>
-                Learning, building, files, deployment, and proof stay connected
-                across the ZEN ecosystem—so capability can be seen, shared, and
-                trusted.
+                Solutions, programs, operations, deployment, and public proof
+                stay connected across the ZEN ecosystem—so capability can be
+                built, seen, shared, and trusted.
               </p>
               <button
                 className="secondary-button"
@@ -1195,10 +1059,10 @@ export default function ZenHub({
             </div>
             <div className="capability-ledger">
               {[
-                ["01", "Learn", "AI Pioneer · Vanguard"],
-                ["02", "Build", "Arsenal · Agents · Files"],
-                ["03", "Deploy", "Apps · Automations · Systems"],
-                ["04", "Prove", "Projects · Credentials · ZEN Cards"],
+                ["01", "Learn", "AI Pioneer · Vanguard · Homeschool"],
+                ["02", "Equip", "Train-a-Trainer · Constitution"],
+                ["03", "Build", "Arsenal · Agents · Business Spaces"],
+                ["04", "Advance", "Systems · Programs · Public Work"],
               ].map(([number, title, detail]) => (
                 <div className="ledger-row" key={number}>
                   <span>{number}</span>
@@ -1245,9 +1109,9 @@ export default function ZenHub({
             <span>make real?</span>
           </h2>
           <p>
-            Prepare a guided brief for ZEN, enter Arsenal to build, start with
-            AI Pioneer to learn through creation, or bring ZEN to your
-            organization or community.
+            Bring ZEN an organizational challenge, enter Arsenal to build,
+            choose a literacy program, or begin a partnership designed around
+            the future you want to make possible.
           </p>
           <div className="issuance-actions">
             <a
@@ -1295,7 +1159,7 @@ export default function ZenHub({
         <div className="footer-plate">
           <div className="footer-brand">
             <Brand />
-            <p>Learn AI. Build what matters. Prove what you can do.</p>
+            <p>Build the systems. Prepare the people. Advance human capability.</p>
           </div>
           <div className="footer-actions">
             <span>Continue the signal</span>
@@ -1333,9 +1197,7 @@ export default function ZenHub({
       </footer>
 
       <div className="mobile-dock">
-        <a href={LINKS.pioneer} target="_blank" rel="noopener noreferrer">
-          Explore AI Pioneer <span aria-hidden="true">↗</span>
-        </a>
+        <a href={LINKS.start}>Start with ZEN <span aria-hidden="true">→</span></a>
         <button
           type="button"
           onClick={() => setDrawerOpen(true)}
