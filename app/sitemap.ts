@@ -1,8 +1,10 @@
 import type { MetadataRoute } from "next";
+import { managedZenHref } from "./managed-pages";
+import { listManagedZenNavigation } from "./managed-pages.server";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = "https://zenai.world";
-  return [
+  const staticPaths = [
     "",
     "/work",
     "/start",
@@ -11,7 +13,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/terms-and-conditions",
     "/refund-policy",
     "/accessibility-statement",
-  ].map((path) => ({
+  ];
+  const managedPages = await listManagedZenNavigation();
+  const paths = Array.from(
+    new Set([
+      ...staticPaths,
+      ...managedPages
+        .filter((page) => page.slug !== "home")
+        .map((page) => managedZenHref(page.slug)),
+    ]),
+  );
+
+  return paths.map((path) => ({
     url: `${base}${path}`,
     changeFrequency: path === "" ? "weekly" : "monthly",
     priority:

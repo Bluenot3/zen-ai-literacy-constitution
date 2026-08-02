@@ -3,6 +3,11 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import GatewayExpansion from "./gateway-expansion";
+import {
+  managedZenHref,
+  managedZenNavigationFor,
+  type ManagedZenNavigationItem,
+} from "./managed-pages";
 
 const LINKS = {
   arsenal: "https://arsenal.world",
@@ -483,13 +488,19 @@ function RouteMark({ index }: { index: string }) {
 function DestinationDrawer({
   open,
   close,
+  managedNavigation,
 }: {
   open: boolean;
   close: () => void;
+  managedNavigation: ManagedZenNavigationItem[];
 }) {
   const panelRef = useRef<HTMLElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  const managedMapItems = managedZenNavigationFor(
+    managedNavigation,
+    "header",
+  );
 
   useEffect(() => {
     if (!open) return;
@@ -590,6 +601,22 @@ function DestinationDrawer({
               </div>
             </section>
           ))}
+          {managedMapItems.length ? (
+            <section className="drawer-group">
+              <div>
+                <span>ZEN pages</span>
+                <p>Explore pages published from the ZEN admin control plane.</p>
+              </div>
+              <div className="drawer-links">
+                {managedMapItems.map((item) => (
+                  <a href={managedZenHref(item.slug)} key={item.id}>
+                    {item.navLabel}
+                    <span aria-hidden="true">→</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          ) : null}
         </div>
         <div className="drawer-serial">
           ZEN · SERIES MMXXVI · BUILD WHAT MATTERS · PROVE WHAT YOU BUILT
@@ -641,8 +668,20 @@ function RouteSigil({ index }: { index: string }) {
   );
 }
 
-export default function ZenHub() {
+export default function ZenHub({
+  managedNavigation = [],
+}: {
+  managedNavigation?: ManagedZenNavigationItem[];
+}) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const managedHeaderItems = managedZenNavigationFor(
+    managedNavigation,
+    "header",
+  );
+  const managedFooterItems = managedZenNavigationFor(
+    managedNavigation,
+    "footer",
+  );
 
   useEffect(() => {
     const elements = Array.from(
@@ -687,6 +726,11 @@ export default function ZenHub() {
           <a href={LINKS.work}>Public work</a>
           <a href={LINKS.constitution}>Constitution</a>
           <a href="#team">Team</a>
+          {managedHeaderItems.map((item) => (
+            <a href={managedZenHref(item.slug)} key={item.id}>
+              {item.navLabel}
+            </a>
+          ))}
         </nav>
         <div className="topbar-actions">
           <button
@@ -1221,6 +1265,11 @@ export default function ZenHub() {
               X <i aria-hidden="true">↗</i>
             </a>
             <a href={LINKS.contact}>Contact <i aria-hidden="true">↗</i></a>
+            {managedFooterItems.map((item) => (
+              <a href={managedZenHref(item.slug)} key={item.id}>
+                {item.navLabel}
+              </a>
+            ))}
             <a href="/privacy-policy">Privacy</a>
             <a href="/terms-and-conditions">Terms</a>
             <a href="/accessibility-statement">Accessibility</a>
@@ -1257,6 +1306,7 @@ export default function ZenHub() {
       <DestinationDrawer
         open={drawerOpen}
         close={() => setDrawerOpen(false)}
+        managedNavigation={managedNavigation}
       />
     </main>
   );
