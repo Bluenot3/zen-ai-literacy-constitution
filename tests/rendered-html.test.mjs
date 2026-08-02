@@ -43,6 +43,9 @@ test("server-renders the finished ZEN gateway", async () => {
   );
   assert.match(html, /Intelligence/);
   assert.match(html, /becomes capability\./);
+  assert.match(html, /A United States First/);
+  assert.match(html, /first youth AI literacy program in United States history/i);
+  assert.match(html, /National capability record/);
   assert.match(html, /Learn it clearly\./);
   assert.match(html, /4/);
   assert.match(html, /learning modules/);
@@ -55,7 +58,7 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /Real work creates its own currency\./);
   assert.match(html, /What will you/);
   assert.match(html, /make real\?/);
-  assert.match(html, /A capability company for the intelligence era\./);
+  assert.match(html, /A capability company advancing human agency/);
   assert.match(html, /Proof before proclamation\./);
   assert.match(html, /Human-led by design\./);
   assert.match(html, /href="\/start"/);

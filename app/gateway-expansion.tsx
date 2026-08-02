@@ -69,13 +69,14 @@ export default function GatewayExpansion() {
           <span />
         </div>
         <div className={styles.companyCopy} data-reveal>
-          <span className={styles.eyebrow}>Company register · ZEN AI Co.</span>
-          <h2>A capability company for the intelligence era.</h2>
+          <span className={styles.eyebrow}>Company register · A United States first</span>
+          <h2>A capability company advancing human agency in the intelligence era.</h2>
           <p>
-            ZEN AI Co. connects AI literacy, practical building, agentic
-            infrastructure, and public proof. The purpose is simple: help
-            people and organizations understand the medium, make useful things,
-            and retain agency over what happens next.
+            ZEN AI Co. began with a national first: the first youth AI literacy
+            program in United States history. From that foundation, we are
+            building the learning paths, creation infrastructure, public
+            standards, and proof systems that help people and organizations
+            advance with AI without surrendering agency.
           </p>
           <div className={styles.companyActions}>
             <Link href="/start">Start with context <span aria-hidden="true">→</span></Link>
@@ -95,16 +96,16 @@ export default function GatewayExpansion() {
         </div>
         <div className={styles.companyPrinciples} data-reveal>
           <div>
-            <span>Purpose</span>
-            <strong>Intelligence into capability</strong>
+            <span>Origin</span>
+            <strong>The first youth AI literacy program in U.S. history</strong>
+          </div>
+          <div>
+            <span>Mission</span>
+            <strong>Advance human capability with intelligence</strong>
           </div>
           <div>
             <span>Method</span>
-            <strong>Understand, build, verify</strong>
-          </div>
-          <div>
-            <span>Standard</span>
-            <strong>Human agency stays visible</strong>
+            <strong>Learn, build, deploy, prove</strong>
           </div>
         </div>
       </section>
@@ -113,13 +114,40 @@ export default function GatewayExpansion() {
         <div className={styles.impactHeader} data-reveal>
           <div>
             <span className={styles.eyebrow}>Public impact ledger</span>
-            <h2>Proof before proclamation.</h2>
+            <h2><span>The first was the beginning.</span> Proof before proclamation.</h2>
           </div>
           <p>
-            ZEN separates what is operating now from what is still being built.
-            These figures describe the current published learning and gateway
-            architecture—not an inflated claim about people served.
+            A historic distinction should create a durable public record. ZEN
+            separates what is operating now from what is still being built;
+            the architecture figures below are not inflated people-served
+            claims.
           </p>
+        </div>
+        <div className={styles.historicRecord} data-reveal>
+          <div className={styles.historicLines} aria-hidden="true">
+            {Array.from({ length: 11 }, (_, index) => <span key={index} />)}
+          </div>
+          <div className={styles.historicOrdinal}>
+            <span>Historic distinction</span>
+            <strong>1st</strong>
+            <small>United States</small>
+          </div>
+          <div className={styles.historicCopy}>
+            <span>AI Pioneer · Youth capability record</span>
+            <h3>The first youth AI literacy program in United States history.</h3>
+            <p>
+              A build-first educational pathway for ages 11–18: understand AI,
+              exercise judgment, create useful work, and preserve evidence of
+              capability.
+            </p>
+          </div>
+          <div className={styles.historicAction}>
+            <span>No. US–YL–0001</span>
+            <strong>Learn · Build · Deploy · Prove</strong>
+            <Link href="/work?category=accomplishments">
+              Open the public record <i aria-hidden="true">→</i>
+            </Link>
+          </div>
         </div>
         <div className={styles.statBank}>
           {OPERATING_RECORD.map((item, index) => (

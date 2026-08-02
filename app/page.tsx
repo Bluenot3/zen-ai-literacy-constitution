@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: { absolute: "ZEN AI Co. | Intelligence Into Capability" },
   description:
-    "The ZEN AI ecosystem gateway for build-first AI education, Arsenal-powered execution, and proof of real capability.",
+    "ZEN AI Co. created the first youth AI literacy program in United States history and connects learning, building, deployment, and proof in one capability ecosystem.",
 };
 
 export default async function Home() {

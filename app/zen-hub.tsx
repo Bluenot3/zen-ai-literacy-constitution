@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import GatewayExpansion from "./gateway-expansion";
+import NationalFirstMonument from "./national-first-monument";
 import {
   managedZenHref,
   managedZenNavigationFor,
@@ -397,6 +398,72 @@ function GuillocheField() {
       }
     };
 
+    const interferenceRibbons = (phase: number) => {
+      const bands = width < 700 ? 12 : 22;
+      const steps = width < 700 ? 90 : 170;
+
+      for (let band = 0; band < bands; band += 1) {
+        const bandRatio = band / Math.max(1, bands - 1);
+        const baseY = height * (0.08 + bandRatio * 0.84);
+        context.beginPath();
+
+        for (let point = 0; point <= steps; point += 1) {
+          const ratio = point / steps;
+          const x = ratio * width;
+          const pointerPull =
+            Math.max(0, 1 - Math.abs(ratio - pointerX) * 2.8) *
+            (pointerY - 0.5) *
+            16;
+          const braid =
+            Math.sin(ratio * Math.PI * 8.5 + band * 0.47 + phase * 1.8) *
+              (4 + Math.sin(bandRatio * Math.PI) * 11) +
+            Math.cos(ratio * Math.PI * 21 - band * 0.29 - phase * 2.3) * 2.4;
+          const y = baseY + braid + pointerPull;
+
+          if (point === 0) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        }
+
+        context.strokeStyle =
+          band % 4 === 0
+            ? `rgba(218, 126, 49, ${0.032 + bandRatio * 0.025})`
+            : band % 3 === 0
+              ? `rgba(29, 124, 109, ${0.035 + bandRatio * 0.035})`
+              : `rgba(46, 103, 149, ${0.028 + (1 - bandRatio) * 0.035})`;
+        context.lineWidth = band % 7 === 0 ? 0.8 : 0.42;
+        context.stroke();
+      }
+    };
+
+    const radialRegister = (
+      centerX: number,
+      centerY: number,
+      radius: number,
+      phase: number,
+    ) => {
+      const ticks = width < 700 ? 72 : 132;
+      context.save();
+      context.translate(centerX, centerY);
+      context.rotate(phase * 0.42);
+
+      for (let tick = 0; tick < ticks; tick += 1) {
+        const theta = (tick / ticks) * Math.PI * 2;
+        const major = tick % 11 === 0;
+        const inner = radius * (major ? 0.88 : 0.93);
+        const outer = radius * (major ? 1.02 : 0.985);
+        context.beginPath();
+        context.moveTo(Math.cos(theta) * inner, Math.sin(theta) * inner);
+        context.lineTo(Math.cos(theta) * outer, Math.sin(theta) * outer);
+        context.strokeStyle = major
+          ? "rgba(218, 126, 49, 0.17)"
+          : "rgba(25, 110, 104, 0.095)";
+        context.lineWidth = major ? 0.9 : 0.42;
+        context.stroke();
+      }
+
+      context.restore();
+    };
+
     const draw = (time: number) => {
       if (!pageVisible) return;
 
@@ -411,6 +478,7 @@ function GuillocheField() {
       context.clearRect(0, 0, width, height);
       const phase = reducedMotion ? 0 : time * 0.0001;
       waveField(phase);
+      interferenceRibbons(phase);
       verticalLathe(phase);
 
       const sealX = width < 760 ? width * 0.77 : width * 0.79;
@@ -419,6 +487,12 @@ function GuillocheField() {
         sealX + (pointerX - 0.5) * 17,
         sealY + (pointerY - 0.5) * 13,
         Math.min(width, height) * (width < 700 ? 0.34 : 0.43),
+        phase,
+      );
+      radialRegister(
+        sealX + (pointerX - 0.5) * 17,
+        sealY + (pointerY - 0.5) * 13,
+        Math.min(width, height) * (width < 700 ? 0.35 : 0.44),
         phase,
       );
       rosette(
@@ -721,6 +795,7 @@ export default function ZenHub({
       <header className="topbar">
         <Brand />
         <nav className="desktop-nav" aria-label="Primary">
+          <a href="#national-first">U.S. First</a>
           <a href="#company">Company</a>
           <a href="#impact">Impact</a>
           <a href={LINKS.work}>Public work</a>
@@ -773,6 +848,18 @@ export default function ZenHub({
           <span className="eyebrow hero-eyebrow">
             A new treasury of human capability · Series 2026
           </span>
+          <a className="hero-first-claim" href="#national-first">
+            <span className="hero-first-claim__medallion" aria-hidden="true">I</span>
+            <span className="hero-first-claim__copy">
+              <small>A United States First</small>
+              <strong>
+                The first youth AI literacy program in United States history
+              </strong>
+            </span>
+            <span className="hero-first-claim__route">
+              Founding record <i aria-hidden="true">↓</i>
+            </span>
+          </a>
           <h1>
             Intelligence
             <span>becomes capability.</span>
@@ -789,7 +876,7 @@ export default function ZenHub({
               target="_blank"
               rel="noopener noreferrer"
             >
-              Explore AI Pioneer <span aria-hidden="true">↗</span>
+              Explore the historic program <span aria-hidden="true">↗</span>
             </a>
             <a
               className="secondary-button"
@@ -854,10 +941,12 @@ export default function ZenHub({
         </div>
       </section>
 
+      <NationalFirstMonument />
+
       <CurrencyRail
         chapter="I"
-        title="The Pioneer learning path"
-        code="MODULES / 004 / SECTIONS / 008"
+        title="The first in United States history"
+        code="YOUTH AI LITERACY / AI PIONEER / EST. MMXXIII"
       />
 
       <section id="proof" className="proof-archive">
@@ -870,7 +959,7 @@ export default function ZenHub({
         <div className="archive-shell">
           <div className="archive-intro" data-reveal>
             <div>
-              <span className="eyebrow">The learning path is the record</span>
+              <span className="eyebrow">The program that made history</span>
               <h2>
                 Learn it clearly.
                 <span>Build it for real.</span>

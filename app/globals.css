@@ -4613,3 +4613,176 @@ button {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Historic-first proclamation — preserved above the fold on every viewport */
+.hero-first-claim {
+  position: relative;
+  display: grid;
+  max-width: 700px;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.85rem;
+  overflow: hidden;
+  margin-top: 1.2rem;
+  padding: 0.7rem 0.85rem 0.7rem 0.7rem;
+  border: 1px solid rgba(21, 103, 104, 0.2);
+  border-radius: 1rem 2.4rem 1rem 1rem;
+  background:
+    repeating-linear-gradient(76deg, transparent 0 14px, rgba(22, 111, 103, 0.025) 15px),
+    linear-gradient(112deg, rgba(248, 253, 250, 0.82), rgba(229, 246, 243, 0.72), rgba(255, 247, 229, 0.72));
+  box-shadow: 0 18px 55px rgba(20, 79, 91, 0.08);
+  backdrop-filter: blur(16px);
+  transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+}
+
+.hero-first-claim::before {
+  position: absolute;
+  top: -92%;
+  right: -4%;
+  width: 35%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(22, 115, 106, 0.12);
+  border-radius: 50%;
+  background: repeating-conic-gradient(rgba(22, 115, 106, 0.08) 0 0.45deg, transparent 0.62deg 3.4deg);
+  box-shadow:
+    inset 0 0 0 13px rgba(255, 255, 255, 0.04),
+    inset 0 0 0 14px rgba(218, 124, 47, 0.1),
+    inset 0 0 0 35px rgba(255, 255, 255, 0.03),
+    inset 0 0 0 36px rgba(45, 108, 148, 0.08);
+  content: "";
+  pointer-events: none;
+  animation: heroFirstOrbit 26s linear infinite;
+}
+
+.hero-first-claim:hover,
+.hero-first-claim:focus-visible {
+  border-color: rgba(20, 130, 113, 0.45);
+  outline: none;
+  box-shadow: 0 22px 62px rgba(20, 79, 91, 0.13);
+  transform: translateY(-2px);
+}
+
+.hero-first-claim__medallion {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 50px;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgba(21, 110, 104, 0.24);
+  border-radius: 50%;
+  color: #0d6f69;
+  background:
+    repeating-conic-gradient(rgba(21, 112, 104, 0.12) 0 0.6deg, transparent 0.8deg 5deg),
+    rgba(248, 253, 250, 0.75);
+  box-shadow:
+    inset 0 0 0 6px rgba(255, 255, 255, 0.46),
+    inset 0 0 0 7px rgba(220, 128, 49, 0.15);
+  font: 600 1.55rem/1 var(--font-display), serif;
+}
+
+.hero-first-claim__copy {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
+
+.hero-first-claim__copy small,
+.hero-first-claim__copy strong {
+  display: block;
+}
+
+.hero-first-claim__copy small {
+  color: rgba(188, 102, 38, 0.78);
+  font: 700 0.39rem/1.4 var(--font-mono), monospace;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.hero-first-claim__copy strong {
+  margin-top: 0.28rem;
+  color: #174c58;
+  font: 600 clamp(0.88rem, 1.35vw, 1.18rem)/1.18 var(--font-display), serif;
+}
+
+.hero-first-claim__route {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: rgba(13, 103, 96, 0.73);
+  font-size: 0.58rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.hero-first-claim__route i {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border: 1px solid rgba(16, 104, 99, 0.18);
+  border-radius: 50%;
+  color: #d47a36;
+  font-style: normal;
+  transition: transform 200ms ease;
+}
+
+.hero-first-claim:hover .hero-first-claim__route i,
+.hero-first-claim:focus-visible .hero-first-claim__route i {
+  transform: translateY(2px);
+}
+
+@keyframes heroFirstOrbit {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 1160px) {
+  .hero-first-claim {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+
+  .hero-first-claim__medallion {
+    width: 44px;
+  }
+
+  .hero-first-claim__route {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-first-claim {
+    max-width: 94%;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 0.65rem;
+    margin-top: 0.9rem;
+    padding: 0.58rem 0.72rem 0.58rem 0.58rem;
+    border-radius: 0.85rem 1.8rem 0.85rem 0.85rem;
+  }
+
+  .hero-first-claim__medallion {
+    width: 40px;
+    font-size: 1.25rem;
+  }
+
+  .hero-first-claim__copy small {
+    font-size: 0.32rem;
+    letter-spacing: 0.15em;
+  }
+
+  .hero-first-claim__copy strong {
+    font-size: 0.78rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-first-claim,
+  .hero-first-claim::before,
+  .hero-first-claim__route i {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

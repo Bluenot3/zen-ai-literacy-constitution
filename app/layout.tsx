@@ -40,7 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s | ZEN AI Co.",
     },
     description:
-      "Build-first AI education, Arsenal-powered execution, and proof of real capability.",
+      "ZEN AI Co. created the first youth AI literacy program in United States history—then built an ecosystem that turns intelligence into human capability.",
     icons: {
       icon: "/zen-mark.png",
       shortcut: "/zen-mark.png",
@@ -51,13 +51,13 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "ZEN AI Co.",
       title: "ZEN AI Co. | Intelligence Into Capability",
       description:
-        "Explore the work. Build real systems. Prove what you can do.",
+        "The first youth AI literacy program in United States history. Learn clearly, build real systems, and prove what you can do.",
       images: [
         {
           url: socialImage,
           width: 1672,
           height: 941,
-          alt: "ZEN AI Co. — Intelligence becomes capability.",
+          alt: "ZEN AI Co. — the first youth AI literacy program in United States history.",
         },
       ],
     },
@@ -65,7 +65,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: "ZEN AI Co. | Intelligence Into Capability",
       description:
-        "Explore the work. Build real systems. Prove what you can do.",
+        "The first youth AI literacy program in United States history. Intelligence into capability.",
       images: [socialImage],
     },
   };
