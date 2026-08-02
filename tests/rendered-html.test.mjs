@@ -140,6 +140,25 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
     nav_locations: [],
     content_html: "<section><h2>Home override is live</h2></section>",
   };
+  const announcement = {
+    id: "10000000-0000-4000-8000-000000000003",
+    title: "A new capability is live",
+    body: "Read the release record and enter the next chapter.",
+    type: "banner",
+    priority: "high",
+    style: {
+      bg: "#071b28",
+      text: "#f4fbf8",
+      status: "published",
+      cta_label: "Read the release",
+      cta_action: "/work",
+    },
+    starts_at: timestamp,
+    ends_at: null,
+    is_dismissible: true,
+    created_at: timestamp,
+    updated_at: timestamp,
+  };
 
   globalThis.fetch = async (input, init) => {
     const url = input instanceof Request ? input.url : String(input);
@@ -157,6 +176,9 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
       const body = JSON.parse(String(init?.body ?? "{}"));
       return Response.json(body.requested_slug === page.slug ? [page] : []);
     }
+    if (url.endsWith("/list_visible_site_announcements")) {
+      return Response.json([announcement]);
+    }
     return new Response("Not found", { status: 404 });
   };
 
@@ -171,6 +193,10 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
     const fallbackHtml = await fallback.text();
     assert.match(fallbackHtml, /Intelligence/);
     assert.match(fallbackHtml, /href="\/managed-lab"/);
+    assert.match(fallbackHtml, /A new capability is live/);
+    assert.match(fallbackHtml, /Read the release record/);
+    assert.match(fallbackHtml, /data-zen-announcement-id=/);
+    assert.match(fallbackHtml, /href="\/work"/);
 
     const managed = await render("/managed-lab", environment);
     assert.equal(managed.status, 200);
@@ -242,6 +268,9 @@ test("removes starter-only preview infrastructure", async () => {
     managedServer,
     managedRenderer,
     managedRoute,
+    analyticsRuntime,
+    announcementRuntime,
+    announcementServer,
   ] =
     await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
@@ -257,6 +286,9 @@ test("removes starter-only preview infrastructure", async () => {
     readFile(new URL("../app/managed-pages.server.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/managed-page-renderer.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/[slug]/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/site-analytics.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/site-announcement-banner.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/site-announcements.server.ts", import.meta.url), "utf8"),
   ]);
 
   assert.match(page, /getManagedZenHome/);
@@ -284,6 +316,18 @@ test("removes starter-only preview infrastructure", async () => {
   assert.doesNotMatch(managedRenderer, /allow-same-origin/);
   assert.match(managedRoute, /dynamic = "force-dynamic"/);
   assert.match(hub, /managedHeaderItems/);
+  assert.match(layout, /listVisibleZenSiteAnnouncements/);
+  assert.match(layout, /<ZenSiteAnalytics \/>/);
+  assert.match(analyticsRuntime, /G-F85YFS8ZPK/);
+  assert.match(analyticsRuntime, /allow_google_signals: false/);
+  assert.match(analyticsRuntime, /analytics_storage: "denied"/);
+  assert.match(analyticsRuntime, /globalPrivacyControl/);
+  assert.doesNotMatch(analyticsRuntime, /page_location:\s*window\.location\.href/);
+  assert.match(analyticsRuntime, /announcement_impression/);
+  assert.match(analyticsRuntime, /outbound_click/);
+  assert.match(announcementRuntime, /announcement_dismissed/);
+  assert.match(announcementServer, /list_visible_site_announcements/);
+  assert.match(announcementServer, /requested_site_key: ZEN_SITE_KEY/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(page, /codex-preview|SkeletonPreview/);
 

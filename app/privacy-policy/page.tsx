@@ -25,6 +25,7 @@ export default function PrivacyPolicyPage() {
       </PolicySection>
       <PolicySection number={2} title="How We Use Information">
         <p>We use collected information to provide and improve the Services, deliver tools and educational programs, personalize experiences, analyze reliability, maintain security, prevent fraud, comply with law, and communicate service updates or support responses.</p>
+        <p>On zenai.world, privacy-limited analytics measure page views, navigation, calls to action, and announcement engagement. URL query values, intake answers, generated briefs, prompts, and form contents are not sent as analytics event parameters. Analytics does not initialize when a browser signals Do Not Track or Global Privacy Control.</p>
       </PolicySection>
       <PolicySection number={3} title="Artificial Intelligence Systems">
         <p>ZEN Services may use third-party APIs and proprietary AI systems. AI outputs are generated dynamically and may not always be accurate or complete. Inputs may be processed to operate, improve, secure, and evaluate the Services.</p>

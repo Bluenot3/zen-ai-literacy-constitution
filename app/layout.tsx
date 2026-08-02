@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { Cormorant_Garamond, Manrope, Space_Mono } from "next/font/google";
+import { ZenSiteAnalytics } from "./site-analytics";
+import { ZenSiteAnnouncementBanner } from "./site-announcement-banner";
+import { listVisibleZenSiteAnnouncements } from "./site-announcements.server";
 import "./globals.css";
 import "./treasury-chrome.css";
+import "./site-runtime.css";
 
 const display = Cormorant_Garamond({
   variable: "--font-display",
@@ -71,14 +75,18 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const announcements = await listVisibleZenSiteAnnouncements();
+
   return (
     <html lang="en">
       <body className={`${display.variable} ${sans.variable} ${mono.variable}`}>
+        <ZenSiteAnalytics />
+        <ZenSiteAnnouncementBanner announcements={announcements} />
         {children}
       </body>
     </html>

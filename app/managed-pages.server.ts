@@ -33,7 +33,7 @@ const responseRows = (value: unknown): unknown[] => {
   return value && typeof value === "object" ? [value] : [];
 };
 
-async function readPublicRpc(
+export async function readPublicRpc(
   functionName: string,
   payload: Record<string, string>,
 ) {
