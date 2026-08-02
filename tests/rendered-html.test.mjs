@@ -54,7 +54,10 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /8/);
   assert.match(html, /guided sections/);
   assert.match(html, /Text Genie/);
-  assert.match(html, /Image Studio/);
+  assert.doesNotMatch(
+    html,
+    /Image Studio|Code Agent|Source Explorer|AI Decision Lab|Project Showcase/,
+  );
   assert.match(html, /Choose what you came to do\./);
   assert.match(html, /One connected instrument/);
   assert.match(html, /Real work creates its own currency\./);

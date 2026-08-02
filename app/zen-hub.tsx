@@ -108,51 +108,6 @@ const FIELDWORK = [
       "Learn how clear instructions shape an AI response, then test and improve your own prompt.",
     tone: "cyan",
   },
-  {
-    number: "B–02",
-    place: "Module 2",
-    kind: "Creative models",
-    title: "Image Studio",
-    detail:
-      "Turn an idea into a visual, compare results, and discover how models interpret words.",
-    tone: "orange",
-  },
-  {
-    number: "C–03",
-    place: "Module 3",
-    kind: "App building",
-    title: "Code Agent",
-    detail:
-      "Guide an AI through a small working app and learn what code, inputs, and outputs do.",
-    tone: "green",
-  },
-  {
-    number: "D–04",
-    place: "Module 3",
-    kind: "Knowledge tools",
-    title: "Source Explorer",
-    detail:
-      "Ask questions about trusted material and see why sources matter when AI explains an answer.",
-    tone: "blue",
-  },
-  {
-    number: "E–05",
-    place: "Module 4",
-    kind: "Model thinking",
-    title: "AI Decision Lab",
-    detail:
-      "Experiment with confidence, bias, and tradeoffs before deciding when an AI result is useful.",
-    tone: "orange",
-  },
-  {
-    number: "F–06",
-    place: "Portfolio",
-    kind: "Proof of capability",
-    title: "Project Showcase",
-    detail:
-      "Package your strongest work with a short reflection, live link, and evidence of what you learned.",
-    tone: "cyan",
-  },
 ] as const;
 
 const ECOSYSTEM = [
