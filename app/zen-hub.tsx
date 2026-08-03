@@ -468,6 +468,20 @@ function ZenCornerLogo({ position }: { position: "tl" | "tr" }) {
   );
 }
 
+function SpectralTreasuryThread() {
+  return (
+    <div className="security-thread" aria-hidden="true">
+      <span className="security-thread__microtype">
+        ZEN · VERIFIED CAPABILITY · BUILT IN PUBLIC · ZEN · VERIFIED
+        CAPABILITY · BUILT IN PUBLIC
+      </span>
+      <span className="security-thread__cipher" />
+      <span className="security-thread__prism" />
+      <span className="security-thread__lens" />
+    </div>
+  );
+}
+
 function Brand() {
   return (
     <a className="brand" href="#top" aria-label="ZEN AI Co. home">
@@ -729,6 +743,7 @@ export default function ZenHub({
       <div className="living-gradient" aria-hidden="true" />
       <div className="paper-grain" aria-hidden="true" />
       <div className="hologram-wash" aria-hidden="true" />
+      <div className="treasury-fiber-field" aria-hidden="true" />
 
       <header className="topbar">
         <Brand />
@@ -774,12 +789,7 @@ export default function ZenHub({
           <span className="corner corner--bl">03</span>
           <span className="corner corner--br">26</span>
         </div>
-        <div className="security-thread" aria-hidden="true">
-          <span>
-            ZEN · VERIFIED CAPABILITY · BUILT IN PUBLIC · ZEN · VERIFIED
-            CAPABILITY · BUILT IN PUBLIC
-          </span>
-        </div>
+        <SpectralTreasuryThread />
 
         <div className="hero-copy">
           <span className="eyebrow hero-eyebrow">
@@ -838,6 +848,7 @@ export default function ZenHub({
         </div>
 
         <div className="sovereign-seal" aria-label="ZEN capability seal">
+          <div className="seal-spectrum" aria-hidden="true" />
           <div className="seal-orbit seal-orbit--outer" aria-hidden="true" />
           <div className="seal-orbit seal-orbit--inner" aria-hidden="true" />
           <div className="seal-type seal-type--top" aria-hidden="true">

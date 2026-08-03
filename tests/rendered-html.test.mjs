@@ -321,6 +321,11 @@ test("removes starter-only preview infrastructure", async () => {
   assert.match(hub, /src="\/zen-brand-logo-stencil\.png"/);
   assert.doesNotMatch(hub, /WireZenCornerMark/);
   assert.doesNotMatch(hub, /corner-wire-mark/);
+  assert.match(hub, /<SpectralTreasuryThread \/>/);
+  assert.match(hub, /security-thread__prism/);
+  assert.match(hub, /security-thread__lens/);
+  assert.match(hub, /className="seal-spectrum"/);
+  assert.match(hub, /className="treasury-fiber-field"/);
   assert.doesNotMatch(hub, /corner corner--tl">Z</);
   assert.doesNotMatch(hub, /corner corner--tr">AI</);
   assert.match(layout, /listVisibleZenSiteAnnouncements/);
