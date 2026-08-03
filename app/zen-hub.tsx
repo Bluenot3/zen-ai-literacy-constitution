@@ -452,20 +452,18 @@ function GuillocheField() {
   return <canvas ref={canvasRef} className="guilloche-field" aria-hidden="true" />;
 }
 
-function WireZenCornerMark({ position }: { position: "tl" | "tr" }) {
+function ZenCornerLogo({ position }: { position: "tl" | "tr" }) {
   return (
-    <span className={`corner corner--${position} corner--wire`} aria-hidden="true">
-      <svg
-        className="corner-wire-mark"
-        viewBox="0 0 64 64"
-        focusable="false"
-      >
-        <rect className="corner-wire-mark__register" x="7.5" y="7.5" width="49" height="49" rx="11" />
-        <path className="corner-wire-mark__primary" d="M13 18H47L18 47H50" />
-        <path className="corner-wire-mark__secondary" d="M26 18H53L29 47H49" />
-        <path className="corner-wire-mark__engraving" d="M16 21H39L14 44M30 21H47L26 44H45" />
-        <path className="corner-wire-mark__ticks" d="M32 4V8M32 56V60M4 32H8M56 32H60" />
-      </svg>
+    <span className={`corner corner--${position} corner--brand`} aria-hidden="true">
+      <Image
+        className="corner-brand-logo"
+        src="/zen-brand-logo-stencil.png"
+        alt=""
+        width={46}
+        height={46}
+        draggable={false}
+        unoptimized
+      />
     </span>
   );
 }
@@ -771,8 +769,8 @@ export default function ZenHub({
 
       <section id="top" className="hero">
         <div className="note-frame" aria-hidden="true">
-          <WireZenCornerMark position="tl" />
-          <WireZenCornerMark position="tr" />
+          <ZenCornerLogo position="tl" />
+          <ZenCornerLogo position="tr" />
           <span className="corner corner--bl">03</span>
           <span className="corner corner--br">26</span>
         </div>
