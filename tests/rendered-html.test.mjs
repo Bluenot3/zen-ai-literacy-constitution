@@ -316,6 +316,10 @@ test("removes starter-only preview infrastructure", async () => {
   assert.doesNotMatch(managedRenderer, /allow-same-origin/);
   assert.match(managedRoute, /dynamic = "force-dynamic"/);
   assert.match(hub, /managedHeaderItems/);
+  assert.match(hub, /<WireZenCornerMark position="tl" \/>/);
+  assert.match(hub, /<WireZenCornerMark position="tr" \/>/);
+  assert.doesNotMatch(hub, /corner corner--tl">Z</);
+  assert.doesNotMatch(hub, /corner corner--tr">AI</);
   assert.match(layout, /listVisibleZenSiteAnnouncements/);
   assert.match(layout, /<ZenSiteAnalytics \/>/);
   assert.match(analyticsRuntime, /G-F85YFS8ZPK/);
