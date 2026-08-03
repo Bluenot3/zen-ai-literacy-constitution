@@ -48,7 +48,7 @@ export default function NationalFirstMonument() {
         <figcaption>
           <div>
             <span>Historic proclamation · original ZEN artwork</span>
-            <strong>A national first, rendered as a new treasury of human capability.</strong>
+            <strong>A national first marking a new era of human capability.</strong>
           </div>
           <a
             href="https://ai-pioneer-courses-20260725.zenagi.chatgpt.site/programs/pioneer/preview?source=zenai.world&utm_source=zenai.world&utm_medium=owned&utm_campaign=pioneer_launch"
@@ -99,6 +99,25 @@ export default function NationalFirstMonument() {
           <div className={styles.orbit} aria-hidden="true" />
           <div className={styles.orbit} aria-hidden="true" />
           <div className={styles.orbit} aria-hidden="true" />
+          <div className={styles.energyWaves} aria-hidden="true">
+            {Array.from({ length: 3 }, (_, index) => <span key={index} />)}
+          </div>
+          <div className={styles.energyField} aria-hidden="true">
+            {Array.from({ length: 12 }, (_, index) => (
+              <i
+                key={index}
+                style={{ "--energy-index": index } as CSSProperties}
+              />
+            ))}
+          </div>
+          <div className={styles.symbolOrbit} aria-hidden="true">
+            {Array.from({ length: 8 }, (_, index) => (
+              <span
+                key={index}
+                style={{ "--symbol-index": index } as CSSProperties}
+              />
+            ))}
+          </div>
           <div className={styles.insigniaCore}>
             <Image
               src="/zen-mark.png"

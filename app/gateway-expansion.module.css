@@ -28,12 +28,12 @@
 .contact {
   position: relative;
   overflow: hidden;
-  padding: clamp(6.5rem, 11vw, 11rem) var(--page-x);
+  padding: clamp(4.75rem, 7.5vw, 7.5rem) var(--page-x);
 }
 
 .company {
   display: grid;
-  min-height: 900px;
+  min-height: 720px;
   grid-template-columns: minmax(0, 0.9fr) minmax(340px, 0.68fr);
   align-items: center;
   gap: clamp(3rem, 8vw, 9rem);
@@ -367,7 +367,7 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1px;
   overflow: hidden;
-  margin-top: clamp(3.5rem, 7vw, 6.5rem);
+  margin-top: clamp(2.5rem, 4.5vw, 4.5rem);
   border: 1px solid rgba(15, 78, 92, 0.16);
   border-radius: 1.5rem;
   background: rgba(15, 78, 92, 0.13);
@@ -376,7 +376,7 @@
 
 .statBank article {
   position: relative;
-  min-height: 310px;
+  min-height: 260px;
   overflow: hidden;
   padding: 1.35rem;
   background:
@@ -393,7 +393,7 @@
 
 .statBank article > strong {
   display: block;
-  margin-top: 4rem;
+  margin-top: 2.5rem;
   color: #176e70;
   font: 500 clamp(4.2rem, 7vw, 7.2rem)/0.8 var(--font-display), serif;
   letter-spacing: -0.07em;
@@ -413,7 +413,7 @@
 }
 
 .recordHeader {
-  margin-top: clamp(5rem, 9vw, 9rem);
+  margin-top: clamp(3.5rem, 6vw, 6rem);
   padding-top: 1.4rem;
   border-top: 1px solid rgba(15, 76, 90, 0.16);
 }
@@ -450,7 +450,7 @@
 
 .recordGrid > a {
   position: relative;
-  min-height: 300px;
+  min-height: 250px;
   overflow: hidden;
   padding: clamp(1.5rem, 3vw, 2.4rem);
   border: 1px solid rgba(17, 79, 92, 0.16);
@@ -490,7 +490,7 @@
 .recordGrid h4 {
   position: relative;
   z-index: 2;
-  margin: 4rem 0 0;
+  margin: 2.7rem 0 0;
   font: 500 clamp(2.6rem, 5vw, 5rem)/0.9 var(--font-display), serif;
   letter-spacing: -0.05em;
 }
@@ -524,7 +524,7 @@
 
 .team {
   display: grid;
-  min-height: 880px;
+  min-height: 700px;
   grid-template-columns: minmax(0, 0.7fr) minmax(360px, 0.75fr);
   align-items: center;
   gap: clamp(3rem, 9vw, 10rem);
@@ -631,7 +631,7 @@
 
 .teamLedger article {
   display: grid;
-  min-height: 145px;
+  min-height: 118px;
   grid-template-columns: 58px 1fr;
   align-items: center;
   gap: 1rem;
@@ -669,7 +669,7 @@
 
 .contact {
   display: grid;
-  min-height: 640px;
+  min-height: 520px;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: clamp(2.5rem, 8vw, 8rem);
@@ -799,8 +799,8 @@
   .impact,
   .team,
   .contact {
-    padding-top: 7rem;
-    padding-bottom: 7rem;
+    padding-top: 5.25rem;
+    padding-bottom: 5.25rem;
   }
 
   .companyFrame {
@@ -834,12 +834,12 @@
   }
 
   .statBank article {
-    min-height: 250px;
+    min-height: 220px;
   }
 
   .recordGrid > a,
   .recordGrid > a:nth-child(even) {
-    min-height: 330px;
+    min-height: 280px;
     border-radius: 1.2rem 3.2rem 1.2rem 1.2rem;
   }
 
@@ -848,7 +848,7 @@
   }
 
   .teamLedger article {
-    min-height: 128px;
+    min-height: 110px;
   }
 
   .contactSerial span:first-child {
@@ -872,12 +872,12 @@
   position: relative;
   z-index: 2;
   display: grid;
-  min-height: 390px;
+  min-height: 330px;
   grid-template-columns: minmax(210px, 0.44fr) minmax(0, 1.2fr) minmax(220px, 0.5fr);
   align-items: stretch;
   gap: 1px;
   overflow: hidden;
-  margin-top: clamp(3rem, 6vw, 5.4rem);
+  margin-top: clamp(2.2rem, 4vw, 4rem);
   border: 1px solid rgba(104, 222, 199, 0.2);
   border-radius: 1.45rem;
   color: #ecf7f1;
@@ -1069,7 +1069,7 @@
   }
 
   .historicOrdinal {
-    min-height: 260px;
+    min-height: 220px;
   }
 
   .historicCopy h3 {

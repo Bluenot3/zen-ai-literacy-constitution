@@ -972,7 +972,7 @@ export default function ZenHub({
 
       <CurrencyRail
         chapter="II"
-        title="Choose your instrument"
+        title="Choose your path"
         code="ROUTE / 001—004"
       />
 
@@ -985,7 +985,7 @@ export default function ZenHub({
         </div>
         <div className="section-intro" data-reveal>
           <span className="eyebrow">Four doors. One company.</span>
-          <h2>Choose what you came to do.</h2>
+          <h2>Choose where you want to begin.</h2>
           <p>
             Enter a landmark program, explore Web3 literacy, build inside
             Arsenal, or bring a challenge directly to ZEN.
@@ -1054,7 +1054,7 @@ export default function ZenHub({
           <div className="ledger-frame">
             <div className="ledger-copy">
               <span className="eyebrow">The ZEN standard</span>
-              <h2>Real work creates its own currency.</h2>
+              <h2>Real work turns intelligence into lasting capability.</h2>
               <p>
                 Solutions, programs, operations, deployment, and public proof
                 stay connected across the ZEN ecosystem—so capability can be
@@ -1119,7 +1119,7 @@ export default function ZenHub({
 
       <CurrencyRail
         chapter="IV"
-        title="The next issuance"
+        title="The next chapter"
         code="MAKE / WHAT / MATTERS"
       />
 
@@ -1130,7 +1130,7 @@ export default function ZenHub({
           ))}
         </div>
         <div className="issuance-copy" data-reveal>
-          <span className="eyebrow">The next record can be yours</span>
+          <span className="eyebrow">The next chapter can be yours</span>
           <h2>
             What will you
             <span>make real?</span>

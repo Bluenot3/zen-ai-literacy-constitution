@@ -58,9 +58,8 @@ export default async function WorkIndex({
           <p>Public record</p>
           <h1>{category ? labels[category] : "Work made visible."}</h1>
           <div>
-            Verified accomplishments, collaborations, initiatives, and
-            knowledge pages are published here as their supporting material is
-            ready.
+            Explore the accomplishments, collaborations, initiatives, and
+            ideas shaping ZEN AI Co.—with the context behind each one.
           </div>
         </header>
 
@@ -96,8 +95,8 @@ export default async function WorkIndex({
           <div className={styles.empty}>
             <h2>Nothing has been published in this section yet.</h2>
             <p>
-              We are keeping the public record focused on verified work. New
-              pages will appear here as they are ready.
+              This collection will expand as new work is completed and
+              documented.
             </p>
             <a href="mailto:huxley@zenai.biz?subject=ZEN%20AI%20Co.%20partnership%20inquiry">
               Talk with ZEN AI →

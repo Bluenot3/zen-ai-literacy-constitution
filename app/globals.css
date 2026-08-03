@@ -1085,7 +1085,7 @@ button {
 .routes-section,
 .ledger-section {
   position: relative;
-  padding: clamp(5.5rem, 10vw, 10rem) var(--page-x);
+  padding: clamp(4.5rem, 7.5vw, 7.5rem) var(--page-x);
 }
 
 .proof-archive {
@@ -3206,13 +3206,13 @@ button {
 .ecosystem-atlas {
   position: relative;
   display: grid;
-  min-height: 690px;
+  min-height: 580px;
   grid-template-columns: minmax(270px, 0.68fr) minmax(370px, 0.95fr) minmax(340px, 0.92fr);
   align-items: center;
   gap: clamp(2rem, 5vw, 5rem);
   overflow: hidden;
-  margin-top: clamp(5rem, 9vw, 8.5rem);
-  padding: clamp(2rem, 5vw, 5rem);
+  margin-top: clamp(3.5rem, 6vw, 6rem);
+  padding: clamp(1.75rem, 4vw, 4rem);
   border: 1px solid rgba(110, 220, 199, 0.17);
   border-radius: 2rem;
   color: #eef8f4;
@@ -3521,8 +3521,8 @@ button {
 
 .routes-section {
   overflow: hidden;
-  padding-top: clamp(7rem, 12vw, 12rem);
-  padding-bottom: clamp(7rem, 12vw, 12rem);
+  padding-top: clamp(5rem, 8vw, 8rem);
+  padding-bottom: clamp(5rem, 8vw, 8rem);
   background:
     radial-gradient(circle at 73% 16%, rgba(234, 151, 71, 0.12), transparent 24%),
     radial-gradient(circle at 15% 73%, rgba(73, 216, 196, 0.12), transparent 29%),
@@ -3616,7 +3616,7 @@ button {
 }
 
 .route-card {
-  min-height: 620px;
+  min-height: 520px;
   padding: 1.55rem;
   border: 1px solid rgba(218, 234, 225, 0.12);
   border-radius: 1.7rem;
@@ -3852,8 +3852,8 @@ button {
 }
 
 .ledger-section {
-  padding-top: clamp(6rem, 10vw, 10rem);
-  padding-bottom: clamp(6rem, 10vw, 10rem);
+  padding-top: clamp(4.5rem, 7vw, 7rem);
+  padding-bottom: clamp(4.5rem, 7vw, 7rem);
   background:
     radial-gradient(circle at 12% 88%, rgba(52, 163, 139, 0.13), transparent 29%),
     radial-gradient(circle at 91% 12%, rgba(234, 142, 61, 0.11), transparent 25%),
@@ -4113,12 +4113,12 @@ button {
 .issuance-section {
   position: relative;
   display: grid;
-  min-height: min(980px, 92svh);
+  min-height: min(760px, 82svh);
   grid-template-columns: minmax(0, 0.86fr) minmax(420px, 0.74fr);
   align-items: center;
   gap: clamp(3rem, 8vw, 9rem);
   overflow: hidden;
-  padding: clamp(7rem, 12vw, 12rem) var(--page-x);
+  padding: clamp(5rem, 8vw, 8rem) var(--page-x);
   color: #eef7f2;
   background:
     radial-gradient(circle at 72% 48%, rgba(80, 210, 185, 0.15), transparent 27%),
@@ -4910,11 +4910,11 @@ button {
 
   .issuance-section {
     display: flex;
-    min-height: 1020px;
+    min-height: 780px;
     flex-direction: column;
     justify-content: center;
-    gap: 4rem;
-    padding: 7rem var(--page-x) 6rem;
+    gap: 3rem;
+    padding: 5rem var(--page-x) 4rem;
   }
 
   .issuance-copy h2 {

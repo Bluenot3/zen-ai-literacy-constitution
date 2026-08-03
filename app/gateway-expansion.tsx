@@ -116,13 +116,13 @@ export default function GatewayExpansion() {
         <div className={styles.impactHeader} data-reveal>
           <div>
             <span className={styles.eyebrow}>Public impact ledger</span>
-            <h2><span>The first was the beginning.</span> Proof before proclamation.</h2>
+            <h2><span>A historic first.</span> A future built to multiply capability.</h2>
           </div>
           <p>
-            A historic distinction should create a durable public record. ZEN
-            separates what is operating now from what is still being built. The
-            portfolio record below uses confirmed company structure and named
-            offerings—not inflated people-served claims.
+            ZEN turns milestones into useful public knowledge. Accomplishments,
+            operating programs, collaborations, and ideas are presented with
+            the context behind them—so progress can be understood, trusted,
+            and built upon.
           </p>
         </div>
         <div className={styles.historicRecord} data-reveal>
@@ -163,10 +163,10 @@ export default function GatewayExpansion() {
         </div>
         <div className={styles.recordHeader} data-reveal>
           <div>
-            <span>Verified publication system</span>
-            <h3>The public record grows when the evidence is ready.</h3>
+            <span>Progress, made visible</span>
+            <h3>Every milestone becomes a foundation for what comes next.</h3>
           </div>
-          <Link href="/work">Open the complete public record →</Link>
+          <Link href="/work">Explore all public work →</Link>
         </div>
         <div className={styles.recordGrid}>
           {PUBLIC_RECORD.map((item) => (
@@ -174,7 +174,7 @@ export default function GatewayExpansion() {
               <span>{item.code}</span>
               <h4>{item.title}</h4>
               <p>{item.copy}</p>
-              <strong>View ledger <i aria-hidden="true">→</i></strong>
+              <strong>Explore record <i aria-hidden="true">→</i></strong>
             </Link>
           ))}
         </div>
@@ -188,10 +188,10 @@ export default function GatewayExpansion() {
           <span className={styles.eyebrow}>The people behind the system</span>
           <h2>Human-led by design.</h2>
           <p>
-            ZEN is built through a network of operators, educators, builders,
+            ZEN is built by operators, educators, builders,
             institutional collaborators, and community partners. The work is
-            organized around clear responsibilities rather than an anonymous
-            promise of automation.
+            organized around clear responsibility, with people accountable
+            for every program&apos;s and system&apos;s design, delivery, and impact.
           </p>
           <div className={styles.teamLinks}>
             <a
