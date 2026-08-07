@@ -47,7 +47,8 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /first youth AI literacy program in United States history/i);
   assert.match(html, /National capability record/);
   assert.match(html, /Historic proclamation/);
-  assert.match(html, /src="\/og\.png"/);
+  assert.match(html, /src="\/national-first\.png"/);
+  assert.match(html, /property="og:image" content="https:\/\/preview\.zenai\.world\/og\.png"/);
   assert.match(html, /Two divisions\./);
   assert.match(html, /One mission\./);
   assert.match(html, /Smart Business Solutions/);
@@ -240,16 +241,29 @@ test("serves the structured ZEN intake and AI literacy charter", async () => {
   assert.equal(missingWork.status, 404);
 });
 
-test("serves public policies and preserves legacy public links", async () => {
+test("serves the public archive and preserves legacy public links", async () => {
   const privacy = await render("/privacy-policy");
   assert.equal(privacy.status, 200);
   assert.match(await privacy.text(), /Privacy Policy/);
+
+  const dossier = await render("/legacy-dossier");
+  assert.equal(dossier.status, 200);
+  const dossierHtml = await dossier.text();
+  assert.match(dossierHtml, /ZEN Legacy/);
+  assert.match(dossierHtml, /ffed4cc81b735d7ddc164ca3c851f9fffb12ae04f23598d7a0b7110212c6a578/i);
+  assert.match(dossierHtml, /ZEN-PD-2023-2025-v2/);
+
+  const gallery = await render("/gallery");
+  assert.equal(gallery.status, 200);
+  const galleryHtml = await gallery.text();
+  assert.match(galleryHtml, /ZEN field/);
+  assert.match(galleryHtml, /Steam the Block 2024/);
 
   const legacy = await render("/legacydossier");
   assert.equal(legacy.status, 308);
   assert.equal(
     legacy.headers.get("location"),
-    "https://preview.zenai.world/work?category=accomplishments",
+    "https://preview.zenai.world/legacy-dossier",
   );
 
   const favicon = await render("/favicon.ico");
@@ -275,6 +289,7 @@ test("removes starter-only preview infrastructure", async () => {
     analyticsRuntime,
     announcementRuntime,
     announcementServer,
+    heritageArchive,
   ] =
     await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
@@ -293,6 +308,7 @@ test("removes starter-only preview infrastructure", async () => {
     readFile(new URL("../app/site-analytics.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/site-announcement-banner.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/site-announcements.server.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/heritage-archive.tsx", import.meta.url), "utf8"),
   ]);
 
   assert.match(page, /getManagedZenHome/);
@@ -302,6 +318,8 @@ test("removes starter-only preview infrastructure", async () => {
   assert.match(hub, /GuillocheField/);
   assert.match(hub, /DestinationDrawer/);
   assert.match(hub, /CompanyPortfolio/);
+  assert.match(hub, /HeritageArchive/);
+  assert.match(heritageArchive, /ZEN Legacy Dossier/);
   assert.match(hub, /CurrencyRail/);
   assert.match(hub, /RouteSigil/);
   assert.match(hub, /IntersectionObserver/);
@@ -352,6 +370,14 @@ test("removes starter-only preview infrastructure", async () => {
   );
   await access(new URL("../public/zen-mark.png", import.meta.url));
   await access(new URL("../public/og.png", import.meta.url));
+  await access(new URL("../public/national-first.png", import.meta.url));
+  await access(new URL("../public/gallery/archive-08.jpg", import.meta.url));
+  await access(
+    new URL(
+      "../public/legacy-dossier/record-case/2023-2025/ZEN_AI_Pioneer_Proof_Dossier_2023-2025%20(2).pdf",
+      import.meta.url,
+    ),
+  );
   await assert.rejects(
     access(new URL("public/_sites-preview", templateRoot)),
   );

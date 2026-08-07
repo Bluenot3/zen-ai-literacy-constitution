@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import CompanyPortfolio from "./company-portfolio";
 import GatewayExpansion from "./gateway-expansion";
+import HeritageArchive from "./heritage-archive";
 import NationalFirstMonument from "./national-first-monument";
 import {
   managedZenHref,
@@ -26,6 +28,8 @@ const LINKS = {
   knowledge: "/work?category=knowledge",
   start: "/start",
   constitution: "/ai-literacy-constitution",
+  legacyDossier: "/legacy-dossier",
+  gallery: "/gallery",
   github: "https://github.com/Bluenot3",
   linkedin: "https://www.linkedin.com/company/z3nai/",
   x: "https://x.com/ZEN_AGI",
@@ -136,6 +140,8 @@ const LEDGER = [
     heading: "Prove",
     copy: "Evidence that travels",
     links: [
+      ["Legacy dossier", LINKS.legacyDossier],
+      ["Field archive", LINKS.gallery],
       ["Accomplishments", LINKS.accomplishments],
       ["Public work", LINKS.work],
       ["Knowledge", LINKS.knowledge],
@@ -751,7 +757,7 @@ export default function ZenHub({
           <a href="#national-first">U.S. First</a>
           <a href="#solutions">Solutions</a>
           <a href="#programs">Programs</a>
-          <a href="#impact">Impact</a>
+          <a href="#archive">Archive</a>
           <a href={LINKS.work}>Public work</a>
           <a href={LINKS.constitution}>Constitution</a>
           <a href="#team">Team</a>
@@ -969,6 +975,8 @@ export default function ZenHub({
       </section>
 
       <GatewayExpansion />
+
+      <HeritageArchive />
 
       <CurrencyRail
         chapter="II"
@@ -1200,14 +1208,16 @@ export default function ZenHub({
               X <i aria-hidden="true">↗</i>
             </a>
             <a href={LINKS.contact}>Contact <i aria-hidden="true">↗</i></a>
+            <a href={LINKS.legacyDossier}>Legacy dossier</a>
+            <a href={LINKS.gallery}>Gallery</a>
             {managedFooterItems.map((item) => (
               <a href={managedZenHref(item.slug)} key={item.id}>
                 {item.navLabel}
               </a>
             ))}
-            <a href="/privacy-policy">Privacy</a>
-            <a href="/terms-and-conditions">Terms</a>
-            <a href="/accessibility-statement">Accessibility</a>
+            <Link href="/privacy-policy">Privacy</Link>
+            <Link href="/terms-and-conditions">Terms</Link>
+            <Link href="/accessibility-statement">Accessibility</Link>
           </div>
           <div className="footer-origin">
             <span>Origin</span>

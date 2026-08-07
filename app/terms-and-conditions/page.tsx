@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LegalPage, PolicySection } from "../legal/legal-page";
 
 export const metadata: Metadata = {
@@ -29,7 +30,7 @@ export default function TermsPage() {
         <p>AI Pioneer, Vanguard, and other ZEN learning programs are educational. Participation does not guarantee employment, income, specific outcomes, or third-party recognition of a credential.</p>
       </PolicySection>
       <PolicySection number={6} title="Payments and Refunds">
-        <p>Users agree to pricing shown at purchase or in an agreement. Unless explicitly stated otherwise, payments are final and no refunds will be issued. Payment disputes must be submitted within 30 days of the invoice date. See the <a href="/refund-policy">Refund Policy</a>.</p>
+        <p>Users agree to pricing shown at purchase or in an agreement. Unless explicitly stated otherwise, payments are final and no refunds will be issued. Payment disputes must be submitted within 30 days of the invoice date. See the <Link href="/refund-policy">Refund Policy</Link>.</p>
       </PolicySection>
       <PolicySection number={7} title="Availability and Liability">
         <p>The Services are provided “as is” and “as available.” To the maximum extent permitted by law, ZEN is not liable for indirect or consequential damages, lost profits, lost data, downtime, or decisions based on AI outputs. ZEN may modify, suspend, or discontinue parts of the Services.</p>

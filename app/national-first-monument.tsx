@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { CSSProperties } from "react";
 import styles from "./national-first-monument.module.css";
 
@@ -37,7 +38,7 @@ export default function NationalFirstMonument() {
         </div>
         <div className={styles.proclamationImage}>
           <Image
-            src="/og.png"
+            src="/national-first.png"
             alt="ZEN AI Co. — The first youth AI literacy program in United States history. Intelligence into capability."
             width={1672}
             height={941}
@@ -84,9 +85,9 @@ export default function NationalFirstMonument() {
             >
               Enter the historic program <span aria-hidden="true">↗</span>
             </a>
-            <a href="/work?category=accomplishments">
+            <Link href="/work?category=accomplishments">
               Open the public record <span aria-hidden="true">→</span>
-            </a>
+            </Link>
           </div>
         </div>
 

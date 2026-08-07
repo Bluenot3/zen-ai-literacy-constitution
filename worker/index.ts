@@ -43,7 +43,7 @@ const worker = {
     };
     const legacyDestinations: Record<string, string> = {
       "/favicon.ico": "/favicon.svg",
-      "/legacydossier": "/work?category=accomplishments",
+      "/legacydossier": "/legacy-dossier",
       "/geo2": "/work?category=accomplishments",
       "/ai-literacy-foundation-zen-ai-co-official-source":
         "/work?category=initiatives",

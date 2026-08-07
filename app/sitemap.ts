@@ -9,6 +9,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/work",
     "/start",
     "/ai-literacy-constitution",
+    "/legacy-dossier",
+    "/gallery",
     "/privacy-policy",
     "/terms-and-conditions",
     "/refund-policy",
@@ -30,9 +32,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority:
       path === ""
         ? 1
-        : path === "/work" || path === "/start"
+        : path === "/work" || path === "/start" || path === "/legacy-dossier"
           ? 0.8
-          : path === "/ai-literacy-constitution"
+          : path === "/ai-literacy-constitution" || path === "/gallery"
             ? 0.7
             : 0.4,
   }));
