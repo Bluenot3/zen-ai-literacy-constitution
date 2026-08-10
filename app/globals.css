@@ -304,10 +304,24 @@ button {
 }
 
 .topbar-actions {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 0.75rem;
+}
+
+.topbar-actions::before {
+  width: 1px;
+  height: 24px;
+  margin-right: 0.1rem;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(40, 129, 134, 0.22),
+    transparent
+  );
+  content: "";
 }
 
 .map-button,
@@ -370,6 +384,104 @@ button {
   min-height: 40px;
   padding: 0.65rem 1rem;
   font-size: 0.68rem;
+}
+
+.zen-start-button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid transparent;
+  color: #08262b;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.68)) padding-box,
+    linear-gradient(
+      105deg,
+      #8a68e8 0%,
+      #75eadc 18%,
+      #b9e875 34%,
+      #ffffff 50%,
+      #ff9a54 68%,
+      #9f78ef 84%,
+      #72e1c6 100%
+    ) border-box;
+  background-size: 100% 100%, 320% 100%;
+  box-shadow:
+    0 12px 28px -15px rgba(81, 85, 168, 0.68),
+    0 0 0 1px rgba(255, 255, 255, 0.42) inset;
+  animation: zen-start-spectrum 7s ease-in-out infinite;
+}
+
+.zen-start-button::before {
+  position: absolute;
+  inset: 3px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(
+    110deg,
+    rgba(138, 104, 232, 0.22),
+    rgba(117, 234, 220, 0.32),
+    rgba(255, 255, 255, 0.72),
+    rgba(255, 154, 84, 0.27),
+    rgba(185, 232, 117, 0.25)
+  );
+  background-size: 300% 100%;
+  content: "";
+  animation: zen-start-spectrum 7s ease-in-out infinite reverse;
+}
+
+.zen-start-button::after {
+  position: absolute;
+  top: -80%;
+  left: -35%;
+  z-index: -1;
+  width: 32%;
+  height: 260%;
+  background: rgba(255, 255, 255, 0.62);
+  filter: blur(8px);
+  content: "";
+  transform: rotate(18deg);
+  animation: zen-start-sheen 5.6s ease-in-out infinite;
+}
+
+.zen-start-button__label,
+.zen-start-button__arrow {
+  position: relative;
+  z-index: 1;
+}
+
+.zen-start-button__arrow {
+  display: inline-grid;
+  width: 1.25rem;
+  height: 1.25rem;
+  place-items: center;
+  border: 1px solid rgba(9, 63, 67, 0.15);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.38);
+  transition: transform 220ms ease, background 220ms ease;
+}
+
+.zen-start-button:hover {
+  filter: saturate(112%) brightness(1.025);
+  box-shadow:
+    0 17px 34px -15px rgba(108, 73, 177, 0.52),
+    0 8px 26px -16px rgba(232, 119, 45, 0.58),
+    0 0 0 1px rgba(255, 255, 255, 0.55) inset;
+}
+
+.zen-start-button:hover .zen-start-button__arrow {
+  background: rgba(255, 255, 255, 0.66);
+  transform: translateX(2px);
+}
+
+@keyframes zen-start-spectrum {
+  0%, 100% { background-position: 0% 50%, 0% 50%; }
+  50% { background-position: 100% 50%, 100% 50%; }
+}
+
+@keyframes zen-start-sheen {
+  0%, 22% { left: -42%; opacity: 0; }
+  38% { opacity: 0.72; }
+  58%, 100% { left: 112%; opacity: 0; }
 }
 
 .secondary-button {
@@ -2671,7 +2783,17 @@ button {
 
   .mobile-dock a {
     color: #06252a;
-    background: linear-gradient(115deg, #75eadc, #bce671, #f4d36f);
+  }
+
+  .mobile-dock .zen-start-button--mobile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.58)) padding-box,
+      linear-gradient(105deg, #8a68e8, #75eadc, #b9e875, #ffffff, #ff9a54, #9f78ef) border-box;
+    background-size: 100% 100%, 320% 100%;
   }
 
   .mobile-dock button {
@@ -2706,6 +2828,14 @@ button {
 
   .signal-card strong {
     font-size: 3.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zen-start-button,
+  .zen-start-button::before,
+  .zen-start-button::after {
+    animation: none;
   }
 }
 
@@ -5154,5 +5284,223 @@ button {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Presidential AI Challenge recognition — compact federal credential */
+.presidential-recognition {
+  position: absolute;
+  right: clamp(1.7rem, 4vw, 4.75rem);
+  bottom: 4.65rem;
+  z-index: 7;
+  display: grid;
+  width: min(36vw, 430px);
+  grid-template-columns: 94px minmax(0, 1fr);
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.62rem 0.72rem 0.62rem 0.62rem;
+  border: 1px solid rgba(173, 96, 42, 0.27);
+  border-radius: 0.75rem;
+  background:
+    linear-gradient(105deg, rgba(255, 253, 248, 0.94), rgba(249, 252, 249, 0.91)),
+    repeating-linear-gradient(90deg, transparent 0 21px, rgba(16, 85, 102, 0.035) 22px);
+  box-shadow:
+    0 20px 52px rgba(27, 67, 77, 0.13),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.57),
+    inset 0 0 0 4px rgba(174, 105, 44, 0.09);
+  backdrop-filter: blur(18px) saturate(120%);
+}
+
+.presidential-recognition::before,
+.presidential-recognition::after {
+  position: absolute;
+  pointer-events: none;
+  content: "";
+}
+
+.presidential-recognition::before {
+  inset: 5px;
+  border: 1px dotted rgba(19, 89, 100, 0.12);
+  border-radius: 0.48rem;
+}
+
+.presidential-recognition::after {
+  top: 0.5rem;
+  right: 0.55rem;
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(90deg, #bf6634, #d6ac48, #327d82);
+}
+
+.presidential-recognition__art {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.presidential-recognition__miniature {
+  position: relative;
+  display: block;
+  width: 60px;
+  height: 76px;
+  overflow: hidden;
+  border: 1px solid rgba(179, 88, 40, 0.3);
+  background: #fffaf5;
+  box-shadow: 0 8px 17px rgba(35, 55, 61, 0.15);
+  transform: rotate(-1.4deg);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.presidential-recognition__miniature img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.presidential-recognition__seal {
+  position: relative;
+  z-index: 3;
+  display: block;
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  margin-left: -12px;
+  border: 1px solid rgba(181, 126, 49, 0.44);
+  border-radius: 50%;
+  background: #fffaf3;
+  box-shadow:
+    0 7px 18px rgba(32, 62, 69, 0.18),
+    0 0 0 3px rgba(255, 255, 255, 0.77);
+  transition: transform 220ms ease;
+}
+
+.presidential-recognition__seal img {
+  position: absolute;
+  top: -328%;
+  left: -150%;
+  width: 400%;
+  max-width: none;
+  height: auto;
+}
+
+.presidential-recognition__art:hover .presidential-recognition__miniature,
+.presidential-recognition__art:focus-visible .presidential-recognition__miniature {
+  box-shadow: 0 12px 24px rgba(35, 55, 61, 0.2);
+  transform: translateY(-2px) rotate(-1.4deg);
+}
+
+.presidential-recognition__art:hover .presidential-recognition__seal,
+.presidential-recognition__art:focus-visible .presidential-recognition__seal {
+  transform: translateY(-2px) rotate(2deg);
+}
+
+.presidential-recognition__copy {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
+
+.presidential-recognition__copy > span {
+  display: block;
+  color: rgba(154, 72, 33, 0.78);
+  font: 700 0.38rem/1.4 var(--font-mono), monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.presidential-recognition__copy strong {
+  display: block;
+  margin-top: 0.18rem;
+  color: #102f42;
+  font: 600 clamp(0.88rem, 1.05vw, 1.05rem)/1.08 var(--font-display), serif;
+  letter-spacing: 0.01em;
+}
+
+.presidential-recognition__copy p {
+  margin: 0.28rem 0 0;
+  color: rgba(13, 50, 61, 0.64);
+  font-size: 0.48rem;
+  line-height: 1.48;
+}
+
+.presidential-recognition__copy > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.3rem;
+  color: #176b69;
+  font: 700 0.42rem/1 var(--font-mono), monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.presidential-recognition__copy > a:hover,
+.presidential-recognition__copy > a:focus-visible {
+  color: #b65f32;
+  outline: none;
+}
+
+@media (max-width: 1160px) {
+  .presidential-recognition {
+    right: 1.4rem;
+    width: min(41vw, 380px);
+    grid-template-columns: 80px minmax(0, 1fr);
+  }
+
+  .presidential-recognition__miniature {
+    width: 52px;
+    height: 66px;
+  }
+
+  .presidential-recognition__seal {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 760px) {
+  .presidential-recognition {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    grid-column: 1;
+    grid-row: 3;
+    width: min(100%, 390px);
+    grid-template-columns: 80px minmax(0, 1fr);
+    justify-self: start;
+    margin: -1.5rem 0 4.2rem;
+  }
+
+  .presidential-recognition__copy p {
+    font-size: 0.46rem;
+  }
+}
+
+@media (max-width: 430px) {
+  .presidential-recognition {
+    width: calc(100vw - 2rem);
+    grid-template-columns: 70px minmax(0, 1fr);
+    gap: 0.68rem;
+    padding: 0.55rem;
+  }
+
+  .presidential-recognition__miniature {
+    width: 46px;
+    height: 58px;
+  }
+
+  .presidential-recognition__seal {
+    width: 36px;
+    height: 36px;
+  }
+
+  .presidential-recognition__copy strong {
+    font-size: 0.82rem;
+  }
+
+  .presidential-recognition__copy p {
+    line-height: 1.4;
   }
 }

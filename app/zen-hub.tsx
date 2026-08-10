@@ -34,6 +34,8 @@ const LINKS = {
   linkedin: "https://www.linkedin.com/company/z3nai/",
   x: "https://x.com/ZEN_AGI",
   youtube: "https://www.youtube.com/@ZENAIML",
+  presidentialChallenge:
+    "https://www.ai.gov/initiatives/presidential-challenge",
   contact:
     "mailto:huxley@zenai.biz?subject=ZEN%20AI%20Co.%20partnership%20inquiry",
 } as const;
@@ -780,10 +782,11 @@ export default function ZenHub({
             Map
           </button>
           <a
-            className="primary-button primary-button--small"
+            className="primary-button primary-button--small zen-start-button"
             href={LINKS.start}
           >
-            Start with ZEN <span aria-hidden="true">→</span>
+            <span className="zen-start-button__label">Start with ZEN</span>
+            <span className="zen-start-button__arrow" aria-hidden="true">→</span>
           </a>
         </div>
       </header>
@@ -887,6 +890,54 @@ export default function ZenHub({
             ✦
           </span>
         </div>
+
+        <aside
+          className="presidential-recognition"
+          aria-label="2026 Presidential AI Challenge recognition"
+        >
+          <a
+            className="presidential-recognition__art"
+            href="/presidential-ai-challenge-recognition.png"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open the commemorative Presidential AI Challenge recognition artwork"
+          >
+            <span className="presidential-recognition__miniature">
+              <Image
+                src="/presidential-ai-challenge-recognition.png"
+                alt="Commemorative recognition artwork for ZEN AI Co. and Alexander Leschik"
+                width={1122}
+                height={1402}
+                unoptimized
+              />
+            </span>
+            <span className="presidential-recognition__seal" aria-hidden="true">
+              <Image
+                src="/presidential-ai-challenge-recognition.png"
+                alt=""
+                width={1122}
+                height={1402}
+                unoptimized
+              />
+            </span>
+          </a>
+          <div className="presidential-recognition__copy">
+            <span>United States · Recognition Record · 2026</span>
+            <strong>Presidential AI Challenge</strong>
+            <p>
+              ZEN AI Co. and Alexander Leschik were recognized in connection
+              with the 2026 Presidential AI Challenge for contributions
+              advancing AI literacy, innovation, and responsible leadership.
+            </p>
+            <a
+              href={LINKS.presidentialChallenge}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Federal initiative <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </aside>
 
         <div className="hero-serial" aria-hidden="true">
           <span>A 00000001 Z</span>
@@ -1234,7 +1285,10 @@ export default function ZenHub({
       </footer>
 
       <div className="mobile-dock">
-        <a href={LINKS.start}>Start with ZEN <span aria-hidden="true">→</span></a>
+        <a className="zen-start-button zen-start-button--mobile" href={LINKS.start}>
+          <span className="zen-start-button__label">Start with ZEN</span>
+          <span className="zen-start-button__arrow" aria-hidden="true">→</span>
+        </a>
         <button
           type="button"
           onClick={() => setDrawerOpen(true)}
