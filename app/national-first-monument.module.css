@@ -124,6 +124,21 @@
 .frame > span:nth-child(3) { bottom: -12px; left: -12px; }
 .frame > span:nth-child(4) { right: -12px; bottom: -12px; padding: 0 0.6rem; }
 
+.frame > .frameLogo {
+  width: 38px;
+  min-width: 38px;
+  overflow: hidden;
+  padding: 0;
+  border-color: rgba(110, 225, 202, 0.3);
+  background: #020708;
+}
+
+.frameLogo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .register,
 .grid,
 .horizon,

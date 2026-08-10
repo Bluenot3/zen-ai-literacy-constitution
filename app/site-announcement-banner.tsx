@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   useEffect,
   useMemo,
@@ -121,7 +122,13 @@ export function ZenSiteAnnouncementBanner({
       aria-label="ZEN AI Co. announcement"
     >
       <span className="zen-site-announcement__seal" aria-hidden="true">
-        Z
+        <Image
+          src="/zen-mark.png"
+          alt=""
+          width={42}
+          height={42}
+          unoptimized
+        />
       </span>
       <div className="zen-site-announcement__copy">
         <span>ZEN AI Co. &middot; Official release</span>

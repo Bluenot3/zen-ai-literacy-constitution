@@ -22,7 +22,15 @@ export default function NationalFirstMonument() {
       <div className={styles.frame} aria-hidden="true">
         <span>01</span>
         <span>US</span>
-        <span>Z</span>
+        <span className={styles.frameLogo}>
+          <Image
+            src="/zen-mark.png"
+            alt=""
+            width={38}
+            height={38}
+            unoptimized
+          />
+        </span>
         <span>MMXXIII</span>
       </div>
 

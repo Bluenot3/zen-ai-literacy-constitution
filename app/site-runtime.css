@@ -83,6 +83,7 @@ body:has(.zen-site-announcement) header[class*="topbar"] {
   display: grid;
   width: 42px;
   aspect-ratio: 1;
+  overflow: hidden;
   place-items: center;
   border: 1px solid color-mix(in srgb, var(--zen-announcement-text) 32%, transparent);
   border-radius: 50%;
@@ -98,6 +99,13 @@ body:has(.zen-site-announcement) header[class*="topbar"] {
   font-family: var(--font-display), serif;
   font-size: 1.35rem;
   font-weight: 600;
+}
+
+.zen-site-announcement__seal img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .zen-site-announcement__copy {

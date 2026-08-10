@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import styles from "./gateway-expansion.module.css";
 
@@ -91,7 +92,13 @@ export default function GatewayExpansion() {
           <div className={styles.civicSealRays} />
           <div className={styles.civicSealOrbit} />
           <div className={styles.civicSealCore}>
-            <strong>Z</strong>
+            <Image
+              src="/zen-mark.png"
+              alt=""
+              width={180}
+              height={180}
+              unoptimized
+            />
             <span>Human agency</span>
           </div>
           <small>LEARN · BUILD · DEPLOY · PROVE</small>

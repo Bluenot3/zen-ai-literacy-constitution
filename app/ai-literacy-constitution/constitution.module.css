@@ -197,20 +197,19 @@
   transform: rotate(-31deg);
 }
 
-.charterSeal > strong {
+.charterSeal > img {
   display: grid;
   width: 34%;
   aspect-ratio: 1;
   place-items: center;
   border: 1px solid rgba(103, 207, 189, 0.2);
   border-radius: 28%;
-  color: #eaf7f3;
   background: #051a21;
   box-shadow:
     0 25px 60px rgba(5, 33, 41, 0.32),
     0 0 0 7px rgba(255, 255, 255, 0.48),
     0 0 0 8px rgba(40, 103, 106, 0.15);
-  font: 500 clamp(4rem, 8vw, 7rem)/1 var(--font-display), serif;
+  object-fit: cover;
 }
 
 .charterSeal > span {

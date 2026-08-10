@@ -1037,7 +1037,15 @@ export default function ZenHub({
 
       <section id="routes" className="routes-section">
         <div className="route-note-frame" aria-hidden="true">
-          <span>Z</span>
+          <span className="route-note-frame__logo">
+            <Image
+              src="/zen-mark.png"
+              alt=""
+              width={38}
+              height={38}
+              unoptimized
+            />
+          </span>
           <span>AI</span>
           <span>04</span>
           <span>MMXXVI</span>

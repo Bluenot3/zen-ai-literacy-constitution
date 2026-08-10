@@ -86,7 +86,13 @@ export default function ConstitutionPage() {
           <div className={styles.charterSeal} aria-hidden="true">
             <div />
             <div />
-            <strong>Z</strong>
+            <Image
+              src="/zen-mark.png"
+              alt=""
+              width={180}
+              height={180}
+              unoptimized
+            />
             <span>Literacy / Agency / Proof</span>
           </div>
           <div className={styles.heroSerial} aria-hidden="true">
