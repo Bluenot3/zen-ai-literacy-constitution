@@ -82,6 +82,9 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /_energyField_/);
   assert.match(html, /_symbolOrbit_/);
   assert.match(html, /Human-led by design\./);
+  assert.match(html, /ZENAI\.WORLD is now the unified gateway\./);
+  assert.match(html, /href="\/access"/);
+  assert.match(html, /Access ZEN/);
   assert.match(html, /href="\/start"/);
   assert.match(html, /href="\/ai-literacy-constitution"/);
   assert.match(html, /https:\/\/arsenal\.world/);
@@ -223,6 +226,15 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
 });
 
 test("serves the structured ZEN intake and AI literacy charter", async () => {
+  const access = await render("/access");
+  assert.equal(access.status, 200);
+  const accessHtml = await access.text();
+  assert.match(accessHtml, /Your ZEN access/);
+  assert.match(accessHtml, /Sign in to Arsenal/);
+  assert.match(accessHtml, /Enter AI Pioneer/);
+  assert.match(accessHtml, /Enter Vanguard/);
+  assert.match(accessHtml, /Account not recognized\?/);
+
   const start = await render("/start");
   assert.equal(start.status, 200);
   const startHtml = await start.text();
@@ -258,6 +270,15 @@ test("serves the public archive and preserves legacy public links", async () => 
   const galleryHtml = await gallery.text();
   assert.match(galleryHtml, /ZEN field/);
   assert.match(galleryHtml, /Steam the Block 2024/);
+  assert.match(galleryHtml, /View the recovered record/);
+  assert.doesNotMatch(galleryHtml, /zenai\.world\/whyzen/);
+
+  const work = await render("/work");
+  assert.equal(work.status, 200);
+  const workHtml = await work.text();
+  assert.match(workHtml, /AI Pioneer: the founding public record/);
+  assert.match(workHtml, /AI Literacy Constitution/);
+  assert.doesNotMatch(workHtml, /Nothing has been published/);
 
   const legacy = await render("/legacydossier");
   assert.equal(legacy.status, 308);
@@ -272,6 +293,19 @@ test("serves the public archive and preserves legacy public links", async () => 
     favicon.headers.get("location"),
     "https://preview.zenai.world/favicon.svg",
   );
+
+  const whyZen = await render("/whyzen");
+  assert.equal(whyZen.status, 308);
+  assert.equal(
+    whyZen.headers.get("location"),
+    "https://preview.zenai.world/gallery",
+  );
+
+  const missing = await render("/retired-wix-page");
+  assert.equal(missing.status, 404);
+  const missingHtml = await missing.text();
+  assert.match(missingHtml, /This path moved\. ZEN did not\./);
+  assert.match(missingHtml, /Find your ZEN route/);
 });
 
 test("removes starter-only preview infrastructure", async () => {

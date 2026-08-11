@@ -26,6 +26,7 @@ const LINKS = {
   initiatives: "/work?category=initiatives",
   partners: "/work?category=partners",
   knowledge: "/work?category=knowledge",
+  access: "/access",
   start: "/start",
   constitution: "/ai-literacy-constitution",
   legacyDossier: "/legacy-dossier",
@@ -73,12 +74,12 @@ const ROUTES = [
   },
   {
     index: "04",
-    verb: "Begin",
-    title: "Start with ZEN",
+    verb: "Access",
+    title: "ZEN Access",
     detail:
-      "Tell us what you are building so we can route your business, school, community, or partnership with context.",
-    href: LINKS.start,
-    signal: "Guided intake",
+      "Sign in to Arsenal, enter an active program, or get help with an existing ZEN account.",
+    href: LINKS.access,
+    signal: "Verified gateway",
     tone: "gold",
   },
 ] as const;
@@ -153,6 +154,7 @@ const LEDGER = [
     heading: "Connect",
     copy: "Arrive with context",
     links: [
+      ["Account & program access", LINKS.access],
       ["Start with ZEN", LINKS.start],
       ["AI Literacy Constitution", LINKS.constitution],
       ["Partner with ZEN", LINKS.contact],
@@ -783,9 +785,9 @@ export default function ZenHub({
           </button>
           <a
             className="primary-button primary-button--small zen-start-button"
-            href={LINKS.start}
+            href={LINKS.access}
           >
-            <span className="zen-start-button__label">Start with ZEN</span>
+            <span className="zen-start-button__label">Access ZEN</span>
             <span className="zen-start-button__arrow" aria-hidden="true">→</span>
           </a>
         </div>
@@ -1293,8 +1295,8 @@ export default function ZenHub({
       </footer>
 
       <div className="mobile-dock">
-        <a className="zen-start-button zen-start-button--mobile" href={LINKS.start}>
-          <span className="zen-start-button__label">Start with ZEN</span>
+        <a className="zen-start-button zen-start-button--mobile" href={LINKS.access}>
+          <span className="zen-start-button__label">Access ZEN</span>
           <span className="zen-start-button__arrow" aria-hidden="true">→</span>
         </a>
         <button

@@ -21,6 +21,44 @@ const labels = {
   knowledge: "Public knowledge",
 } as const;
 
+const FOUNDATIONAL_RECORD = [
+  {
+    category: "accomplishments",
+    title: "AI Pioneer: the founding public record",
+    summary:
+      "Open the preserved dossier, source artifacts, proof metadata, and independent verification routes for ZEN's youth AI literacy work.",
+    href: "/legacy-dossier",
+  },
+  {
+    category: "accomplishments",
+    title: "2026 Presidential AI Challenge recognition",
+    summary:
+      "View the commemorative recognition record displayed by ZEN in connection with the 2026 Presidential AI Challenge.",
+    href: "/presidential-ai-challenge-recognition.png",
+  },
+  {
+    category: "initiatives",
+    title: "AI Literacy Constitution",
+    summary:
+      "Read the public principles anchoring ZEN's approach to AI literacy, human agency, practical capability, and responsible advancement.",
+    href: "/ai-literacy-constitution",
+  },
+  {
+    category: "partners",
+    title: "Build or partner with ZEN",
+    summary:
+      "Use the guided intake to route a school, community, organization, program, or strategic collaboration with the right context.",
+    href: "/start",
+  },
+  {
+    category: "knowledge",
+    title: "ZEN Legacy Dossier",
+    summary:
+      "Review the durable public archive, machine-readable proof, timestamp record, and verification sources behind the program record.",
+    href: "/legacy-dossier",
+  },
+] as const;
+
 export default async function WorkIndex({
   searchParams,
 }: {
@@ -37,6 +75,9 @@ export default async function WorkIndex({
         (publication) => publication.document.listing.category === category,
       )
     : publications;
+  const foundationalVisible = category
+    ? FOUNDATIONAL_RECORD.filter((record) => record.category === category)
+    : FOUNDATIONAL_RECORD;
 
   return (
     <main className={styles.shell}>
@@ -92,15 +133,15 @@ export default async function WorkIndex({
             ))}
           </div>
         ) : (
-          <div className={styles.empty}>
-            <h2>Nothing has been published in this section yet.</h2>
-            <p>
-              This collection will expand as new work is completed and
-              documented.
-            </p>
-            <a href="mailto:huxley@zenai.biz?subject=ZEN%20AI%20Co.%20partnership%20inquiry">
-              Talk with ZEN AI →
-            </a>
+          <div className="work-list" aria-label="Foundational ZEN public record">
+            {foundationalVisible.map((record) => (
+              <Link href={record.href} key={`${record.category}-${record.title}`}>
+                <span>{labels[record.category]}</span>
+                <h2>{record.title}</h2>
+                <p>{record.summary}</p>
+                <strong>Open record →</strong>
+              </Link>
+            ))}
           </div>
         )}
       </section>

@@ -6,6 +6,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = "https://zenai.world";
   const staticPaths = [
     "",
+    "/access",
     "/work",
     "/start",
     "/ai-literacy-constitution",

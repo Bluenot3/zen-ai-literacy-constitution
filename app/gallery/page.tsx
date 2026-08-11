@@ -171,9 +171,9 @@ export default function GalleryPage() {
               original Why ZEN page. It is designed to grow into a durable record
               of programs, partners, communities, builders, and milestones.
             </p>
-            <a href="https://www.zenai.world/whyzen" target="_blank" rel="noopener noreferrer">
-              View the source page <span aria-hidden="true">↗</span>
-            </a>
+            <Link href="/legacy-dossier">
+              View the recovered record <span aria-hidden="true">→</span>
+            </Link>
           </div>
         </section>
 

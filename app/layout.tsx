@@ -4,6 +4,7 @@ import { Cormorant_Garamond, Manrope, Space_Mono } from "next/font/google";
 import { ZenSiteAnalytics } from "./site-analytics";
 import { ZenSiteAnnouncementBanner } from "./site-announcement-banner";
 import { listVisibleZenSiteAnnouncements } from "./site-announcements.server";
+import type { ZenSiteAnnouncement } from "./site-announcements";
 import "./globals.css";
 import "./treasury-chrome.css";
 import "./site-runtime.css";
@@ -24,6 +25,22 @@ const mono = Space_Mono({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
+
+const FALLBACK_TRANSITION_ANNOUNCEMENT: ZenSiteAnnouncement = {
+  id: "4f6a1f02-572e-4d7a-8c9d-0627e9cb7861",
+  title: "ZENAI.WORLD is now the unified gateway.",
+  body:
+    "Existing users can access Arsenal, enter active programs, or get account help from one verified route.",
+  priority: "high",
+  background: "#071b28",
+  textColor: "#f4fbf8",
+  ctaLabel: "Open ZEN access",
+  ctaAction: "/access",
+  isDismissible: true,
+  startsAt: "2026-08-11T00:00:00.000Z",
+  endsAt: null,
+  updatedAt: "2026-08-11T00:00:00.000Z",
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
@@ -81,12 +98,15 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const announcements = await listVisibleZenSiteAnnouncements();
+  const visibleAnnouncements = announcements.length
+    ? announcements
+    : [FALLBACK_TRANSITION_ANNOUNCEMENT];
 
   return (
     <html lang="en">
       <body className={`${display.variable} ${sans.variable} ${mono.variable}`}>
         <ZenSiteAnalytics />
-        <ZenSiteAnnouncementBanner announcements={announcements} />
+        <ZenSiteAnnouncementBanner announcements={visibleAnnouncements} />
         {children}
       </body>
     </html>
