@@ -6,6 +6,7 @@ import { ZenSiteAnalytics } from "./site-analytics";
 import { ZenSiteAnnouncementBanner } from "./site-announcement-banner";
 import { listVisibleZenSiteAnnouncements } from "./site-announcements.server";
 import type { ZenSiteAnnouncement } from "./site-announcements";
+import { ARSENAL_DASHBOARD_LOGIN } from "./arsenal-links";
 import "./globals.css";
 import "./treasury-chrome.css";
 import "./site-runtime.css";
@@ -31,21 +32,17 @@ const FALLBACK_TRANSITION_ANNOUNCEMENT: ZenSiteAnnouncement = {
   id: "4f6a1f02-572e-4d7a-8c9d-0627e9cb7861",
   title: "Same ZEN. Now connected through Arsenal.",
   body:
-    "Activate with Google in one secure click, or continue with the email you already use.",
+    "Continue through Arsenal’s secure sign-in, then use Google or the email you already know.",
   priority: "high",
   background: "#071b28",
   textColor: "#f4fbf8",
-  ctaLabel: "Activate with Google",
-  ctaAction:
-    "https://kcyklettzoyexxynqfer.supabase.co/auth/v1/authorize?provider=google&redirect_to=https%3A%2F%2Farsenal.world%2Fdashboard",
+  ctaLabel: "Activate / Sign in",
+  ctaAction: ARSENAL_DASHBOARD_LOGIN,
   isDismissible: true,
   startsAt: "2026-08-11T00:00:00.000Z",
   endsAt: null,
   updatedAt: "2026-08-11T23:00:00.000Z",
 };
-
-const ARSENAL_GOOGLE_ACTIVATION =
-  "https://kcyklettzoyexxynqfer.supabase.co/auth/v1/authorize?provider=google&redirect_to=https%3A%2F%2Farsenal.world%2Fdashboard";
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
@@ -117,7 +114,7 @@ export default async function RootLayout({
           <Link href="/">Home</Link>
           <a
             className="zen-start-button zen-start-button--mobile"
-            href={ARSENAL_GOOGLE_ACTIVATION}
+            href={ARSENAL_DASHBOARD_LOGIN}
           >
             <span className="zen-start-button__label">Activate / Sign in</span>
             <span className="zen-start-button__arrow" aria-hidden="true">→</span>

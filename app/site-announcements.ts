@@ -1,3 +1,9 @@
+import { containsRetiredZenSurface } from "./retired-surface-policy";
+import {
+  ARSENAL_DASHBOARD_LOGIN,
+  isDirectSupabaseOAuthUrl,
+} from "./arsenal-links";
+
 export type ZenAnnouncementPriority = "low" | "normal" | "high" | "urgent";
 
 export type ZenSiteAnnouncement = {
@@ -42,6 +48,9 @@ const ctaActionValue = (value: unknown) => {
 
   try {
     const url = new URL(action);
+    if (isDirectSupabaseOAuthUrl(url.toString())) {
+      return ARSENAL_DASHBOARD_LOGIN;
+    }
     return url.protocol === "https:" || url.protocol === "http:"
       ? url.toString().slice(0, 500)
       : "";
@@ -58,7 +67,7 @@ const priorityValue = (value: unknown): ZenAnnouncementPriority => {
 export function normalizeZenSiteAnnouncement(
   value: unknown,
 ): ZenSiteAnnouncement | null {
-  if (!isRecord(value)) return null;
+  if (!isRecord(value) || containsRetiredZenSurface(value)) return null;
 
   const id = stringValue(value.id, 36);
   const title = stringValue(value.title, 140);

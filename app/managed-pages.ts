@@ -1,3 +1,5 @@
+import { containsRetiredZenSurface } from "./retired-surface-policy";
+
 export type ManagedZenNavLocation = "header" | "footer";
 
 export type ManagedZenPageType =
@@ -107,7 +109,7 @@ const navLocationsValue = (
 export function normalizeManagedZenNavigation(
   value: unknown,
 ): ManagedZenNavigationItem | null {
-  if (!isRecord(value)) return null;
+  if (!isRecord(value) || containsRetiredZenSurface(value)) return null;
   const id = stringValue(value.id);
   const slug = validSlug(value.slug);
   const title = stringValue(value.title).trim();

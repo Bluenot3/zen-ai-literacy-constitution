@@ -4,6 +4,10 @@ import test from "node:test";
 
 const templateRoot = new URL("../", import.meta.url);
 
+const assertNoRetiredZenSurface = (html) => {
+  assert.doesNotMatch(html, /us\.zenai\.biz|\barena\b/i);
+};
+
 async function render(path = "/", environment = {}) {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
@@ -37,6 +41,7 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
+  assertNoRetiredZenSurface(html);
   assert.match(
     html,
     /<title>ZEN AI Co\. \| Intelligence Into Capability<\/title>/i,
@@ -85,9 +90,10 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /Same ZEN\. Now connected through Arsenal\./);
   assert.match(html, /Same ZEN\./);
   assert.match(html, /Vastly more capability\./);
-  assert.match(html, /One secure click opens the expanded ZEN platform\./);
-  assert.match(html, /Activate with Google/);
-  assert.match(html, /kcyklettzoyexxynqfer\.supabase\.co\/auth\/v1\/authorize\?provider=google/);
+  assert.match(html, /Secure Arsenal sign-in opens your dashboard\./);
+  assert.match(html, /Activate \/ Sign in/);
+  assert.match(html, /https:\/\/arsenal\.world\/login\?next=%2Fdashboard/);
+  assert.doesNotMatch(html, /supabase\.co\/auth\/v1\/authorize/i);
   assert.match(html, /href="\/access"/);
   assert.match(html, /Everything is now connected\./);
   assert.match(html, /Activate \/ Sign in/);
@@ -128,6 +134,25 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
       parent_tab: null,
       nav_label: "Managed Lab",
       sort_order: 10,
+      icon: "Layout",
+      visibility: "public",
+      open_in_nav: true,
+      nav_locations: ["header", "footer"],
+      created_at: timestamp,
+      updated_at: timestamp,
+    },
+    {
+      id: "10000000-0000-4000-8000-000000000004",
+      site_key: "zen_world",
+      page_role: "page",
+      slug: "retired-ai-surface",
+      title: "ZEN Arena",
+      description: "The former AI Arena at https://us.zenai.biz",
+      status: "published",
+      nav_group: "Knowledge",
+      parent_tab: null,
+      nav_label: "AI Arena",
+      sort_order: 11,
       icon: "Layout",
       visibility: "public",
       open_in_nav: true,
@@ -179,6 +204,27 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
     created_at: timestamp,
     updated_at: timestamp,
   };
+  const retiredAnnouncement = {
+    ...announcement,
+    id: "10000000-0000-4000-8000-000000000005",
+    title: "Enter ZEN Arena",
+    body: "Open the former experience.",
+    style: {
+      ...announcement.style,
+      cta_action: "https://us.zenai.biz",
+    },
+  };
+  const directOauthAnnouncement = {
+    ...announcement,
+    id: "10000000-0000-4000-8000-000000000006",
+    title: "Activate your Arsenal identity",
+    body: "Continue securely to your dashboard.",
+    style: {
+      ...announcement.style,
+      cta_action:
+        "https://kcyklettzoyexxynqfer.supabase.co/auth/v1/authorize?provider=google&redirect_to=https%3A%2F%2Farsenal.world%2Fdashboard",
+    },
+  };
 
   globalThis.fetch = async (input, init) => {
     const url = input instanceof Request ? input.url : String(input);
@@ -197,7 +243,11 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
       return Response.json(body.requested_slug === page.slug ? [page] : []);
     }
     if (url.endsWith("/list_visible_site_announcements")) {
-      return Response.json([announcement]);
+      return Response.json([
+        announcement,
+        retiredAnnouncement,
+        directOauthAnnouncement,
+      ]);
     }
     return new Response("Not found", { status: 404 });
   };
@@ -217,6 +267,7 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
     assert.match(fallbackHtml, /Read the release record/);
     assert.match(fallbackHtml, /data-zen-announcement-id=/);
     assert.match(fallbackHtml, /href="\/work"/);
+    assertNoRetiredZenSurface(fallbackHtml);
 
     const managed = await render("/managed-lab", environment);
     assert.equal(managed.status, 200);
@@ -225,6 +276,7 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
     assert.match(managedHtml, /Managed runtime content/);
     assert.match(managedHtml, /sandbox="allow-scripts"/);
     assert.doesNotMatch(managedHtml, /allow-same-origin/);
+    assertNoRetiredZenSurface(managedHtml);
 
     managedHomeEnabled = true;
     const managedHome = await render("/", environment);
@@ -232,6 +284,7 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
     const managedHomeHtml = await managedHome.text();
     assert.match(managedHomeHtml, /Managed ZEN Home/);
     assert.match(managedHomeHtml, /Home override is live/);
+    assertNoRetiredZenSurface(managedHomeHtml);
   } finally {
     globalThis.fetch = originalFetch;
   }
@@ -241,11 +294,12 @@ test("serves the structured ZEN intake and AI literacy charter", async () => {
   const access = await render("/access");
   assert.equal(access.status, 200);
   const accessHtml = await access.text();
+  assertNoRetiredZenSurface(accessHtml);
   assert.match(accessHtml, /Same ZEN\./);
   assert.match(accessHtml, /Now powered by Arsenal\./);
   assert.match(accessHtml, /Activate your Arsenal access\./);
-  assert.match(accessHtml, /same Google activation used by Arsenal/);
-  assert.match(accessHtml, /Activate with Google/);
+  assert.match(accessHtml, /dashboard destination stays attached/);
+  assert.match(accessHtml, /Activate \/ Sign in/);
   assert.match(accessHtml, /Continue with email/);
   assert.doesNotMatch(accessHtml, /recover|recovery/i);
   assert.match(accessHtml, /Everything has a new home\./);
@@ -256,7 +310,9 @@ test("serves the structured ZEN intake and AI literacy charter", async () => {
   assert.match(accessHtml, /Store, Gifts &amp; Plans/);
   assert.match(accessHtml, /Donations, Invoices &amp; Pay Links/);
   assert.match(accessHtml, /What existing users need to know\./);
-  assert.match(accessHtml, /Activate with Google/);
+  assert.match(accessHtml, /Activate \/ Sign in/);
+  assert.match(accessHtml, /https:\/\/arsenal\.world\/login\?next=%2Fdashboard/);
+  assert.doesNotMatch(accessHtml, /supabase\.co\/auth\/v1\/authorize/i);
   assert.match(accessHtml, /Enter AI Pioneer/);
   assert.match(accessHtml, /Enter Vanguard/);
   assert.match(accessHtml, /Missing existing access\?/);
@@ -267,6 +323,7 @@ test("serves the structured ZEN intake and AI literacy charter", async () => {
   const start = await render("/start");
   assert.equal(start.status, 200);
   const startHtml = await start.text();
+  assertNoRetiredZenSurface(startHtml);
   assert.match(startHtml, /Start with context\./);
   assert.match(startHtml, /Business or organization/);
   assert.match(startHtml, /Nothing leaves this page|remain in this page/i);
@@ -274,6 +331,7 @@ test("serves the structured ZEN intake and AI literacy charter", async () => {
   const constitution = await render("/ai-literacy-constitution");
   assert.equal(constitution.status, 200);
   const constitutionHtml = await constitution.text();
+  assertNoRetiredZenSurface(constitutionHtml);
   assert.match(constitutionHtml, /AI Literacy/);
   assert.match(constitutionHtml, /Human agency is the first capability\./);
   assert.match(constitutionHtml, /Living public draft/);
@@ -297,6 +355,7 @@ test("serves the public archive and preserves legacy public links", async () => 
   const gallery = await render("/gallery");
   assert.equal(gallery.status, 200);
   const galleryHtml = await gallery.text();
+  assertNoRetiredZenSurface(galleryHtml);
   assert.match(galleryHtml, /ZEN field/);
   assert.match(galleryHtml, /Steam the Block 2024/);
   assert.match(galleryHtml, /View the recovered record/);
@@ -305,6 +364,7 @@ test("serves the public archive and preserves legacy public links", async () => 
   const work = await render("/work");
   assert.equal(work.status, 200);
   const workHtml = await work.text();
+  assertNoRetiredZenSurface(workHtml);
   assert.match(workHtml, /AI Pioneer: the founding public record/);
   assert.match(workHtml, /AI Literacy Constitution/);
   assert.doesNotMatch(workHtml, /Nothing has been published/);

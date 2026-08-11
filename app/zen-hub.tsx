@@ -8,6 +8,7 @@ import GatewayExpansion from "./gateway-expansion";
 import HeritageArchive from "./heritage-archive";
 import NationalFirstMonument from "./national-first-monument";
 import TransitionUpgrade from "./transition-upgrade";
+import { ARSENAL_DASHBOARD_LOGIN } from "./arsenal-links";
 import {
   managedZenHref,
   managedZenNavigationFor,
@@ -16,8 +17,7 @@ import {
 
 const LINKS = {
   arsenal: "https://arsenal.world",
-  activate:
-    "https://kcyklettzoyexxynqfer.supabase.co/auth/v1/authorize?provider=google&redirect_to=https%3A%2F%2Farsenal.world%2Fdashboard",
+  activate: ARSENAL_DASHBOARD_LOGIN,
   community:
     "https://arsenal.world/login?next=%2Fcommunity&utm_source=zenai.world&utm_medium=owned&utm_campaign=mobile_continuity",
   marketplace:

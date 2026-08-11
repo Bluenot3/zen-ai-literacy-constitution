@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { TreasuryBackdrop, TreasuryPageFrame } from "../treasury-chrome";
+import { ARSENAL_DASHBOARD_LOGIN } from "../arsenal-links";
 import styles from "./access.module.css";
 
 export const metadata: Metadata = {
@@ -11,11 +12,7 @@ export const metadata: Metadata = {
     "Activate or link your Arsenal identity from the official ZENAI.WORLD gateway.",
 };
 
-const ARSENAL_LOGIN =
-  "https://arsenal.world/login?utm_source=zenai.world&utm_medium=owned&utm_campaign=zen_account_activation";
-
-const ARSENAL_GOOGLE_ACTIVATION =
-  "https://kcyklettzoyexxynqfer.supabase.co/auth/v1/authorize?provider=google&redirect_to=https%3A%2F%2Farsenal.world%2Fdashboard";
+const ARSENAL_LOGIN = ARSENAL_DASHBOARD_LOGIN;
 
 const ACCESS_ROUTES = [
   {
@@ -24,8 +21,8 @@ const ACCESS_ROUTES = [
     title: "Arsenal",
     description:
       "Activate your identity and enter ZEN's agentic platform for agents, workflows, Business Spaces, Files, and operating tools.",
-    action: "Activate with Google",
-    href: ARSENAL_GOOGLE_ACTIVATION,
+    action: "Activate / sign in",
+    href: ARSENAL_DASHBOARD_LOGIN,
     external: true,
   },
   {
@@ -63,12 +60,12 @@ const ACCESS_ROUTES = [
 const CLAIM_STEPS = [
   {
     code: "01",
-    title: "Choose Google",
-    copy: "Tap Activate with Google to begin the same secure Google flow used inside Arsenal.",
+    title: "Open secure sign-in",
+    copy: "Enter through Arsenal so the dashboard destination is preserved.",
   },
   {
     code: "02",
-    title: "Confirm your identity",
+    title: "Choose Google",
     copy: "Use the Google account connected to your ZEN activity whenever possible.",
   },
   {
@@ -83,7 +80,7 @@ const CONTINUITY_MAP = [
     legacy: "Members Area",
     destination: "Arsenal account, profile & dashboard",
     detail: "Identity, settings, platform access, and personal operating space.",
-    href: ARSENAL_GOOGLE_ACTIVATION,
+    href: ARSENAL_DASHBOARD_LOGIN,
     external: true,
   },
   {
@@ -213,9 +210,9 @@ export default function AccessPage() {
               workspace into one expanded platform.
             </p>
             <div className={styles.heroActions}>
-              <a href={ARSENAL_GOOGLE_ACTIVATION}>
+              <a href={ARSENAL_DASHBOARD_LOGIN}>
                 <GoogleMark />
-                Activate with Google
+                Activate / Sign in
               </a>
               <a href={ARSENAL_LOGIN}>Use email instead</a>
             </div>
@@ -234,13 +231,13 @@ export default function AccessPage() {
               <span>Fastest path into Arsenal</span>
               <h2 id="claim-title">Activate your Arsenal access.</h2>
               <p>
-                One secure click starts the same Google activation used by
-                Arsenal and takes you directly to your dashboard.
+                Continue through Arsenal’s secure login, choose Google or your
+                existing email, and the dashboard destination stays attached.
               </p>
               <div className={styles.claimActions}>
-                <a href={ARSENAL_GOOGLE_ACTIVATION}>
+                <a href={ARSENAL_DASHBOARD_LOGIN}>
                   <GoogleMark />
-                  Activate with Google
+                  Activate / Sign in
                 </a>
                 <a href={ARSENAL_LOGIN}>Continue with email</a>
               </div>

@@ -1,9 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./transition-upgrade.module.css";
-
-const ARSENAL_GOOGLE_ACTIVATION =
-  "https://kcyklettzoyexxynqfer.supabase.co/auth/v1/authorize?provider=google&redirect_to=https%3A%2F%2Farsenal.world%2Fdashboard";
+import { ARSENAL_DASHBOARD_LOGIN } from "./arsenal-links";
 
 const CONTINUITY_SIGNALS = [
   {
@@ -24,8 +22,8 @@ const CONTINUITY_SIGNALS = [
 ] as const;
 
 const ACCESS_STEPS = [
-  ["1", "Activate with Google", "Start the same secure Google flow used inside Arsenal."],
-  ["2", "Confirm your identity", "Use the Google account connected to your ZEN activity whenever possible."],
+  ["1", "Open secure sign-in", "Enter through Arsenal so your dashboard destination is preserved."],
+  ["2", "Choose Google", "Use the Google account connected to your ZEN activity whenever possible."],
   ["3", "Enter Arsenal", "Arsenal signs you in or creates your verified identity, then opens your dashboard."],
 ] as const;
 
@@ -55,8 +53,8 @@ export default function TransitionUpgrade() {
             experience.
           </p>
           <div className={styles.actions}>
-            <a className={styles.primary} href={ARSENAL_GOOGLE_ACTIVATION}>
-              Activate with Google <span aria-hidden="true">→</span>
+            <a className={styles.primary} href={ARSENAL_DASHBOARD_LOGIN}>
+              Activate / Sign in <span aria-hidden="true">→</span>
             </a>
             <Link className={styles.secondary} href="/access">
               View access options
@@ -84,7 +82,7 @@ export default function TransitionUpgrade() {
       <div className={styles.accessRail} data-reveal>
         <header>
           <span>Existing member access</span>
-          <strong>One secure click opens the expanded ZEN platform.</strong>
+          <strong>Secure Arsenal sign-in opens your dashboard.</strong>
         </header>
         <div className={styles.steps}>
           {ACCESS_STEPS.map(([number, title, copy]) => (

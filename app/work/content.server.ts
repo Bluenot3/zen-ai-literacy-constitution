@@ -4,6 +4,7 @@ import {
   normalizeSitePageDocument,
   type SitePublication,
 } from "./content";
+import { containsRetiredZenSurface } from "../retired-surface-policy";
 
 type RuntimeEnvironment = {
   SUPABASE_URL?: string;
@@ -35,6 +36,7 @@ const normalizePublication = (
   value: PublicationRow,
 ): SitePublication | null => {
   if (
+    containsRetiredZenSurface(value) ||
     typeof value.page_id !== "string" ||
     typeof value.revision_id !== "string" ||
     typeof value.slug !== "string" ||
