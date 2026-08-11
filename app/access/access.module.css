@@ -2,9 +2,8 @@
   min-height: 100vh;
   color: #08222d;
   background:
-    radial-gradient(circle at 82% 12%, rgba(239, 200, 99, 0.18), transparent 28%),
-    radial-gradient(circle at 10% 34%, rgba(73, 216, 196, 0.17), transparent 31%),
-    linear-gradient(145deg, #fbfefd, #eaf6f8 52%, #f9fbf4);
+    radial-gradient(circle at 80% 8%, rgba(61, 196, 169, 0.12), transparent 25%),
+    linear-gradient(180deg, #f8fbfa, #eef5f4 68%, #f9fbf8);
 }
 
 .topbar {
@@ -78,47 +77,59 @@
   z-index: 1;
   width: min(1280px, calc(100% - 2 * var(--page-x)));
   margin: 0 auto;
-  padding: clamp(3.25rem, 7vw, 7rem) 0 4rem;
+  padding: clamp(1.2rem, 3vw, 2.8rem) 0 4rem;
 }
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.55fr);
-  align-items: end;
-  gap: clamp(2rem, 6vw, 6rem);
-  padding-bottom: clamp(2.8rem, 6vw, 5.5rem);
-  border-bottom: 1px solid rgba(17, 79, 95, 0.16);
+  grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  min-height: min(640px, calc(100vh - 170px));
+  overflow: hidden;
+  border: 1px solid rgba(129, 213, 195, 0.16);
+  border-radius: 34px;
+  padding: clamp(2rem, 5vw, 5rem);
+  color: #f6fffc;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(68, 207, 177, 0.2), transparent 30%),
+    linear-gradient(135deg, #061923 0%, #082e39 54%, #0a4b4e 100%);
+  box-shadow: 0 34px 90px rgba(6, 35, 45, 0.22);
 }
 
 .hero > div > span,
 .routeSection > header span,
 .help > div > span,
 .status > span {
-  color: #367084;
+  color: #70d9c6;
   font-size: 0.56rem;
   font-weight: 700;
 }
 
+.routeSection > header span {
+  color: #367084;
+}
+
 .hero h1 {
-  max-width: 760px;
+  max-width: 720px;
   margin: 1rem 0 1.2rem;
   font-family: var(--font-display), serif;
-  font-size: clamp(3.4rem, 8.5vw, 8rem);
+  font-size: clamp(3.4rem, 7.2vw, 7rem);
   font-weight: 500;
-  line-height: 0.84;
+  line-height: 0.88;
   letter-spacing: -0.055em;
 }
 
 .hero h1 strong {
   display: block;
-  color: #257a77;
+  color: #79dfc9;
   font-weight: 500;
 }
 
 .hero p {
   max-width: 680px;
   margin: 0;
-  color: rgba(8, 49, 62, 0.68);
+  color: rgba(234, 251, 246, 0.72);
   font-size: clamp(0.88rem, 1.25vw, 1.08rem);
   line-height: 1.8;
 }
@@ -133,31 +144,43 @@
 .heroActions a,
 .claimActions a {
   display: inline-flex;
-  min-height: 48px;
+  min-height: 52px;
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(20, 91, 99, 0.18);
   border-radius: 999px;
-  padding: 0.85rem 1.15rem;
-  font-size: 0.66rem;
+  gap: 0.65rem;
+  padding: 0.9rem 1.3rem;
+  font-size: 0.72rem;
   font-weight: 800;
 }
 
 .heroActions a:first-child {
-  border-color: transparent;
-  color: #f5fffb;
-  background: #0a4d56;
-  box-shadow: 0 16px 40px rgba(9, 70, 78, 0.17);
+  border-color: rgba(255, 255, 255, 0.9);
+  color: #102b35;
+  background: #fff;
+  box-shadow: 0 18px 42px rgba(1, 18, 25, 0.24);
+}
+
+.heroActions a:last-child {
+  border-color: rgba(231, 250, 245, 0.24);
+  color: #eefbf7;
+}
+
+.heroActions svg,
+.claimActions svg {
+  flex: 0 0 auto;
 }
 
 .status {
   display: grid;
   gap: 0.85rem;
-  border: 1px solid rgba(21, 89, 104, 0.17);
-  border-radius: 22px;
-  padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.55);
-  box-shadow: 0 22px 60px rgba(27, 91, 104, 0.09);
+  border: 1px solid rgba(217, 250, 242, 0.14);
+  border-radius: 24px;
+  padding: 1.4rem;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 22px 60px rgba(1, 22, 28, 0.14);
+  backdrop-filter: blur(14px);
 }
 
 .status div {
@@ -166,7 +189,7 @@
   align-items: center;
   gap: 0.7rem;
   padding-top: 0.75rem;
-  border-top: 1px solid rgba(16, 76, 91, 0.11);
+  border-top: 1px solid rgba(225, 250, 244, 0.12);
 }
 
 .status i {
@@ -178,11 +201,12 @@
 }
 
 .status strong {
+  color: #f4fffb;
   font-size: 0.79rem;
 }
 
 .status small {
-  color: #2d896d;
+  color: #79dfc9;
   font-family: var(--font-mono), monospace;
   font-size: 0.52rem;
   text-transform: uppercase;
@@ -191,7 +215,7 @@
 .claim,
 .continuityMap,
 .faq {
-  padding: clamp(3.4rem, 8vw, 7rem) 0;
+  padding: clamp(2.8rem, 7vw, 6rem) 0;
   border-bottom: 1px solid rgba(17, 79, 95, 0.16);
   scroll-margin-top: 110px;
 }
@@ -240,24 +264,79 @@
   position: relative;
 }
 
+.activationPanel {
+  display: grid;
+  grid-template-columns: minmax(290px, 0.78fr) minmax(0, 1.22fr);
+  gap: clamp(1rem, 3vw, 2.2rem);
+  border: 1px solid rgba(18, 83, 95, 0.15);
+  border-radius: 30px;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: 0 26px 80px rgba(20, 78, 89, 0.09);
+}
+
+.activationPanel > header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 22px;
+  padding: clamp(1.6rem, 4vw, 3.2rem);
+  color: #f4fffb;
+  background:
+    radial-gradient(circle at 95% 0%, rgba(100, 224, 196, 0.2), transparent 34%),
+    #082c38;
+}
+
+.activationPanel > header > span {
+  color: #75ddc9;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.activationPanel h2 {
+  margin-top: 1rem;
+  font-size: clamp(2.8rem, 5vw, 5rem);
+}
+
+.activationPanel > header > p {
+  max-width: 520px;
+  margin: 1.2rem 0 0;
+  color: rgba(235, 251, 247, 0.72);
+  font-size: 0.84rem;
+  line-height: 1.75;
+}
+
+.activationPanel > header > small {
+  margin-top: 1.1rem;
+  color: rgba(224, 246, 241, 0.58);
+  font-size: 0.62rem;
+  line-height: 1.6;
+}
+
 .claimGrid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: 1fr;
+  gap: 0;
   overflow: hidden;
-  border: 1px solid rgba(18, 83, 95, 0.16);
-  border-radius: 26px;
-  background: rgba(255, 255, 255, 0.46);
-  box-shadow: 0 26px 70px rgba(20, 78, 89, 0.07);
+  border: 1px solid rgba(18, 83, 95, 0.14);
+  border-radius: 22px;
+  background: #f8fbfa;
 }
 
 .claimGrid article {
-  min-height: 270px;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-content: center;
+  min-height: 150px;
   padding: clamp(1.2rem, 2.5vw, 2rem);
-  border-right: 1px solid rgba(18, 83, 95, 0.14);
+  border-bottom: 1px solid rgba(18, 83, 95, 0.12);
 }
 
 .claimGrid article:last-child {
-  border-right: 0;
+  border-bottom: 0;
 }
 
 .claimGrid article > span,
@@ -271,14 +350,15 @@
 }
 
 .claimGrid h3 {
-  margin: 5.5rem 0 0.7rem;
+  margin: 0 0 0.45rem;
   font-family: var(--font-display), serif;
-  font-size: clamp(1.55rem, 2.5vw, 2.25rem);
+  font-size: clamp(1.45rem, 2.3vw, 2rem);
   font-weight: 600;
   line-height: 1;
 }
 
 .claimGrid p {
+  grid-column: 2;
   margin: 0;
   color: rgba(8, 49, 62, 0.64);
   font-size: 0.72rem;
@@ -289,13 +369,19 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.7rem;
-  margin-top: 1.2rem;
+  margin-top: 1.5rem;
 }
 
 .claimActions a:first-child {
-  border-color: transparent;
-  color: #f6fffb;
-  background: #0b5660;
+  border-color: rgba(255, 255, 255, 0.92);
+  color: #102b35;
+  background: #fff;
+  box-shadow: 0 16px 38px rgba(1, 20, 26, 0.22);
+}
+
+.claimActions a:last-child {
+  border-color: rgba(230, 249, 244, 0.22);
+  color: #eefbf7;
 }
 
 .claimNote {
@@ -619,6 +705,7 @@
   }
 
   .hero,
+  .activationPanel,
   .routeSection > header,
   .claim > header,
   .continuityMap > header,
@@ -630,6 +717,9 @@
 
   .hero {
     gap: 2rem;
+    min-height: 0;
+    border-radius: 24px;
+    padding: 2rem 1.35rem;
   }
 
   .hero h1 {
@@ -653,18 +743,25 @@
   }
 
   .claimGrid article {
-    min-height: 0;
-    border-right: 0;
-    border-bottom: 1px solid rgba(18, 83, 95, 0.14);
+    min-height: 135px;
   }
 
   .claimGrid article:last-child {
     border-bottom: 0;
   }
 
-  .claimGrid h3,
   .faq h3 {
     margin-top: 1.8rem;
+  }
+
+  .activationPanel {
+    padding: 0.75rem;
+    border-radius: 24px;
+  }
+
+  .activationPanel > header {
+    border-radius: 18px;
+    padding: 1.6rem 1.25rem;
   }
 
   .continuityGrid > a {

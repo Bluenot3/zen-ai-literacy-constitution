@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./transition-upgrade.module.css";
 
+const ARSENAL_GOOGLE_ACTIVATION =
+  "https://kcyklettzoyexxynqfer.supabase.co/auth/v1/authorize?provider=google&redirect_to=https%3A%2F%2Farsenal.world%2Fdashboard";
+
 const CONTINUITY_SIGNALS = [
   {
     code: "01",
@@ -21,10 +24,9 @@ const CONTINUITY_SIGNALS = [
 ] as const;
 
 const ACCESS_STEPS = [
-  ["1", "Open Arsenal", "Use the official login reached from ZENAI.WORLD."],
-  ["2", "Use your ZEN identity", "Start with the same email and sign-in method you previously used with ZEN."],
-  ["3", "Enter your workspace", "If that identity is already linked, Arsenal opens your account and available access."],
-  ["4", "Recover if needed", "If it is not recognized, use password recovery or the account-claim support route."],
+  ["1", "Activate with Google", "Start the same secure Google flow used inside Arsenal."],
+  ["2", "Confirm your identity", "Use the Google account connected to your ZEN activity whenever possible."],
+  ["3", "Enter Arsenal", "Arsenal signs you in or creates your verified identity, then opens your dashboard."],
 ] as const;
 
 export default function TransitionUpgrade() {
@@ -53,11 +55,11 @@ export default function TransitionUpgrade() {
             experience.
           </p>
           <div className={styles.actions}>
-            <Link className={styles.primary} href="/access#claim">
-              Open or recover my account <span aria-hidden="true">→</span>
-            </Link>
-            <Link className={styles.secondary} href="/access#continuity">
-              See where everything moved
+            <a className={styles.primary} href={ARSENAL_GOOGLE_ACTIVATION}>
+              Activate with Google <span aria-hidden="true">→</span>
+            </a>
+            <Link className={styles.secondary} href="/access">
+              View access options
             </Link>
           </div>
         </div>
@@ -82,7 +84,7 @@ export default function TransitionUpgrade() {
       <div className={styles.accessRail} data-reveal>
         <header>
           <span>Existing member access</span>
-          <strong>Your familiar identity is the starting point.</strong>
+          <strong>One secure click opens the expanded ZEN platform.</strong>
         </header>
         <div className={styles.steps}>
           {ACCESS_STEPS.map(([number, title, copy]) => (

@@ -6,13 +6,16 @@ import { TreasuryBackdrop, TreasuryPageFrame } from "../treasury-chrome";
 import styles from "./access.module.css";
 
 export const metadata: Metadata = {
-  title: "ZEN Access & Account Continuity",
+  title: "Activate Arsenal Access",
   description:
-    "The verified account continuity gateway for Arsenal, AI Pioneer, Vanguard, ZEN account recovery, and the expanded ZEN ecosystem.",
+    "Activate or link your Arsenal identity from the official ZENAI.WORLD gateway.",
 };
 
 const ARSENAL_LOGIN =
-  "https://arsenal.world/login?utm_source=zenai.world&utm_medium=owned&utm_campaign=zen_account_continuity";
+  "https://arsenal.world/login?utm_source=zenai.world&utm_medium=owned&utm_campaign=zen_account_activation";
+
+const ARSENAL_GOOGLE_ACTIVATION =
+  "https://kcyklettzoyexxynqfer.supabase.co/auth/v1/authorize?provider=google&redirect_to=https%3A%2F%2Farsenal.world%2Fdashboard";
 
 const ACCESS_ROUTES = [
   {
@@ -20,9 +23,9 @@ const ACCESS_ROUTES = [
     eyebrow: "Existing platform users",
     title: "Arsenal",
     description:
-      "Sign in to the ZEN agentic platform for agents, workflows, Business Spaces, Files, and operating tools.",
-    action: "Sign in to Arsenal",
-    href: ARSENAL_LOGIN,
+      "Activate your identity and enter ZEN's agentic platform for agents, workflows, Business Spaces, Files, and operating tools.",
+    action: "Activate with Google",
+    href: ARSENAL_GOOGLE_ACTIVATION,
     external: true,
   },
   {
@@ -60,23 +63,18 @@ const ACCESS_ROUTES = [
 const CLAIM_STEPS = [
   {
     code: "01",
-    title: "Open the official login",
-    copy: "Use the Arsenal login reached from this page. ZENAI.WORLD remains your verified starting point.",
+    title: "Choose Google",
+    copy: "Tap Activate with Google to begin the same secure Google flow used inside Arsenal.",
   },
   {
     code: "02",
-    title: "Use your familiar identity",
-    copy: "Start with the same email and sign-in method you previously used with ZEN—email/password or Google.",
+    title: "Confirm your identity",
+    copy: "Use the Google account connected to your ZEN activity whenever possible.",
   },
   {
     code: "03",
-    title: "Recover before recreating",
-    copy: "If the login is not recognized, use Forgot password first. Avoid creating duplicate identities unnecessarily.",
-  },
-  {
-    code: "04",
-    title: "Request account linking",
-    copy: "If recovery does not find the account, use the verified claim-support route so ZEN can review the legacy record.",
+    title: "Enter Arsenal",
+    copy: "Arsenal signs you in or creates your verified identity, then opens your dashboard.",
   },
 ] as const;
 
@@ -85,7 +83,7 @@ const CONTINUITY_MAP = [
     legacy: "Members Area",
     destination: "Arsenal account, profile & dashboard",
     detail: "Identity, settings, platform access, and personal operating space.",
-    href: ARSENAL_LOGIN,
+    href: ARSENAL_GOOGLE_ACTIVATION,
     external: true,
   },
   {
@@ -155,12 +153,12 @@ const FAQS = [
   {
     question: "Do I need to create another account?",
     answer:
-      "Start with the same email and sign-in method you previously used with ZEN. If Arsenal recognizes it, continue normally. If it does not, use password recovery and then account-claim support instead of repeatedly creating accounts.",
+      "Google is the fastest route. Use the Google account connected to your ZEN activity. If you prefer email, continue through Arsenal with the email you already use.",
   },
   {
     question: "Will my program access appear automatically?",
     answer:
-      "Available program access appears when the verified Arsenal identity is linked to the corresponding enrollment record. If something is missing, account support can review the legacy record without asking for your password.",
+      "Available program access appears when your verified Arsenal identity is linked to the corresponding enrollment record. If something is missing, ZEN can review the legacy record without asking for your password.",
   },
   {
     question: "Why is this an upgrade?",
@@ -168,6 +166,17 @@ const FAQS = [
       "The former site presented content through separate Wix apps. The new system connects the public gateway to Arsenal's agents, files, community, programs, marketplace, credentials, workflows, and operating infrastructure.",
   },
 ] as const;
+
+function GoogleMark() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18">
+      <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.44c-.28 1.48-1.12 2.73-2.39 3.58v2.97h3.86c2.26-2.09 3.58-5.17 3.58-8.79z" />
+      <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-2.97c-1.07.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z" />
+      <path fill="#FBBC05" d="M5.27 14.32A7.09 7.09 0 0 1 4.89 12c0-.83.14-1.6.38-2.32V6.59H1.29A12 12 0 0 0 0 12c0 1.95.47 3.79 1.29 5.41l3.98-3.09z" />
+      <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.59l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75z" />
+    </svg>
+  );
+}
 
 export default function AccessPage() {
   return (
@@ -180,12 +189,12 @@ export default function AccessPage() {
           <Image src="/zen-mark.png" alt="" width={38} height={38} unoptimized />
           <span>
             <strong>ZEN AI Co.</strong>
-            <small>Account continuity gateway</small>
+            <small>Arsenal activation gateway</small>
           </span>
         </Link>
         <nav aria-label="Access page navigation">
           <Link href="/">Gateway</Link>
-          <a href="#claim">Account access</a>
+          <a href="#activate">Activate</a>
           <a href="#continuity">What moved</a>
         </nav>
       </header>
@@ -199,58 +208,57 @@ export default function AccessPage() {
               <strong>Now powered by Arsenal.</strong>
             </h1>
             <p>
-              The ZEN platform did not disappear—it expanded. This page
-              reconnects existing members to Arsenal, active programs, public
-              knowledge, account recovery, and every major function from the
-              former ZENAI.WORLD experience.
+              ZENAI.WORLD is still your official gateway. Arsenal now powers
+              your signed-in experience, bringing your tools, programs, and
+              workspace into one expanded platform.
             </p>
             <div className={styles.heroActions}>
-              <a href={ARSENAL_LOGIN} target="_blank" rel="noopener noreferrer">
-                Sign in with my ZEN identity →
+              <a href={ARSENAL_GOOGLE_ACTIVATION}>
+                <GoogleMark />
+                Activate with Google
               </a>
-              <a href="#continuity">See the continuity map</a>
+              <a href={ARSENAL_LOGIN}>Use email instead</a>
             </div>
           </div>
           <aside className={styles.status} aria-label="ZEN continuity status">
             <span>Continuity status</span>
             <div><i aria-hidden="true" /><strong>zenai.world</strong><small>Official</small></div>
             <div><i aria-hidden="true" /><strong>Arsenal</strong><small>Connected</small></div>
-            <div><i aria-hidden="true" /><strong>Account support</strong><small>Available</small></div>
+            <div><i aria-hidden="true" /><strong>Google activation</strong><small>Ready</small></div>
           </aside>
         </header>
 
-        <section id="claim" className={styles.claim} aria-labelledby="claim-title">
-          <header>
-            <span>Existing ZEN member</span>
-            <h2 id="claim-title">Open or recover your account.</h2>
-            <p>
-              Your existing email is the continuity key. Follow this order so
-              your history and future access can stay connected to one verified
-              identity.
-            </p>
-          </header>
-          <div className={styles.claimGrid}>
-            {CLAIM_STEPS.map((step) => (
-              <article key={step.code}>
-                <span>{step.code}</span>
-                <h3>{step.title}</h3>
-                <p>{step.copy}</p>
-              </article>
-            ))}
+        <section id="activate" className={styles.claim} aria-labelledby="claim-title">
+          <div className={styles.activationPanel}>
+            <header>
+              <span>Fastest path into Arsenal</span>
+              <h2 id="claim-title">Activate your Arsenal access.</h2>
+              <p>
+                One secure click starts the same Google activation used by
+                Arsenal and takes you directly to your dashboard.
+              </p>
+              <div className={styles.claimActions}>
+                <a href={ARSENAL_GOOGLE_ACTIVATION}>
+                  <GoogleMark />
+                  Activate with Google
+                </a>
+                <a href={ARSENAL_LOGIN}>Continue with email</a>
+              </div>
+              <small>
+                Already active? The same button signs you into your existing
+                Arsenal identity.
+              </small>
+            </header>
+            <div className={styles.claimGrid}>
+              {CLAIM_STEPS.map((step) => (
+                <article key={step.code}>
+                  <span>{step.code}</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.copy}</p>
+                </article>
+              ))}
+            </div>
           </div>
-          <div className={styles.claimActions}>
-            <a href={ARSENAL_LOGIN} target="_blank" rel="noopener noreferrer">
-              Open official Arsenal login <span aria-hidden="true">↗</span>
-            </a>
-            <a href="mailto:huxley@zenai.biz?subject=ZEN%20legacy%20account%20claim&amp;body=Please%20do%20not%20include%20a%20password%20or%20API%20key.%0A%0AName%3A%0AZEN%20account%20email%3A%0ASign-in%20method%20used%3A%0AProgram%20or%20access%20expected%3A%0AWhat%20happened%20when%20I%20tried%20to%20sign%20in%3A">
-              Request account-claim review
-            </a>
-          </div>
-          <p className={styles.claimNote}>
-            If your Arsenal login already works, no claim request is needed.
-            Never send ZEN your password, API key, payment card number, health
-            information, or private customer records.
-          </p>
         </section>
 
         <section id="continuity" className={styles.continuityMap} aria-labelledby="continuity-title">
@@ -340,17 +348,17 @@ export default function AccessPage() {
 
         <section className={styles.help} aria-labelledby="access-help-title">
           <div>
-            <span>Existing ZEN member</span>
-            <h2 id="access-help-title">Account not recognized?</h2>
+            <span>Account linking support</span>
+            <h2 id="access-help-title">Missing existing access?</h2>
             <p>
-              Contact ZEN from the email associated with your existing account
-              and describe the program or platform access you expected. A
-              support request is a review route—it is not a place for secrets.
+              Sign in first. If a program, workspace, or other existing access
+              is missing, contact ZEN from the email tied to that activity and
+              tell us what should be linked.
             </p>
           </div>
           <div className={styles.helpActions}>
-            <a href="mailto:huxley@zenai.biz?subject=ZEN%20account%20access%20help">
-              Get account help →
+            <a href="mailto:huxley@zenai.biz?subject=Link%20my%20ZEN%20access&amp;body=Please%20do%20not%20include%20a%20password%20or%20API%20key.%0A%0AName%3A%0AArsenal%20email%3A%0AProgram%20or%20access%20to%20link%3A%0A">
+              Request access linking →
             </a>
             <Link href="/start">Use the guided route</Link>
           </div>
@@ -368,7 +376,7 @@ export default function AccessPage() {
       </article>
 
       <footer className={styles.footer}>
-        <span>ZEN AI Co. · Account continuity gateway · Series MMXXVI</span>
+        <span>ZEN AI Co. · Arsenal activation gateway · Series MMXXVI</span>
         <div>
           <Link href="/privacy-policy">Privacy</Link>
           <Link href="/accessibility-statement">Accessibility</Link>

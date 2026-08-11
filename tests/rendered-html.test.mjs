@@ -82,11 +82,12 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /_energyField_/);
   assert.match(html, /_symbolOrbit_/);
   assert.match(html, /Human-led by design\./);
-  assert.match(html, /Same ZEN\. A vastly expanded platform\./);
+  assert.match(html, /Same ZEN\. Now connected through Arsenal\./);
   assert.match(html, /Same ZEN\./);
   assert.match(html, /Vastly more capability\./);
-  assert.match(html, /Your familiar identity is the starting point\./);
-  assert.match(html, /href="\/access#claim"/);
+  assert.match(html, /One secure click opens the expanded ZEN platform\./);
+  assert.match(html, /Activate with Google/);
+  assert.match(html, /kcyklettzoyexxynqfer\.supabase\.co\/auth\/v1\/authorize\?provider=google/);
   assert.match(html, /href="\/access"/);
   assert.match(html, /Access ZEN/);
   assert.match(html, /href="\/start"/);
@@ -235,9 +236,11 @@ test("serves the structured ZEN intake and AI literacy charter", async () => {
   const accessHtml = await access.text();
   assert.match(accessHtml, /Same ZEN\./);
   assert.match(accessHtml, /Now powered by Arsenal\./);
-  assert.match(accessHtml, /Open or recover your account\./);
-  assert.match(accessHtml, /Use your familiar identity/);
-  assert.match(accessHtml, /Request account-claim review/);
+  assert.match(accessHtml, /Activate your Arsenal access\./);
+  assert.match(accessHtml, /same Google activation used by Arsenal/);
+  assert.match(accessHtml, /Activate with Google/);
+  assert.match(accessHtml, /Continue with email/);
+  assert.doesNotMatch(accessHtml, /recover|recovery/i);
   assert.match(accessHtml, /Everything has a new home\./);
   assert.match(accessHtml, /Members Area/);
   assert.match(accessHtml, /Arsenal account, profile &amp; dashboard/);
@@ -246,10 +249,10 @@ test("serves the structured ZEN intake and AI literacy charter", async () => {
   assert.match(accessHtml, /Store, Gifts &amp; Plans/);
   assert.match(accessHtml, /Donations, Invoices &amp; Pay Links/);
   assert.match(accessHtml, /What existing users need to know\./);
-  assert.match(accessHtml, /Sign in to Arsenal/);
+  assert.match(accessHtml, /Activate with Google/);
   assert.match(accessHtml, /Enter AI Pioneer/);
   assert.match(accessHtml, /Enter Vanguard/);
-  assert.match(accessHtml, /Account not recognized\?/);
+  assert.match(accessHtml, /Missing existing access\?/);
 
   const start = await render("/start");
   assert.equal(start.status, 200);

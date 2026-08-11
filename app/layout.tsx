@@ -28,18 +28,19 @@ const mono = Space_Mono({
 
 const FALLBACK_TRANSITION_ANNOUNCEMENT: ZenSiteAnnouncement = {
   id: "4f6a1f02-572e-4d7a-8c9d-0627e9cb7861",
-  title: "Same ZEN. A vastly expanded platform.",
+  title: "Same ZEN. Now connected through Arsenal.",
   body:
-    "Existing members: start with your familiar email and sign-in method to enter Arsenal, recover access, or request account linking.",
+    "Activate with Google in one secure click, or continue with the email you already use.",
   priority: "high",
   background: "#071b28",
   textColor: "#f4fbf8",
-  ctaLabel: "Open or recover my account",
-  ctaAction: "/access#claim",
+  ctaLabel: "Activate with Google",
+  ctaAction:
+    "https://kcyklettzoyexxynqfer.supabase.co/auth/v1/authorize?provider=google&redirect_to=https%3A%2F%2Farsenal.world%2Fdashboard",
   isDismissible: true,
   startsAt: "2026-08-11T00:00:00.000Z",
   endsAt: null,
-  updatedAt: "2026-08-11T00:00:00.000Z",
+  updatedAt: "2026-08-11T23:00:00.000Z",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
