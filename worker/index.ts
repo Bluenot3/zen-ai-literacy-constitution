@@ -46,6 +46,8 @@ const worker = {
       "/legacydossier": "/legacy-dossier",
       "/whyzen": "/gallery",
       "/why-zen": "/gallery",
+      "/upgrade": "/access",
+      "/account": "/access",
       "/geo2": "/work?category=accomplishments",
       "/ai-literacy-foundation-zen-ai-co-official-source":
         "/work?category=initiatives",

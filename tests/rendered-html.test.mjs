@@ -82,7 +82,11 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /_energyField_/);
   assert.match(html, /_symbolOrbit_/);
   assert.match(html, /Human-led by design\./);
-  assert.match(html, /ZENAI\.WORLD is now the unified gateway\./);
+  assert.match(html, /Same ZEN\. A vastly expanded platform\./);
+  assert.match(html, /Same ZEN\./);
+  assert.match(html, /Vastly more capability\./);
+  assert.match(html, /Your familiar identity is the starting point\./);
+  assert.match(html, /href="\/access#claim"/);
   assert.match(html, /href="\/access"/);
   assert.match(html, /Access ZEN/);
   assert.match(html, /href="\/start"/);
@@ -229,7 +233,19 @@ test("serves the structured ZEN intake and AI literacy charter", async () => {
   const access = await render("/access");
   assert.equal(access.status, 200);
   const accessHtml = await access.text();
-  assert.match(accessHtml, /Your ZEN access/);
+  assert.match(accessHtml, /Same ZEN\./);
+  assert.match(accessHtml, /Now powered by Arsenal\./);
+  assert.match(accessHtml, /Open or recover your account\./);
+  assert.match(accessHtml, /Use your familiar identity/);
+  assert.match(accessHtml, /Request account-claim review/);
+  assert.match(accessHtml, /Everything has a new home\./);
+  assert.match(accessHtml, /Members Area/);
+  assert.match(accessHtml, /Arsenal account, profile &amp; dashboard/);
+  assert.match(accessHtml, /Online Programs/);
+  assert.match(accessHtml, /Arsenal Workspace, Files &amp; Vault/);
+  assert.match(accessHtml, /Store, Gifts &amp; Plans/);
+  assert.match(accessHtml, /Donations, Invoices &amp; Pay Links/);
+  assert.match(accessHtml, /What existing users need to know\./);
   assert.match(accessHtml, /Sign in to Arsenal/);
   assert.match(accessHtml, /Enter AI Pioneer/);
   assert.match(accessHtml, /Enter Vanguard/);
@@ -301,6 +317,20 @@ test("serves the public archive and preserves legacy public links", async () => 
     "https://preview.zenai.world/gallery",
   );
 
+  const upgrade = await render("/upgrade");
+  assert.equal(upgrade.status, 308);
+  assert.equal(
+    upgrade.headers.get("location"),
+    "https://preview.zenai.world/access",
+  );
+
+  const account = await render("/account");
+  assert.equal(account.status, 308);
+  assert.equal(
+    account.headers.get("location"),
+    "https://preview.zenai.world/access",
+  );
+
   const missing = await render("/retired-wix-page");
   assert.equal(missing.status, 404);
   const missingHtml = await missing.text();
@@ -324,6 +354,7 @@ test("removes starter-only preview infrastructure", async () => {
     announcementRuntime,
     announcementServer,
     heritageArchive,
+    transitionUpgrade,
   ] =
     await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
@@ -343,6 +374,7 @@ test("removes starter-only preview infrastructure", async () => {
     readFile(new URL("../app/site-announcement-banner.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/site-announcements.server.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/heritage-archive.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/transition-upgrade.tsx", import.meta.url), "utf8"),
   ]);
 
   assert.match(page, /getManagedZenHome/);
@@ -353,6 +385,8 @@ test("removes starter-only preview infrastructure", async () => {
   assert.match(hub, /DestinationDrawer/);
   assert.match(hub, /CompanyPortfolio/);
   assert.match(hub, /HeritageArchive/);
+  assert.match(hub, /TransitionUpgrade/);
+  assert.match(transitionUpgrade, /Vastly more capability/);
   assert.match(heritageArchive, /ZEN Legacy Dossier/);
   assert.match(hub, /CurrencyRail/);
   assert.match(hub, /RouteSigil/);

@@ -28,14 +28,14 @@ const mono = Space_Mono({
 
 const FALLBACK_TRANSITION_ANNOUNCEMENT: ZenSiteAnnouncement = {
   id: "4f6a1f02-572e-4d7a-8c9d-0627e9cb7861",
-  title: "ZENAI.WORLD is now the unified gateway.",
+  title: "Same ZEN. A vastly expanded platform.",
   body:
-    "Existing users can access Arsenal, enter active programs, or get account help from one verified route.",
+    "Existing members: start with your familiar email and sign-in method to enter Arsenal, recover access, or request account linking.",
   priority: "high",
   background: "#071b28",
   textColor: "#f4fbf8",
-  ctaLabel: "Open ZEN access",
-  ctaAction: "/access",
+  ctaLabel: "Open or recover my account",
+  ctaAction: "/access#claim",
   isDismissible: true,
   startsAt: "2026-08-11T00:00:00.000Z",
   endsAt: null,

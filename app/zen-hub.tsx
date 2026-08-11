@@ -7,6 +7,7 @@ import CompanyPortfolio from "./company-portfolio";
 import GatewayExpansion from "./gateway-expansion";
 import HeritageArchive from "./heritage-archive";
 import NationalFirstMonument from "./national-first-monument";
+import TransitionUpgrade from "./transition-upgrade";
 import {
   managedZenHref,
   managedZenNavigationFor,
@@ -758,6 +759,7 @@ export default function ZenHub({
       <header className="topbar">
         <Brand />
         <nav className="desktop-nav" aria-label="Primary">
+          <a href="#transition">What&apos;s new</a>
           <a href="#national-first">U.S. First</a>
           <a href="#solutions">Solutions</a>
           <a href="#programs">Programs</a>
@@ -947,6 +949,8 @@ export default function ZenHub({
           <span>Est. MMXXIII</span>
         </div>
       </section>
+
+      <TransitionUpgrade />
 
       <NationalFirstMonument />
 

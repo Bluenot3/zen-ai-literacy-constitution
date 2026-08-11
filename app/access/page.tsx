@@ -6,10 +6,13 @@ import { TreasuryBackdrop, TreasuryPageFrame } from "../treasury-chrome";
 import styles from "./access.module.css";
 
 export const metadata: Metadata = {
-  title: "ZEN Access",
+  title: "ZEN Access & Account Continuity",
   description:
-    "The verified gateway to Arsenal, AI Pioneer, Vanguard, ZEN account help, and the guided ZEN intake.",
+    "The verified account continuity gateway for Arsenal, AI Pioneer, Vanguard, ZEN account recovery, and the expanded ZEN ecosystem.",
 };
+
+const ARSENAL_LOGIN =
+  "https://arsenal.world/login?utm_source=zenai.world&utm_medium=owned&utm_campaign=zen_account_continuity";
 
 const ACCESS_ROUTES = [
   {
@@ -19,7 +22,7 @@ const ACCESS_ROUTES = [
     description:
       "Sign in to the ZEN agentic platform for agents, workflows, Business Spaces, Files, and operating tools.",
     action: "Sign in to Arsenal",
-    href: "https://arsenal.world/login?utm_source=zenai.world&utm_medium=owned&utm_campaign=zen_gateway_access",
+    href: ARSENAL_LOGIN,
     external: true,
   },
   {
@@ -54,52 +57,243 @@ const ACCESS_ROUTES = [
   },
 ] as const;
 
+const CLAIM_STEPS = [
+  {
+    code: "01",
+    title: "Open the official login",
+    copy: "Use the Arsenal login reached from this page. ZENAI.WORLD remains your verified starting point.",
+  },
+  {
+    code: "02",
+    title: "Use your familiar identity",
+    copy: "Start with the same email and sign-in method you previously used with ZEN—email/password or Google.",
+  },
+  {
+    code: "03",
+    title: "Recover before recreating",
+    copy: "If the login is not recognized, use Forgot password first. Avoid creating duplicate identities unnecessarily.",
+  },
+  {
+    code: "04",
+    title: "Request account linking",
+    copy: "If recovery does not find the account, use the verified claim-support route so ZEN can review the legacy record.",
+  },
+] as const;
+
+const CONTINUITY_MAP = [
+  {
+    legacy: "Members Area",
+    destination: "Arsenal account, profile & dashboard",
+    detail: "Identity, settings, platform access, and personal operating space.",
+    href: ARSENAL_LOGIN,
+    external: true,
+  },
+  {
+    legacy: "Online Programs",
+    destination: "AI Pioneer, Vanguard & Arsenal Programs",
+    detail: "Program entry, progress, artifacts, and credentials as records are linked.",
+    href: "#destinations",
+    external: false,
+  },
+  {
+    legacy: "Groups",
+    destination: "Arsenal Community",
+    detail: "Community conversations, discovery, and collaboration inside the operating platform.",
+    href: "https://arsenal.world/login?next=%2Fcommunity&utm_source=zenai.world&utm_medium=owned&utm_campaign=zen_continuity_map",
+    external: true,
+  },
+  {
+    legacy: "Blog",
+    destination: "Public Work & Knowledge",
+    detail: "ZEN announcements, frameworks, accomplishments, initiatives, and source-backed public material.",
+    href: "/work",
+    external: false,
+  },
+  {
+    legacy: "File Share",
+    destination: "Arsenal Workspace, Files & Vault",
+    detail: "Cloud-backed files, knowledge, project materials, outputs, and versioned work.",
+    href: "https://arsenal.world/login?next=%2Fworkspace&utm_source=zenai.world&utm_medium=owned&utm_campaign=zen_continuity_map",
+    external: true,
+  },
+  {
+    legacy: "Store, Gifts & Plans",
+    destination: "Arsenal Marketplace & Plans",
+    detail: "Products, agents, capabilities, plans, credits, and future marketplace releases.",
+    href: "https://arsenal.world/login?next=%2Fmarketplace&utm_source=zenai.world&utm_medium=owned&utm_campaign=zen_continuity_map",
+    external: true,
+  },
+  {
+    legacy: "Events & Announcements",
+    destination: "ZEN Initiatives & Public Record",
+    detail: "Active initiatives, public milestones, program news, and recognized work.",
+    href: "/work?category=initiatives",
+    external: false,
+  },
+  {
+    legacy: "Forms & Contact",
+    destination: "Guided ZEN Intake",
+    detail: "A structured route for learners, families, educators, businesses, and partners.",
+    href: "/start",
+    external: false,
+  },
+  {
+    legacy: "Donations, Invoices & Pay Links",
+    destination: "Verified ZEN Support Route",
+    detail: "Partnership, billing, and organization-specific requests are routed with context and human review.",
+    href: "/start",
+    external: false,
+  },
+] as const;
+
+const FAQS = [
+  {
+    question: "Is this still ZENAI.WORLD?",
+    answer:
+      "Yes. The domain, company, mission, programs, public record, and ZEN identity continue here. The major change is that Arsenal now powers the signed-in platform experience.",
+  },
+  {
+    question: "Do I need to create another account?",
+    answer:
+      "Start with the same email and sign-in method you previously used with ZEN. If Arsenal recognizes it, continue normally. If it does not, use password recovery and then account-claim support instead of repeatedly creating accounts.",
+  },
+  {
+    question: "Will my program access appear automatically?",
+    answer:
+      "Available program access appears when the verified Arsenal identity is linked to the corresponding enrollment record. If something is missing, account support can review the legacy record without asking for your password.",
+  },
+  {
+    question: "Why is this an upgrade?",
+    answer:
+      "The former site presented content through separate Wix apps. The new system connects the public gateway to Arsenal's agents, files, community, programs, marketplace, credentials, workflows, and operating infrastructure.",
+  },
+] as const;
+
 export default function AccessPage() {
   return (
     <main className={styles.shell}>
       <TreasuryBackdrop variant="issuance" />
-      <TreasuryPageFrame chapter="ACCESS / 01" serial="ZEN-GATEWAY-MMXXVI" />
+      <TreasuryPageFrame chapter="ACCESS / 02" serial="ZEN-CONTINUITY-MMXXVI" />
 
       <header className={styles.topbar}>
         <Link href="/" className={styles.brand} aria-label="ZEN AI Co. home">
           <Image src="/zen-mark.png" alt="" width={38} height={38} unoptimized />
           <span>
             <strong>ZEN AI Co.</strong>
-            <small>Verified access gateway</small>
+            <small>Account continuity gateway</small>
           </span>
         </Link>
         <nav aria-label="Access page navigation">
           <Link href="/">Gateway</Link>
-          <Link href="/work">Public work</Link>
-          <Link href="/start">Contact route</Link>
+          <a href="#claim">Account access</a>
+          <a href="#continuity">What moved</a>
         </nav>
       </header>
 
       <article className={styles.page}>
         <header className={styles.hero}>
           <div>
-            <span>One verified gateway · Every active route</span>
+            <span>ZENAI.WORLD continuity record · Upgrade active</span>
             <h1>
-              Your ZEN access
-              <strong>starts here.</strong>
+              Same ZEN.
+              <strong>Now powered by Arsenal.</strong>
             </h1>
             <p>
-              ZENAI.WORLD now connects the platform, programs, public record,
-              and support routes from one controlled entry point.
+              The ZEN platform did not disappear—it expanded. This page
+              reconnects existing members to Arsenal, active programs, public
+              knowledge, account recovery, and every major function from the
+              former ZENAI.WORLD experience.
             </p>
+            <div className={styles.heroActions}>
+              <a href={ARSENAL_LOGIN} target="_blank" rel="noopener noreferrer">
+                Sign in with my ZEN identity →
+              </a>
+              <a href="#continuity">See the continuity map</a>
+            </div>
           </div>
-          <aside className={styles.status} aria-label="ZEN gateway status">
-            <span>Gateway status</span>
-            <div><i aria-hidden="true" /><strong>zenai.world</strong><small>Live</small></div>
-            <div><i aria-hidden="true" /><strong>HTTPS</strong><small>Active</small></div>
-            <div><i aria-hidden="true" /><strong>Program routes</strong><small>Connected</small></div>
+          <aside className={styles.status} aria-label="ZEN continuity status">
+            <span>Continuity status</span>
+            <div><i aria-hidden="true" /><strong>zenai.world</strong><small>Official</small></div>
+            <div><i aria-hidden="true" /><strong>Arsenal</strong><small>Connected</small></div>
+            <div><i aria-hidden="true" /><strong>Account support</strong><small>Available</small></div>
           </aside>
         </header>
 
-        <section className={styles.routeSection} aria-labelledby="access-route-title">
+        <section id="claim" className={styles.claim} aria-labelledby="claim-title">
           <header>
-            <span>Choose your destination</span>
-            <h2 id="access-route-title">Go directly to the capability you need.</h2>
+            <span>Existing ZEN member</span>
+            <h2 id="claim-title">Open or recover your account.</h2>
+            <p>
+              Your existing email is the continuity key. Follow this order so
+              your history and future access can stay connected to one verified
+              identity.
+            </p>
+          </header>
+          <div className={styles.claimGrid}>
+            {CLAIM_STEPS.map((step) => (
+              <article key={step.code}>
+                <span>{step.code}</span>
+                <h3>{step.title}</h3>
+                <p>{step.copy}</p>
+              </article>
+            ))}
+          </div>
+          <div className={styles.claimActions}>
+            <a href={ARSENAL_LOGIN} target="_blank" rel="noopener noreferrer">
+              Open official Arsenal login <span aria-hidden="true">↗</span>
+            </a>
+            <a href="mailto:huxley@zenai.biz?subject=ZEN%20legacy%20account%20claim&amp;body=Please%20do%20not%20include%20a%20password%20or%20API%20key.%0A%0AName%3A%0AZEN%20account%20email%3A%0ASign-in%20method%20used%3A%0AProgram%20or%20access%20expected%3A%0AWhat%20happened%20when%20I%20tried%20to%20sign%20in%3A">
+              Request account-claim review
+            </a>
+          </div>
+          <p className={styles.claimNote}>
+            If your Arsenal login already works, no claim request is needed.
+            Never send ZEN your password, API key, payment card number, health
+            information, or private customer records.
+          </p>
+        </section>
+
+        <section id="continuity" className={styles.continuityMap} aria-labelledby="continuity-title">
+          <header>
+            <span>Former experience → Expanded destination</span>
+            <h2 id="continuity-title">Everything has a new home.</h2>
+            <p>
+              The former Wix experience separated these capabilities across
+              individual apps. The new architecture consolidates them into the
+              public ZEN gateway and the signed-in Arsenal platform.
+            </p>
+          </header>
+          <div className={styles.continuityGrid}>
+            {CONTINUITY_MAP.map((item, index) => {
+              const content = (
+                <>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <div>
+                    <small>{item.legacy}</small>
+                    <h3>{item.destination}</h3>
+                    <p>{item.detail}</p>
+                  </div>
+                  <strong aria-hidden="true">→</strong>
+                </>
+              );
+
+              return item.external ? (
+                <a href={item.href} target="_blank" rel="noopener noreferrer" key={item.legacy}>
+                  {content}
+                </a>
+              ) : (
+                <Link href={item.href} key={item.legacy}>
+                  {content}
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+
+        <section id="destinations" className={styles.routeSection} aria-labelledby="access-route-title">
+          <header>
+            <span>Active ecosystem routes</span>
+            <h2 id="access-route-title">Continue to the capability you need.</h2>
           </header>
           <div className={styles.routeGrid}>
             {ACCESS_ROUTES.map((route) => {
@@ -116,12 +310,7 @@ export default function AccessPage() {
               );
 
               return route.external ? (
-                <a
-                  href={route.href}
-                  key={route.code}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={route.href} key={route.code} target="_blank" rel="noopener noreferrer">
                   {content}
                 </a>
               ) : (
@@ -133,15 +322,30 @@ export default function AccessPage() {
           </div>
         </section>
 
+        <section className={styles.faq} aria-labelledby="faq-title">
+          <header>
+            <span>Transition questions</span>
+            <h2 id="faq-title">What existing users need to know.</h2>
+          </header>
+          <div>
+            {FAQS.map((item, index) => (
+              <article key={item.question}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{item.question}</h3>
+                <p>{item.answer}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className={styles.help} aria-labelledby="access-help-title">
           <div>
             <span>Existing ZEN member</span>
             <h2 id="access-help-title">Account not recognized?</h2>
             <p>
-              Do not send a password, API key, private customer record, or
-              health information. Contact ZEN from the email associated with
-              your existing account and describe which program or platform you
-              are trying to access.
+              Contact ZEN from the email associated with your existing account
+              and describe the program or platform access you expected. A
+              support request is a review route—it is not a place for secrets.
             </p>
           </div>
           <div className={styles.helpActions}>
@@ -156,14 +360,15 @@ export default function AccessPage() {
           <strong>Official destinations only.</strong>
           <p>
             This page sends users only to ZEN-controlled platform and program
-            routes. ZENAI.WORLD will never ask you to place passwords or API
-            credentials into the guided intake.
+            routes. ZENAI.WORLD will never ask you to place passwords, API
+            credentials, payment card details, or private records into an
+            account-support form.
           </p>
         </section>
       </article>
 
       <footer className={styles.footer}>
-        <span>ZEN AI Co. · Unified access gateway · Series MMXXVI</span>
+        <span>ZEN AI Co. · Account continuity gateway · Series MMXXVI</span>
         <div>
           <Link href="/privacy-policy">Privacy</Link>
           <Link href="/accessibility-statement">Accessibility</Link>
