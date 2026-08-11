@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import Link from "next/link";
 import { Cormorant_Garamond, Manrope, Space_Mono } from "next/font/google";
 import { ZenSiteAnalytics } from "./site-analytics";
 import { ZenSiteAnnouncementBanner } from "./site-announcement-banner";
@@ -42,6 +43,9 @@ const FALLBACK_TRANSITION_ANNOUNCEMENT: ZenSiteAnnouncement = {
   endsAt: null,
   updatedAt: "2026-08-11T23:00:00.000Z",
 };
+
+const ARSENAL_GOOGLE_ACTIVATION =
+  "https://kcyklettzoyexxynqfer.supabase.co/auth/v1/authorize?provider=google&redirect_to=https%3A%2F%2Farsenal.world%2Fdashboard";
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
@@ -109,6 +113,17 @@ export default async function RootLayout({
         <ZenSiteAnalytics />
         <ZenSiteAnnouncementBanner announcements={visibleAnnouncements} />
         {children}
+        <nav className="mobile-dock" aria-label="Mobile ZEN shortcuts">
+          <Link href="/">Home</Link>
+          <a
+            className="zen-start-button zen-start-button--mobile"
+            href={ARSENAL_GOOGLE_ACTIVATION}
+          >
+            <span className="zen-start-button__label">Activate / Sign in</span>
+            <span className="zen-start-button__arrow" aria-hidden="true">→</span>
+          </a>
+          <Link href="/#explore-zen">Explore</Link>
+        </nav>
       </body>
     </html>
   );

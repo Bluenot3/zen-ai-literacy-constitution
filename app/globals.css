@@ -2125,6 +2125,10 @@ button {
   display: none;
 }
 
+.mobile-continuity-hub {
+  display: none;
+}
+
 .destination-drawer {
   position: fixed;
   inset: 0;
@@ -2438,7 +2442,7 @@ button {
   }
 
   body {
-    padding-bottom: calc(74px + env(safe-area-inset-bottom));
+    padding-bottom: calc(82px + env(safe-area-inset-bottom));
   }
 
   .living-gradient {
@@ -2479,16 +2483,184 @@ button {
     font-family: var(--font-mono), monospace;
     font-size: 0.41rem;
     letter-spacing: 0.17em;
-    content: "SERIES MMXXVI";
+    content: "SAME ZEN · NEW PLATFORM";
+  }
+
+  .mobile-continuity-hub {
+    position: relative;
+    z-index: 3;
+    display: block;
+    padding: 86px 0.7rem 1.4rem;
+  }
+
+  .mobile-continuity-hub > header {
+    overflow: hidden;
+    border: 1px solid rgba(118, 225, 204, 0.16);
+    border-radius: 1.5rem;
+    padding: 1.5rem 1.25rem 1.25rem;
+    color: #f2fcf8;
+    background:
+      radial-gradient(circle at 96% 4%, rgba(117, 234, 220, 0.19), transparent 34%),
+      radial-gradient(circle at 2% 100%, rgba(238, 183, 86, 0.1), transparent 36%),
+      linear-gradient(140deg, #061923, #083640 65%, #0a4a49);
+    box-shadow: 0 24px 70px rgba(5, 34, 43, 0.2);
+  }
+
+  .mobile-continuity-hub > header > span,
+  .mobile-socials > span {
+    color: #79dfca;
+    font-family: var(--font-mono), monospace;
+    font-size: 0.45rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .mobile-continuity-hub h2 {
+    margin: 0.8rem 0 0;
+    font-family: var(--font-display), serif;
+    font-size: clamp(2.75rem, 13vw, 4.2rem);
+    font-weight: 500;
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+  }
+
+  .mobile-continuity-hub h2 strong {
+    display: block;
+    color: #7de0cc;
+    font-weight: 500;
+  }
+
+  .mobile-continuity-hub header > p {
+    margin: 1.15rem 0 0;
+    color: rgba(235, 250, 246, 0.72);
+    font-size: 0.76rem;
+    line-height: 1.7;
+  }
+
+  .mobile-continuity-actions {
+    display: grid;
+    gap: 0.55rem;
+    margin-top: 1.2rem;
+  }
+
+  .mobile-continuity-actions a {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(231, 249, 244, 0.18);
+    border-radius: 999px;
+    color: #f2fbf8;
+    font-size: 0.69rem;
+    font-weight: 800;
+  }
+
+  .mobile-continuity-actions .mobile-activate-button {
+    justify-content: space-between;
+    border-color: rgba(255, 255, 255, 0.9);
+    padding: 0 1.05rem;
+    color: #0a2a34;
+    background: #fff;
+    box-shadow: 0 14px 34px rgba(1, 18, 24, 0.24);
+  }
+
+  .mobile-continuity-actions .mobile-activate-button span {
+    display: grid;
+    width: 1.7rem;
+    aspect-ratio: 1;
+    place-items: center;
+    border-radius: 50%;
+    background: #e9f8f4;
+  }
+
+  .mobile-continuity-hub header > small {
+    display: block;
+    margin-top: 0.9rem;
+    color: rgba(225, 245, 240, 0.5);
+    font-size: 0.55rem;
+    line-height: 1.6;
+  }
+
+  .mobile-ecosystem-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin-top: 0.65rem;
+  }
+
+  .mobile-ecosystem-grid a,
+  .mobile-ecosystem-grid button {
+    display: flex;
+    min-height: 116px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    border: 1px solid rgba(18, 91, 99, 0.14);
+    border-radius: 1.05rem;
+    padding: 0.9rem;
+    color: #0a2a34;
+    background: rgba(255, 255, 255, 0.68);
+    box-shadow: 0 14px 36px rgba(20, 74, 84, 0.06);
+    font: inherit;
+    text-align: left;
+  }
+
+  .mobile-ecosystem-grid button {
+    cursor: pointer;
+  }
+
+  .mobile-ecosystem-grid span {
+    margin-bottom: auto;
+    color: #9a752d;
+    font-family: var(--font-mono), monospace;
+    font-size: 0.48rem;
+    letter-spacing: 0.12em;
+  }
+
+  .mobile-ecosystem-grid strong {
+    font-family: var(--font-display), serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+  }
+
+  .mobile-ecosystem-grid small {
+    margin-top: 0.22rem;
+    color: rgba(7, 44, 55, 0.58);
+    font-size: 0.52rem;
+    line-height: 1.45;
+  }
+
+  .mobile-socials {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.65rem;
+    border: 1px solid rgba(18, 91, 99, 0.13);
+    border-radius: 999px;
+    padding: 0.65rem 0.8rem;
+    background: rgba(255, 255, 255, 0.58);
+  }
+
+  .mobile-socials > span {
+    margin-right: auto;
+    color: rgba(15, 86, 94, 0.56);
+  }
+
+  .mobile-socials a {
+    color: #16676a;
+    font-size: 0.56rem;
+    font-weight: 800;
   }
 
   .hero {
     display: flex;
-    min-height: 100svh;
+    min-height: auto;
     flex-direction: column;
     justify-content: center;
     gap: 1.2rem;
-    padding: 96px var(--page-x) 62px;
+    padding: 3.5rem var(--page-x) 4rem;
   }
 
   .hero::before {
@@ -2504,7 +2676,7 @@ button {
   }
 
   .note-frame {
-    inset: 80px 0.55rem 0.65rem;
+    inset: 0.65rem 0.55rem;
     border-radius: 1rem;
   }
 
@@ -2760,7 +2932,7 @@ button {
     left: 0;
     z-index: 60;
     display: grid;
-    grid-template-columns: 1.25fr 0.75fr;
+    grid-template-columns: 0.68fr 1.5fr 0.78fr;
     gap: 0.55rem;
     padding: 0.62rem 0.7rem calc(0.62rem + env(safe-area-inset-bottom));
     border-top: 1px solid rgba(39, 105, 112, 0.17);
@@ -2769,8 +2941,7 @@ button {
     backdrop-filter: blur(18px) saturate(150%);
   }
 
-  .mobile-dock a,
-  .mobile-dock button {
+  .mobile-dock a {
     display: flex;
     min-height: 46px;
     align-items: center;
@@ -2779,9 +2950,6 @@ button {
     border-radius: 999px;
     font-size: 0.69rem;
     font-weight: 750;
-  }
-
-  .mobile-dock a {
     color: #06252a;
   }
 
@@ -2796,7 +2964,8 @@ button {
     background-size: 100% 100%, 320% 100%;
   }
 
-  .mobile-dock button {
+  .mobile-dock > a:first-child,
+  .mobile-dock > a:last-child {
     border: 1px solid rgba(20, 79, 95, 0.25);
     color: var(--ink);
     background: rgba(255, 255, 255, 0.55);

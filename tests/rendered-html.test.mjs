@@ -89,7 +89,14 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /Activate with Google/);
   assert.match(html, /kcyklettzoyexxynqfer\.supabase\.co\/auth\/v1\/authorize\?provider=google/);
   assert.match(html, /href="\/access"/);
-  assert.match(html, /Access ZEN/);
+  assert.match(html, /Everything is now connected\./);
+  assert.match(html, /Activate \/ Sign in/);
+  assert.match(html, /People, groups &amp; collaboration/);
+  assert.match(html, /Vanguard literacy &amp; portable proof/);
+  assert.match(html, /Official ZEN AI Co\. channels/);
+  assert.match(html, /https:\/\/www\.linkedin\.com\/company\/z3nai\//);
+  assert.match(html, /https:\/\/x\.com\/ZEN_AGI/);
+  assert.match(html, /https:\/\/www\.youtube\.com\/@ZENAIML/);
   assert.match(html, /href="\/start"/);
   assert.match(html, /href="\/ai-literacy-constitution"/);
   assert.match(html, /https:\/\/arsenal\.world/);
@@ -253,6 +260,9 @@ test("serves the structured ZEN intake and AI literacy charter", async () => {
   assert.match(accessHtml, /Enter AI Pioneer/);
   assert.match(accessHtml, /Enter Vanguard/);
   assert.match(accessHtml, /Missing existing access\?/);
+  assert.match(accessHtml, /https:\/\/www\.linkedin\.com\/company\/z3nai\//);
+  assert.match(accessHtml, /https:\/\/x\.com\/ZEN_AGI/);
+  assert.match(accessHtml, /https:\/\/www\.youtube\.com\/@ZENAIML/);
 
   const start = await render("/start");
   assert.equal(start.status, 200);

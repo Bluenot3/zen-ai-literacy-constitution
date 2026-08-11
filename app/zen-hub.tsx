@@ -16,6 +16,12 @@ import {
 
 const LINKS = {
   arsenal: "https://arsenal.world",
+  activate:
+    "https://kcyklettzoyexxynqfer.supabase.co/auth/v1/authorize?provider=google&redirect_to=https%3A%2F%2Farsenal.world%2Fdashboard",
+  community:
+    "https://arsenal.world/login?next=%2Fcommunity&utm_source=zenai.world&utm_medium=owned&utm_campaign=mobile_continuity",
+  marketplace:
+    "https://arsenal.world/login?next=%2Fmarketplace&utm_source=zenai.world&utm_medium=owned&utm_campaign=mobile_continuity",
   businessSpace:
     "https://arsenal.world/login?next=%2Fbusiness-spaces%2Fnew&utm_source=zenai.world&utm_medium=owned&utm_campaign=business_space_intake",
   pioneer:
@@ -76,9 +82,9 @@ const ROUTES = [
   {
     index: "04",
     verb: "Access",
-    title: "ZEN Access",
+    title: "Account Access",
     detail:
-      "Sign in to Arsenal, enter an active program, or get help with an existing ZEN account.",
+      "Activate or sign in to Arsenal, enter a program, or link existing ZEN access.",
     href: LINKS.access,
     signal: "Verified gateway",
     tone: "gold",
@@ -125,6 +131,17 @@ const ECOSYSTEM = [
 
 const LEDGER = [
   {
+    heading: "Enter",
+    copy: "Your fastest routes into the expanded platform",
+    links: [
+      ["Activate / sign in", LINKS.activate],
+      ["Account & email options", LINKS.access],
+      ["Arsenal", LINKS.arsenal],
+      ["Community", LINKS.community],
+      ["Marketplace", LINKS.marketplace],
+    ],
+  },
+  {
     heading: "Learn",
     copy: "AI and Web3 literacy pathways",
     links: [
@@ -160,6 +177,12 @@ const LEDGER = [
       ["AI Literacy Constitution", LINKS.constitution],
       ["Partner with ZEN", LINKS.contact],
       ["Partnerships", LINKS.partners],
+    ],
+  },
+  {
+    heading: "Follow",
+    copy: "Official ZEN AI Co. channels",
+    links: [
       ["LinkedIn", LINKS.linkedin],
       ["YouTube", LINKS.youtube],
       ["X / Twitter", LINKS.x],
@@ -783,17 +806,93 @@ export default function ZenHub({
             aria-haspopup="dialog"
           >
             <span aria-hidden="true">⌁</span>
-            Map
+            Explore
           </button>
           <a
             className="primary-button primary-button--small zen-start-button"
-            href={LINKS.access}
+            href={LINKS.activate}
           >
-            <span className="zen-start-button__label">Access ZEN</span>
+            <span className="zen-start-button__label">Activate / Sign in</span>
             <span className="zen-start-button__arrow" aria-hidden="true">→</span>
           </a>
         </div>
       </header>
+
+      <section
+        id="explore-zen"
+        className="mobile-continuity-hub"
+        aria-labelledby="mobile-continuity-title"
+      >
+        <header>
+          <span>ZENAI.WORLD · NEW INTERFACE · SAME COMPANY</span>
+          <h2 id="mobile-continuity-title">
+            Same ZEN.
+            <strong>Everything is now connected.</strong>
+          </h2>
+          <p>
+            You are in the right place. ZENAI.WORLD remains the official home
+            of ZEN AI Co.; Arsenal now powers the signed-in platform, with
+            programs, community, Web3 literacy, tools, and public work connected
+            around it.
+          </p>
+          <div className="mobile-continuity-actions">
+            <a className="mobile-activate-button" href={LINKS.activate}>
+              Activate / sign in <span aria-hidden="true">→</span>
+            </a>
+            <a href={LINKS.access}>Account &amp; email options</a>
+          </div>
+          <small>
+            If existing program or workspace access is missing after sign-in,
+            use the linking route on the account page.
+          </small>
+        </header>
+
+        <div className="mobile-ecosystem-grid" aria-label="ZEN ecosystem shortcuts">
+          <a href={LINKS.arsenal} {...externalLinkProps(LINKS.arsenal)}>
+            <span>01</span>
+            <strong>Arsenal</strong>
+            <small>Agents, workflows &amp; Business Spaces</small>
+          </a>
+          <Link href="/access#destinations">
+            <span>02</span>
+            <strong>Programs</strong>
+            <small>AI Pioneer &amp; Vanguard</small>
+          </Link>
+          <a href={LINKS.community} {...externalLinkProps(LINKS.community)}>
+            <span>03</span>
+            <strong>Community</strong>
+            <small>People, groups &amp; collaboration</small>
+          </a>
+          <a href={LINKS.vanguard} {...externalLinkProps(LINKS.vanguard)}>
+            <span>04</span>
+            <strong>Web3</strong>
+            <small>Vanguard literacy &amp; portable proof</small>
+          </a>
+          <a href={LINKS.marketplace} {...externalLinkProps(LINKS.marketplace)}>
+            <span>05</span>
+            <strong>Marketplace</strong>
+            <small>Agents, plans &amp; platform tools</small>
+          </a>
+          <button
+            type="button"
+            onClick={() => setDrawerOpen(true)}
+            aria-expanded={drawerOpen}
+            aria-controls="zen-destination-drawer"
+            aria-haspopup="dialog"
+          >
+            <span>06</span>
+            <strong>ZEN Map</strong>
+            <small>See every destination</small>
+          </button>
+        </div>
+
+        <nav className="mobile-socials" aria-label="Official ZEN social channels">
+          <span>Follow ZEN</span>
+          <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+          <a href={LINKS.x} target="_blank" rel="noopener noreferrer">X ↗</a>
+          <a href={LINKS.youtube} target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+        </nav>
+      </section>
 
       <section id="top" className="hero">
         <div className="note-frame" aria-hidden="true">
@@ -1297,22 +1396,6 @@ export default function ZenHub({
           </span>
         </div>
       </footer>
-
-      <div className="mobile-dock">
-        <a className="zen-start-button zen-start-button--mobile" href={LINKS.access}>
-          <span className="zen-start-button__label">Access ZEN</span>
-          <span className="zen-start-button__arrow" aria-hidden="true">→</span>
-        </a>
-        <button
-          type="button"
-          onClick={() => setDrawerOpen(true)}
-          aria-expanded={drawerOpen}
-          aria-controls="zen-destination-drawer"
-          aria-haspopup="dialog"
-        >
-          ZEN Map
-        </button>
-      </div>
 
       <DestinationDrawer
         open={drawerOpen}

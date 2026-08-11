@@ -378,6 +378,9 @@ export default function AccessPage() {
       <footer className={styles.footer}>
         <span>ZEN AI Co. · Arsenal activation gateway · Series MMXXVI</span>
         <div>
+          <a href="https://www.linkedin.com/company/z3nai/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://x.com/ZEN_AGI" target="_blank" rel="noopener noreferrer">X</a>
+          <a href="https://www.youtube.com/@ZENAIML" target="_blank" rel="noopener noreferrer">YouTube</a>
           <Link href="/privacy-policy">Privacy</Link>
           <Link href="/accessibility-statement">Accessibility</Link>
         </div>
