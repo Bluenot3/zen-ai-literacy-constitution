@@ -6,19 +6,37 @@ import {
   listManagedZenNavigation,
 } from "./managed-pages.server";
 import ZenHub from "./zen-hub";
+import { getZenSiteControl } from "./site-control.server";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: { absolute: "ZEN AI Co. | Intelligence Into Capability" },
-  description:
-    "ZEN AI Co. created the first youth AI literacy program in United States history and connects learning, building, deployment, and proof in one capability ecosystem.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getZenSiteControl();
+  return {
+    title: { absolute: seo.title },
+    description: seo.description,
+    alternates: { canonical: seo.canonical },
+    openGraph: {
+      type: "website",
+      url: seo.canonical,
+      title: seo.title,
+      description: seo.description,
+      images: [{ url: seo.ogImage }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.title,
+      description: seo.description,
+      images: [seo.ogImage],
+    },
+  };
+}
 
 export default async function Home() {
-  const [managedHome, managedNavigation] = await Promise.all([
+  const [managedHome, managedNavigation, siteControl] = await Promise.all([
     getManagedZenHome(),
     listManagedZenNavigation(),
+    getZenSiteControl(),
   ]);
 
   if (hasRenderableManagedZenPage(managedHome)) {
@@ -30,5 +48,5 @@ export default async function Home() {
     );
   }
 
-  return <ZenHub managedNavigation={managedNavigation} />;
+  return <ZenHub managedNavigation={managedNavigation} siteControl={siteControl} />;
 }

@@ -48,7 +48,7 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /National capability record/);
   assert.match(html, /Historic proclamation/);
   assert.match(html, /src="\/national-first\.png"/);
-  assert.match(html, /property="og:image" content="https:\/\/preview\.zenai\.world\/og\.png"/);
+  assert.match(html, /property="og:image" content="https:\/\/www\.zenai\.world\/og\.png"/);
   assert.match(html, /Two divisions\./);
   assert.match(html, /One mission\./);
   assert.match(html, /Smart Business Solutions/);
@@ -66,6 +66,11 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /Design a business solution/);
   assert.match(html, /Create a Business Space/);
   assert.match(html, /Build with Arsenal/);
+  assert.match(
+    html,
+    /class="hero-actions"[\s\S]{0,600}class="primary-button"[\s\S]{0,400}Build with Arsenal/i,
+    "Build with Arsenal must remain the dominant homepage action",
+  );
   assert.match(html, /Transform a Business/);
   assert.match(html, /Join a Program/);
   assert.match(html, /Partner with ZEN/);
@@ -105,7 +110,7 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.doesNotMatch(html, /Explore the historic program/);
   assert.match(html, /href="\/work\?category=accomplishments"/);
   assert.doesNotMatch(html, /aipioneer\.zen\.ai|us\.zenai\.biz\/guest/);
-  assert.match(html, /https:\/\/preview\.zenai\.world\/og\.png/);
+  assert.match(html, /https:\/\/www\.zenai\.world\/og\.png/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
 });
 
@@ -207,6 +212,16 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
           : body.requested_slug === protectedEmbed.slug ? [protectedEmbed] : [],
       );
     }
+    if (url.endsWith("/get_visible_zen_site_publication")) {
+      return Response.json([{ id: "10000000-0000-4000-8000-000000000005", revision: 3, content: {
+        eyebrow: "Controlled from Arsenal Admin",
+        headline: "Intelligence, operated from Arsenal.",
+        subheadline: "A structured public message with bounded destinations.",
+        primary_destination: "ARSENAL_BUILD",
+        secondary_destination: "BUSINESS_TRANSFORM",
+      }, seo: {}, published_at: timestamp }]);
+    }
+    if (url.endsWith("/get_visible_zen_campaign")) return Response.json([]);
     if (url.endsWith("/list_visible_site_announcements")) {
       return Response.json([announcement]);
     }
@@ -224,6 +239,8 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
     const fallbackHtml = await fallback.text();
     assert.match(fallbackHtml, /Intelligence/);
     assert.match(fallbackHtml, /href="\/managed-lab"/);
+    assert.match(fallbackHtml, /Controlled from Arsenal Admin/);
+    assert.match(fallbackHtml, /Intelligence, operated from Arsenal\./);
     assert.match(fallbackHtml, /A new capability is live/);
     assert.match(fallbackHtml, /Read the release record/);
     assert.match(fallbackHtml, /data-zen-announcement-id=/);
@@ -500,4 +517,191 @@ test("guards public embed surfaces and migration terminology", async () => {
     /legacy_redirect|legacyPath|legacyDestination|legacyUser|legacyCourse|isLegacy/,
   );
   assert.match(migrationLedger, /Every individual `\/product-page\/\*` URL/);
+});
+
+test("uses a typed revenue destination registry and controlled homepage reader", async () => {
+  const [destinations, page, server] = await Promise.all([
+    readFile(new URL("../lib/program-access-links.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/site-control.server.ts", import.meta.url), "utf8"),
+  ]);
+
+  for (const key of [
+    "ARSENAL_BUILD",
+    "BUSINESS_TRANSFORM",
+    "PROGRAMS",
+    "PARTNER",
+    "PRICING",
+    "MARKETPLACE",
+    "OPERATOR",
+    "COMMAND_BY_TEXT",
+  ]) {
+    assert.match(destinations, new RegExp(key));
+  }
+  assert.match(destinations, /ZEN_DESTINATIONS/);
+  assert.match(destinations, /utm_source/);
+  assert.match(destinations, /utm_campaign/);
+  assert.match(destinations, /next=/);
+  assert.match(page, /getZenSiteControl/);
+  assert.match(page, /siteControl=/);
+  assert.match(server, /get_visible_zen_site_publication/);
+  assert.match(server, /get_visible_zen_campaign/);
+  assert.doesNotMatch(
+    [destinations, page, server].join("\n"),
+    /legacy_redirect|legacyPath|legacyDestination|legacyUser|legacyCourse|isLegacy/,
+  );
+});
+
+test("renders published Command Center SEO without trusting invalid URLs", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (input) => {
+    const url = input instanceof Request ? input.url : String(input);
+    if (url.endsWith("/rest/v1/rpc/get_visible_zen_site_publication")) {
+      return Response.json([
+        {
+          id: "10000000-0000-4000-8000-000000000090",
+          revision: 4,
+          content: {
+            featured_capability: "Command by Text",
+            featured_business_solution: "Operational intelligence",
+            featured_program: "ZEN Vanguard",
+          },
+          seo: {
+            title: "ZEN Operations | Controlled",
+            description: "Published from the bounded Arsenal control plane.",
+            canonical: "https://www.zenai.world/",
+            og_image: "https://www.zenai.world/controlled-og.png",
+          },
+        },
+      ]);
+    }
+    if (url.endsWith("/rest/v1/rpc/get_visible_zen_campaign")) {
+      return Response.json([
+        {
+          slug: "controlled-focus",
+          seo: { title: "ZEN Campaign Focus", canonical: "javascript:blocked" },
+        },
+      ]);
+    }
+    if (url.includes("/rest/v1/rpc/")) return Response.json([]);
+    return originalFetch(input);
+  };
+
+  try {
+    const response = await render("/", {
+      SUPABASE_URL: "https://managed-content.example",
+      SUPABASE_PUBLISHABLE_KEY: "public-test-key",
+    });
+    const html = await response.text();
+    assert.match(html, /<title>ZEN Campaign Focus<\/title>/);
+    assert.match(
+      html,
+      /name="description" content="Published from the bounded Arsenal control plane\."/,
+    );
+    assert.match(
+      html,
+      /rel="canonical" href="https:\/\/www\.zenai\.world\/"/,
+    );
+    assert.match(
+      html,
+      /property="og:image" content="https:\/\/www\.zenai\.world\/controlled-og\.png"/,
+    );
+    assert.match(html, /Command by Text/);
+    assert.match(html, /Operational intelligence/);
+    assert.match(html, /ZEN Vanguard/);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("exposes only public release metadata to the Arsenal production origin", async () => {
+  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+  workerUrl.searchParams.set("release-cors-test", "release-" + process.pid + "-" + Date.now());
+  const { default: worker } = await import(workerUrl.href);
+  const response = await worker.fetch(
+    new Request("https://www.zenai.world/release.json"),
+    { ASSETS: { fetch: async () => Response.json({ sha: "abc1234" }) } },
+    { waitUntil() {}, passThroughOnException() {} },
+  );
+
+  assert.equal(response.headers.get("access-control-allow-origin"), "https://arsenal.world");
+  assert.equal(response.headers.get("cache-control"), "no-store");
+});
+
+test("canonicalizes the production apex to www without changing preview hosts", async () => {
+  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+  workerUrl.searchParams.set("canonical-test", `${process.pid}-${Date.now()}`);
+  const { default: worker } = await import(workerUrl.href);
+  const response = await worker.fetch(
+    new Request("https://zenai.world/programs?utm_campaign=canonical-test", {
+      headers: { host: "zenai.world", "x-forwarded-host": "zenai.world", "x-forwarded-proto": "https" },
+    }),
+    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
+    { waitUntil() {}, passThroughOnException() {} },
+  );
+
+  assert.equal(response.status, 308);
+  assert.equal(
+    response.headers.get("location"),
+    "https://www.zenai.world/programs?utm_campaign=canonical-test",
+  );
+});
+
+test("bounds anonymous funnel events at the same-origin Worker proxy", async () => {
+  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+  workerUrl.searchParams.set("funnel-test", `${process.pid}-${Date.now()}`);
+  const { default: worker } = await import(workerUrl.href);
+  const originalFetch = globalThis.fetch;
+  let upstreamBody = null;
+  globalThis.fetch = async (input, init) => {
+    const url = input instanceof Request ? input.url : String(input);
+    if (url.endsWith("/rest/v1/rpc/record_zen_funnel_event")) {
+      upstreamBody = JSON.parse(String(init?.body ?? "{}"));
+      return Response.json("10000000-0000-4000-8000-000000000099");
+    }
+    return originalFetch(input, init);
+  };
+
+  const environment = {
+    ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) },
+    SUPABASE_URL: "https://managed-content.example",
+    SUPABASE_PUBLISHABLE_KEY: "public-test-key",
+  };
+  const context = { waitUntil() {}, passThroughOnException() {} };
+
+  try {
+    const accepted = await worker.fetch(
+      new Request("https://preview.zenai.world/api/zen-funnel", {
+        method: "POST",
+        headers: { "content-type": "application/json", origin: "https://preview.zenai.world" },
+        body: JSON.stringify({
+          event_type: "destination_handoff",
+          session_id: "10000000-0000-4000-8000-000000000099",
+          source_page: "/",
+          cta_id: "homepage-hero-primary",
+          destination_key: "ARSENAL_BUILD",
+          destination_path: "/login",
+        }),
+      }),
+      environment,
+      context,
+    );
+    assert.equal(accepted.status, 202);
+    assert.equal(upstreamBody.requested_event_type, "destination_handoff");
+    assert.equal(upstreamBody.requested_destination_key, "ARSENAL_BUILD");
+    assert.equal("user_id" in upstreamBody, false);
+
+    const rejected = await worker.fetch(
+      new Request("https://preview.zenai.world/api/zen-funnel", {
+        method: "POST",
+        headers: { "content-type": "application/json", origin: "https://preview.zenai.world" },
+        body: JSON.stringify({ event_type: "paid_plan", session_id: "guessed", source_page: "/" }),
+      }),
+      environment,
+      context,
+    );
+    assert.equal(rejected.status, 400);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });

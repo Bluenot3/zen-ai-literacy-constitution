@@ -4,6 +4,7 @@ import { Cormorant_Garamond, Manrope, Space_Mono } from "next/font/google";
 import { ZenSiteAnalytics } from "./site-analytics";
 import { ZenSiteAnnouncementBanner } from "./site-announcement-banner";
 import { listVisibleZenSiteAnnouncements } from "./site-announcements.server";
+import { ZenFunnelTracker } from "./zen-funnel-tracker";
 import "./globals.css";
 import "./treasury-chrome.css";
 import "./site-runtime.css";
@@ -86,6 +87,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${display.variable} ${sans.variable} ${mono.variable}`}>
         <ZenSiteAnalytics />
+        <ZenFunnelTracker />
         <ZenSiteAnnouncementBanner announcements={announcements} />
         {children}
       </body>

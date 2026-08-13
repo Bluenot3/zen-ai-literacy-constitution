@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ARSENAL_GATEWAY_LINKS } from "../lib/program-access-links";
+import { ARSENAL_GATEWAY_LINKS, ZEN_DESTINATIONS, buildZenDestinationUrl, type ZenDestinationKey } from "../lib/program-access-links";
+import { defaultZenSiteControl, type ZenSiteControl } from "./site-control";
 import CompanyPortfolio from "./company-portfolio";
 import GatewayExpansion from "./gateway-expansion";
 import HeritageArchive from "./heritage-archive";
@@ -47,6 +48,7 @@ const ROUTES = [
     detail:
       "Create agents and deployable systems inside ZEN's protected operating platform.",
     href: LINKS.build,
+    destinationKey: "ARSENAL_BUILD" as ZenDestinationKey,
     signal: "Agentic execution",
     tone: "violet",
   },
@@ -57,6 +59,7 @@ const ROUTES = [
     detail:
       "Enter the protected Business Space intake and commercial path with your destination preserved.",
     href: LINKS.businessSpace,
+    destinationKey: "BUSINESS_TRANSFORM" as ZenDestinationKey,
     signal: "Smart Business Solutions",
     tone: "emerald",
   },
@@ -67,6 +70,7 @@ const ROUTES = [
     detail:
       "Review ZEN Programs publicly before protected enrollment and delivery in Arsenal.",
     href: LINKS.programs,
+    destinationKey: "PROGRAMS" as ZenDestinationKey,
     signal: "Public discovery",
     tone: "aqua",
   },
@@ -77,6 +81,7 @@ const ROUTES = [
     detail:
       "Continue to the existing ZEN partner application and dashboard system.",
     href: LINKS.partner,
+    destinationKey: "PARTNER" as ZenDestinationKey,
     signal: "Partner ecosystem",
     tone: "gold",
   },
@@ -703,10 +708,25 @@ function RouteSigil({ index }: { index: string }) {
 
 export default function ZenHub({
   managedNavigation = [],
+  siteControl = defaultZenSiteControl(),
 }: {
   managedNavigation?: ManagedZenNavigationItem[];
+  siteControl?: ZenSiteControl;
 }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { homepage } = siteControl;
+  const campaignContext = siteControl.campaignAttributionTag
+    ? { campaign: siteControl.campaignAttributionTag }
+    : {};
+  const primaryHref = buildZenDestinationUrl(
+    homepage.primaryDestination,
+    campaignContext,
+  );
+  const secondaryHref = buildZenDestinationUrl(
+    homepage.secondaryDestination,
+    campaignContext,
+  );
+  const [headlineLead, ...headlineRemainder] = homepage.headline.split(/\s+/);
   const managedHeaderItems = managedZenNavigationFor(
     managedNavigation,
     "header",
@@ -800,7 +820,7 @@ export default function ZenHub({
 
         <div className="hero-copy">
           <span className="eyebrow hero-eyebrow">
-            A new treasury of human capability · Series 2026
+            {homepage.eyebrow}
           </span>
           <a className="hero-first-claim" href="#national-first">
             <span className="hero-first-claim__medallion" aria-hidden="true">I</span>
@@ -814,29 +834,31 @@ export default function ZenHub({
               Founding record <i aria-hidden="true">↓</i>
             </span>
           </a>
-          <h1>
-            Intelligence
-            <span>becomes capability.</span>
-          </h1>
-          <p>
-            ZEN AI Co. builds agentic systems for organizations and landmark
-            literacy programs for people—turning intelligence into useful,
-            human-led capability.
-          </p>
+          <h1>{headlineLead}<span>{headlineRemainder.join(" ")}</span></h1>
+          <p>{homepage.subheadline}</p>
           <div className="hero-actions">
-            <a className="secondary-button" href={LINKS.build}>
-              Build with Arsenal
+            <a className="primary-button" href={primaryHref}
+              data-zen-destination-key={homepage.primaryDestination}
+              data-zen-cta="homepage-hero-primary"
+              data-zen-campaign={siteControl.campaignSlug ?? undefined}>
+              {ZEN_DESTINATIONS[homepage.primaryDestination].label} <span aria-hidden="true">→</span>
+            </a>
+            <a className="secondary-button" href={secondaryHref}
+              data-zen-destination-key={homepage.secondaryDestination}
+              data-zen-cta="homepage-hero-secondary"
+              data-zen-campaign={siteControl.campaignSlug ?? undefined}>
+              {ZEN_DESTINATIONS[homepage.secondaryDestination].label}
             </a>
           </div>
           <div className="proof-line">
             <span>
-              <strong>Solve</strong> smart business solutions
+              <strong>Solve</strong> {homepage.featuredBusinessSolution}
             </span>
             <span>
-              <strong>Build</strong> Arsenal + custom agents
+              <strong>Build</strong> {homepage.featuredCapability}
             </span>
             <span>
-              <strong>Advance</strong> literacy + human agency
+              <strong>Advance</strong> {homepage.featuredProgram}
             </span>
           </div>
         </div>
@@ -995,6 +1017,9 @@ export default function ZenHub({
               key={route.index}
               {...externalLinkProps(route.href)}
               data-reveal
+              data-zen-destination-key={route.destinationKey}
+              data-zen-cta={`gateway-route-${route.index}`}
+              data-zen-campaign={siteControl.campaignSlug ?? undefined}
             >
               <div className="route-card-head">
                 <RouteMark index={route.index} />
@@ -1140,6 +1165,9 @@ export default function ZenHub({
             <a
               className="primary-button"
               href={LINKS.build}
+              data-zen-destination-key="ARSENAL_BUILD"
+              data-zen-cta="final-router-build"
+              data-zen-campaign={siteControl.campaignSlug ?? undefined}
             >
               Build with Arsenal <span aria-hidden="true">→</span>
             </a>
@@ -1148,13 +1176,20 @@ export default function ZenHub({
               href={LINKS.businessSpace}
               target="_blank"
               rel="noopener noreferrer"
+              data-zen-destination-key="BUSINESS_TRANSFORM"
+              data-zen-cta="final-router-business"
+              data-zen-campaign={siteControl.campaignSlug ?? undefined}
             >
               Transform a Business <span aria-hidden="true">↗</span>
             </a>
-            <a className="secondary-button" href={LINKS.programs}>
+            <a className="secondary-button" href={LINKS.programs}
+              data-zen-destination-key="PROGRAMS" data-zen-cta="final-router-program"
+              data-zen-campaign={siteControl.campaignSlug ?? undefined}>
               Join a Program
             </a>
-            <a className="secondary-button" href={LINKS.partner}>
+            <a className="secondary-button" href={LINKS.partner}
+              data-zen-destination-key="PARTNER" data-zen-cta="final-router-partner"
+              data-zen-campaign={siteControl.campaignSlug ?? undefined}>
               Partner with ZEN
             </a>
           </div>

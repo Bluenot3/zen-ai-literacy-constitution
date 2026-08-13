@@ -61,6 +61,11 @@ const withSecurityHeaders = (response: Response, requestUrl: URL) => {
   headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   headers.set("X-Content-Type-Options", "nosniff");
   headers.set("X-Frame-Options", "DENY");
+  if (requestUrl.pathname === "/release.json") {
+    headers.set("Access-Control-Allow-Origin", "https://arsenal.world");
+    headers.set("Cache-Control", "no-store");
+    headers.append("Vary", "Origin");
+  }
   if (requestUrl.protocol === "https:") {
     headers.set(
       "Strict-Transport-Security",
@@ -75,6 +80,79 @@ const withSecurityHeaders = (response: Response, requestUrl: URL) => {
   });
 };
 
+const ZEN_FUNNEL_EVENTS = new Set([
+  "page_view",
+  "cta_click",
+  "destination_handoff",
+  "lead_submitted",
+]);
+
+const boundedText = (value: unknown, maximum: number) =>
+  typeof value === "string" && value.length <= maximum ? value : null;
+
+async function recordZenFunnelEvent(
+  request: Request,
+  env: WorkerBindings,
+  requestUrl: URL,
+) {
+  if (request.method !== "POST") {
+    return new Response("Method not allowed", { status: 405, headers: { Allow: "POST" } });
+  }
+  const origin = request.headers.get("origin");
+  if (origin && origin !== requestUrl.origin) return new Response("Forbidden", { status: 403 });
+  if (Number(request.headers.get("content-length") ?? 0) > 4_096) {
+    return new Response("Payload too large", { status: 413 });
+  }
+  if (!env.SUPABASE_URL || !env.SUPABASE_PUBLISHABLE_KEY) {
+    return new Response("Telemetry unavailable", { status: 503 });
+  }
+
+  let input: Record<string, unknown>;
+  try {
+    input = await request.json<Record<string, unknown>>();
+  } catch {
+    return new Response("Invalid JSON", { status: 400 });
+  }
+  const eventType = boundedText(input.event_type, 40);
+  const sessionId = boundedText(input.session_id, 36);
+  const sourcePage = boundedText(input.source_page, 300);
+  if (!eventType || !ZEN_FUNNEL_EVENTS.has(eventType) ||
+      !sessionId || !/^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(sessionId) ||
+      !sourcePage || !sourcePage.startsWith("/")) {
+    return new Response("Invalid event", { status: 400 });
+  }
+
+  const upstream = await fetch(
+    `${env.SUPABASE_URL.replace(/\/+$/, "")}/rest/v1/rpc/record_zen_funnel_event`,
+    {
+      method: "POST",
+      headers: {
+        apikey: env.SUPABASE_PUBLISHABLE_KEY,
+        Authorization: `Bearer ${env.SUPABASE_PUBLISHABLE_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        requested_event_type: eventType,
+        requested_session_id: sessionId,
+        requested_source_page: sourcePage,
+        requested_cta_id: boundedText(input.cta_id, 120),
+        requested_campaign_slug: boundedText(input.campaign_slug, 120),
+        requested_destination_key: boundedText(input.destination_key, 80),
+        requested_destination_path: boundedText(input.destination_path, 500),
+        requested_utm_source: boundedText(input.utm_source, 120),
+        requested_utm_medium: boundedText(input.utm_medium, 120),
+        requested_utm_campaign: boundedText(input.utm_campaign, 120),
+        requested_utm_content: boundedText(input.utm_content, 120),
+        requested_referrer_host: boundedText(input.referrer_host, 255),
+      }),
+    },
+  );
+  return new Response(null, {
+    status: upstream.ok ? 202 : upstream.status >= 500 ? 503 : 400,
+    headers: { "Cache-Control": "no-store" },
+  });
+}
+
 // Image security config. SVG sources with .svg extension auto-skip the
 // optimization endpoint on the client side (served directly, no proxy).
 // To route SVGs through the optimizer (with security headers), set
@@ -88,6 +166,12 @@ const worker = {
     ctx: ExecutionContext,
   ): Promise<Response> {
     const url = new URL(request.url);
+    if (url.hostname === "zenai.world") {
+      const canonical = new URL(url);
+      canonical.hostname = "www.zenai.world";
+      return withSecurityHeaders(Response.redirect(canonical, 308), url);
+    }
+
     (
       globalThis as typeof globalThis & {
         __ZEN_RUNTIME_ENV__?: {
@@ -99,6 +183,11 @@ const worker = {
       SUPABASE_URL: env.SUPABASE_URL,
       SUPABASE_PUBLISHABLE_KEY: env.SUPABASE_PUBLISHABLE_KEY,
     };
+
+    if (url.pathname === "/api/zen-funnel") {
+      return withSecurityHeaders(await recordZenFunnelEvent(request, env, url), url);
+    }
+
     const FORMER_WIX_EXACT_REDIRECTS: Record<string, string> = {
       "/favicon.ico": "/favicon.svg",
       "/legacydossier": "/legacy-dossier",
