@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { ARSENAL_GATEWAY_LINKS } from "../lib/program-access-links";
 import CompanyPortfolio from "./company-portfolio";
 import GatewayExpansion from "./gateway-expansion";
 import HeritageArchive from "./heritage-archive";
@@ -15,10 +16,12 @@ import {
 
 const LINKS = {
   arsenal: "https://arsenal.world",
-  businessSpace:
-    "https://arsenal.world/login?next=%2Fbusiness-spaces%2Fnew&utm_source=zenai.world&utm_medium=owned&utm_campaign=business_space_intake",
+  businessSpace: ARSENAL_GATEWAY_LINKS.business,
+  build: ARSENAL_GATEWAY_LINKS.build,
+  programs: "/programs",
   pioneer: "https://arsenal.world/programs/pioneer",
   vanguard: "https://arsenal.world/programs/vanguard",
+  partner: ARSENAL_GATEWAY_LINKS.partner,
   work: "/work",
   accomplishments: "/work?category=accomplishments",
   initiatives: "/work?category=initiatives",
@@ -39,42 +42,42 @@ const LINKS = {
 const ROUTES = [
   {
     index: "01",
-    verb: "Learn",
-    title: "AI Pioneer",
+    verb: "Build",
+    title: "Build with Arsenal",
     detail:
-      "The first youth AI literacy program in United States history.",
-    href: LINKS.pioneer,
-    signal: "Youth capability",
-    tone: "aqua",
+      "Create agents and deployable systems inside ZEN's protected operating platform.",
+    href: LINKS.build,
+    signal: "Agentic execution",
+    tone: "violet",
   },
   {
     index: "02",
-    verb: "Advance",
-    title: "Vanguard",
+    verb: "Transform",
+    title: "Transform a Business",
     detail:
-      "ZEN AI Co.’s Web3 literacy program for a new generation of digital systems.",
-    href: LINKS.vanguard,
-    signal: "Web3 literacy",
+      "Enter the protected Business Space intake and commercial path with your destination preserved.",
+    href: LINKS.businessSpace,
+    signal: "Smart Business Solutions",
     tone: "emerald",
   },
   {
     index: "03",
-    verb: "Build",
-    title: "Arsenal",
+    verb: "Learn",
+    title: "Join a Program",
     detail:
-      "Build with agents, workflows, Business Spaces, files, and deployable systems.",
-    href: LINKS.arsenal,
-    signal: "Agentic platform",
-    tone: "violet",
+      "Review ZEN Programs publicly before protected enrollment and delivery in Arsenal.",
+    href: LINKS.programs,
+    signal: "Public discovery",
+    tone: "aqua",
   },
   {
     index: "04",
-    verb: "Begin",
-    title: "Start with ZEN",
+    verb: "Partner",
+    title: "Partner with ZEN",
     detail:
-      "Tell us what you are building so we can route your business, school, community, or partnership with context.",
-    href: LINKS.start,
-    signal: "Guided intake",
+      "Continue to the existing ZEN partner application and dashboard system.",
+    href: LINKS.partner,
+    signal: "Partner ecosystem",
     tone: "gold",
   },
 ] as const;
@@ -151,7 +154,7 @@ const LEDGER = [
     links: [
       ["Start with ZEN", LINKS.start],
       ["AI Literacy Constitution", LINKS.constitution],
-      ["Partner with ZEN", LINKS.contact],
+      ["Partner with ZEN", LINKS.partner],
       ["Partnerships", LINKS.partners],
       ["LinkedIn", LINKS.linkedin],
       ["YouTube", LINKS.youtube],
@@ -821,13 +824,8 @@ export default function ZenHub({
             human-led capability.
           </p>
           <div className="hero-actions">
-            <a
-              className="secondary-button"
-              href={LINKS.arsenal}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Enter Arsenal
+            <a className="secondary-button" href={LINKS.build}>
+              Build with Arsenal
             </a>
           </div>
           <div className="proof-line">
@@ -985,8 +983,8 @@ export default function ZenHub({
           <span className="eyebrow">Four doors. One company.</span>
           <h2>Choose where you want to begin.</h2>
           <p>
-            Enter a landmark program, explore Web3 literacy, build inside
-            Arsenal, or bring a challenge directly to ZEN.
+            Build with Arsenal, transform a business, join a public Program
+            discovery path, or enter the existing partner system.
           </p>
         </div>
         <div className="route-grid">
@@ -1085,7 +1083,7 @@ export default function ZenHub({
             <div className="capability-ledger">
               {[
                 ["01", "Learn", "AI Pioneer · Vanguard · Homeschool"],
-                ["02", "Equip", "Train-a-Trainer · Constitution"],
+                ["02", "Equip", "Train-the-Trainer · Constitution"],
                 ["03", "Build", "Arsenal · Agents · Business Spaces"],
                 ["04", "Advance", "Systems · Programs · Public Work"],
               ].map(([number, title, detail]) => (
@@ -1141,19 +1139,22 @@ export default function ZenHub({
           <div className="issuance-actions">
             <a
               className="primary-button"
-              href={LINKS.start}
+              href={LINKS.build}
             >
-              Start your ZEN route <span aria-hidden="true">→</span>
+              Build with Arsenal <span aria-hidden="true">→</span>
             </a>
             <a
               className="secondary-button"
-              href={LINKS.arsenal}
+              href={LINKS.businessSpace}
               target="_blank"
               rel="noopener noreferrer"
             >
-              Enter Arsenal <span aria-hidden="true">↗</span>
+              Transform a Business <span aria-hidden="true">↗</span>
             </a>
-            <a className="secondary-button" href={LINKS.contact}>
+            <a className="secondary-button" href={LINKS.programs}>
+              Join a Program
+            </a>
+            <a className="secondary-button" href={LINKS.partner}>
               Partner with ZEN
             </a>
           </div>

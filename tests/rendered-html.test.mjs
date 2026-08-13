@@ -60,10 +60,15 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /Vanguard Program/);
   assert.match(html, /Web3 literacy/);
   assert.match(html, /ZEN Homeschool Kit/);
-  assert.match(html, /Train-a-Trainer/);
+  assert.match(html, /Train-the-Trainer/);
+  assert.match(html, /Institutional Programs/);
   assert.match(html, /AI Literacy Constitution/);
   assert.match(html, /Design a business solution/);
   assert.match(html, /Create a Business Space/);
+  assert.match(html, /Build with Arsenal/);
+  assert.match(html, /Transform a Business/);
+  assert.match(html, /Join a Program/);
+  assert.match(html, /Partner with ZEN/);
   assert.doesNotMatch(
     html,
     /Text Genie|Image Studio|Code Agent|Source Explorer|AI Decision Lab|Project Showcase/,
@@ -87,6 +92,14 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /https:\/\/arsenal\.world/);
   assert.match(html, /https:\/\/arsenal\.world\/programs\/pioneer/);
   assert.match(html, /https:\/\/arsenal\.world\/programs\/vanguard/);
+  assert.match(
+    html,
+    /next=%2Fagents%2Fnew%3Futm_source%3Dzenai\.world%26utm_medium%3Downed%26utm_campaign%3Dbuild_with_arsenal/,
+  );
+  assert.match(
+    html,
+    /next=%2Fbusiness-spaces%2Fnew%3Futm_source%3Dzenai\.world%26utm_medium%3Downed%26utm_campaign%3Dbusiness_space_intake/,
+  );
   assert.doesNotMatch(html, /ai-pioneer-courses-20260725\.zenagi\.chatgpt\.site/);
   assert.doesNotMatch(html, /us-ai-literacy\.lovable\.app/);
   assert.doesNotMatch(html, /Explore the historic program/);
@@ -125,7 +138,7 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
     ...navigation[0],
     page_type: "ai_html",
     embed_url: null,
-    content_html: "<section><h2>Managed runtime content</h2></section>",
+    content_html: "<section><h2>Managed runtime content</h2><a href=\"https://us-ai-literacy.lovable.app/guide?program_id=vanguard\">Protected Program</a></section>",
     embed_blocks: [],
     layout_config: {
       frame: "contained",
@@ -134,6 +147,15 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
       chrome: "arsenal",
       columns: 1,
     },
+  };
+  const protectedEmbed = {
+    ...page,
+    id: "10000000-0000-4000-8000-000000000004",
+    slug: "managed-program",
+    title: "Managed Program",
+    page_type: "iframe",
+    embed_url: "https://ai-pioneer-courses-20260725.zenagi.chatgpt.site/programs/pioneer/preview",
+    content_html: "",
   };
   const home = {
     ...page,
@@ -179,7 +201,11 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
     }
     if (url.endsWith("/get_visible_admin_site_page")) {
       const body = JSON.parse(String(init?.body ?? "{}"));
-      return Response.json(body.requested_slug === page.slug ? [page] : []);
+      return Response.json(
+        body.requested_slug === page.slug
+          ? [page]
+          : body.requested_slug === protectedEmbed.slug ? [protectedEmbed] : [],
+      );
     }
     if (url.endsWith("/list_visible_site_announcements")) {
       return Response.json([announcement]);
@@ -210,6 +236,16 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
     assert.match(managedHtml, /Managed runtime content/);
     assert.match(managedHtml, /sandbox="allow-scripts"/);
     assert.doesNotMatch(managedHtml, /allow-same-origin/);
+    assert.match(managedHtml, /arsenal\.world\/login\?next=/);
+    assert.doesNotMatch(managedHtml, /us-ai-literacy\.lovable\.app/);
+
+    const protectedProgram = await render("/managed-program", environment);
+    assert.equal(protectedProgram.status, 200);
+    const protectedProgramHtml = await protectedProgram.text();
+    assert.match(protectedProgramHtml, /Protected ZEN Programs open through Arsenal/);
+    assert.match(protectedProgramHtml, /arsenal\.world\/login\?next=/);
+    assert.doesNotMatch(protectedProgramHtml, /<iframe[^>]+ai-pioneer-courses/i);
+    assert.doesNotMatch(protectedProgramHtml, /ai-pioneer-courses-20260725\.zenagi\.chatgpt\.site/);
 
     managedHomeEnabled = true;
     const managedHome = await render("/", environment);
@@ -241,7 +277,62 @@ test("serves the structured ZEN intake and AI literacy charter", async () => {
   assert.equal(missingWork.status, 404);
 });
 
-test("serves the public archive and preserves legacy public links", async () => {
+test("keeps public Program discovery open and protected delivery in Arsenal", async () => {
+  const programs = await render("/programs");
+  assert.equal(programs.status, 200);
+  const programsHtml = await programs.text();
+  assert.match(programsHtml, /AI Pioneer Program/);
+  assert.match(programsHtml, /ZEN Vanguard/);
+  assert.match(programsHtml, /Homeschool AI Kit/);
+  assert.match(programsHtml, /Train-the-Trainer/);
+  assert.match(programsHtml, /Institutional Programs/);
+  assert.match(programsHtml, /Public understanding\. Protected delivery\./);
+  assert.match(
+    programsHtml,
+    /next=%2Fprograms%2Fpioneer%3Futm_source%3Dzenai\.world/,
+  );
+  assert.match(
+    programsHtml,
+    /next=%2Fprograms%2Fvanguard%3Futm_source%3Dzenai\.world/,
+  );
+  assert.doesNotMatch(programsHtml, /ai-pioneer-courses-20260725\.zenagi\.chatgpt\.site/);
+  assert.doesNotMatch(programsHtml, /us-ai-literacy\.lovable\.app/);
+});
+
+test("uses explicit former-Wix mappings without wildcard product redirects", async () => {
+  const pioneer = await render("/programs/pioneer");
+  assert.equal(pioneer.status, 308);
+  assert.equal(
+    pioneer.headers.get("location"),
+    "https://preview.zenai.world/programs#pioneer",
+  );
+
+  const approvedChallenge = await render(
+    "/challenge-page/bb4918ca-0eea-4952-beea-53547a7bde92",
+  );
+  assert.equal(approvedChallenge.status, 308);
+  assert.equal(
+    approvedChallenge.headers.get("location"),
+    "https://preview.zenai.world/programs#pioneer",
+  );
+
+  const unknownChallenge = await render("/challenge-page/not-in-the-approved-map");
+  assert.equal(unknownChallenge.status, 404);
+
+  const unknownProduct = await render("/product-page/not-in-the-approved-map");
+  assert.equal(unknownProduct.status, 404);
+
+  const groupPost = await render("/group/example/discussion/unapproved-post");
+  assert.equal(groupPost.status, 410);
+  assert.match(await groupPost.text(), /former Wix community post/);
+
+  assert.match(
+    pioneer.headers.get("content-security-policy") ?? "",
+    /frame-ancestors 'none'/,
+  );
+});
+
+test("serves the public archive and preserves compatibility links", async () => {
   const privacy = await render("/privacy-policy");
   assert.equal(privacy.status, 200);
   assert.match(await privacy.text(), /Privacy Policy/);
@@ -259,10 +350,10 @@ test("serves the public archive and preserves legacy public links", async () => 
   assert.match(galleryHtml, /ZEN field/);
   assert.match(galleryHtml, /Steam the Block 2024/);
 
-  const legacy = await render("/legacydossier");
-  assert.equal(legacy.status, 308);
+  const dossierAlias = await render("/legacydossier");
+  assert.equal(dossierAlias.status, 308);
   assert.equal(
-    legacy.headers.get("location"),
+    dossierAlias.headers.get("location"),
     "https://preview.zenai.world/legacy-dossier",
   );
 
@@ -381,4 +472,32 @@ test("removes starter-only preview infrastructure", async () => {
   await assert.rejects(
     access(new URL("public/_sites-preview", templateRoot)),
   );
+});
+
+test("guards public embed surfaces and migration terminology", async () => {
+  const [managedRenderer, workRenderer, programLinks, worker, migrationLedger] =
+    await Promise.all([
+      readFile(new URL("../app/managed-page-renderer.tsx", import.meta.url), "utf8"),
+      readFile(new URL("../app/work/site-page-renderer.tsx", import.meta.url), "utf8"),
+      readFile(new URL("../lib/program-access-links.ts", import.meta.url), "utf8"),
+      readFile(new URL("../worker/index.ts", import.meta.url), "utf8"),
+      readFile(
+        new URL("../docs/ZENAI_WORLD_WIX_MIGRATION.md", import.meta.url),
+        "utf8",
+      ),
+    ]);
+
+  assert.match(managedRenderer, /isDirectProgramContentUrl/);
+  assert.match(managedRenderer, /gateZenPublicHtml/);
+  assert.match(workRenderer, /isDirectProgramContentUrl/);
+  assert.match(workRenderer, /!directProgram/);
+  assert.match(workRenderer, /gateZenPublicHtml/);
+  assert.match(programLinks, /PROGRAM_LOGIN_LINKS/);
+  assert.match(programLinks, /buildArsenalLoginUrl/);
+  assert.doesNotMatch(worker, /product-page/);
+  assert.doesNotMatch(
+    [programLinks, worker, migrationLedger].join("\n"),
+    /legacy_redirect|legacyPath|legacyDestination|legacyUser|legacyCourse|isLegacy/,
+  );
+  assert.match(migrationLedger, /Every individual `\/product-page\/\*` URL/);
 });

@@ -1,6 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import {
+  gateZenPublicDestination,
+  gateZenPublicHtml,
+  isDirectProgramContentUrl,
+} from "../lib/program-access-links";
+
 
 import {
   managedZenHref,
@@ -29,26 +35,32 @@ const escapeHtml = (value: string) =>
       })[character] ?? character,
   );
 
-const safeEmbedUrl = (value: string) => {
+const safePublicUrl = (value: string) => {
   const source = value.trim();
   if (!source || /[\u0000-\u001f\u007f\\]/.test(source)) return "";
   if (source.startsWith("/") && !source.startsWith("//")) return source;
 
+  const gatedDestination = gateZenPublicDestination(source);
+  if (gatedDestination !== source) return gatedDestination;
+
   try {
     const url = new URL(source);
     if (url.protocol !== "https:" || url.username || url.password) return "";
-    return url.toString();
+    return gateZenPublicDestination(url.toString());
   } catch {
     return "";
   }
 };
+
+const safeEmbedUrl = (value: string) =>
+  isDirectProgramContentUrl(value) ? "" : safePublicUrl(value);
 
 const safeMediaUrl = (value: string) => {
   const source = value.trim();
   if (/^data:image\/(?:avif|gif|jpeg|png|webp);base64,/i.test(source)) {
     return source;
   }
-  return safeEmbedUrl(source);
+  return isDirectProgramContentUrl(source) ? "" : safePublicUrl(source);
 };
 
 const youtubeEmbedUrl = (value: string) => {
@@ -100,7 +112,7 @@ const sandboxedDocument = (html: string, title: string) => {
     `<title>${escapeHtml(title)}</title>`,
     "<style>*{box-sizing:border-box}html,body{margin:0;min-height:100%}img,video,canvas,svg{max-width:100%}</style>",
     "</head><body>",
-    html,
+    gateZenPublicHtml(html),
     "</body></html>",
   ].join("");
 };
@@ -163,12 +175,17 @@ function ManagedFooter({
 }
 
 function BlockedSurface({ title, source }: { title: string; source: string }) {
-  const href = safeEmbedUrl(source);
+  const directProgram = isDirectProgramContentUrl(source);
+  const href = safePublicUrl(source);
   return (
     <div className={styles.blocked}>
       <div>
         <h2>{title}</h2>
-        <p>This source is unavailable or does not use an allowed secure URL.</p>
+        <p>
+          {directProgram
+            ? "Protected ZEN Programs open through Arsenal so sign-in and access can be verified."
+            : "This source is unavailable or does not use an allowed secure URL."}
+        </p>
         {href ? (
           <a href={href} target="_blank" rel="noopener noreferrer">
             Open source ↗

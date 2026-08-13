@@ -7,6 +7,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPaths = [
     "",
     "/work",
+    "/programs",
     "/start",
     "/ai-literacy-constitution",
     "/legacy-dossier",
@@ -32,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority:
       path === ""
         ? 1
-        : path === "/work" || path === "/start" || path === "/legacy-dossier"
+        : path === "/work" || path === "/start" || path === "/programs" || path === "/legacy-dossier"
           ? 0.8
           : path === "/ai-literacy-constitution" || path === "/gallery"
             ? 0.7

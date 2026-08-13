@@ -1,5 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import {
+  gateZenPublicDestination,
+  gateZenPublicHtml,
+  isDirectProgramContentUrl,
+} from "../../lib/program-access-links";
 import { TreasuryBackdrop, TreasuryPageFrame } from "../treasury-chrome";
 import type { SiteBlock, SitePageDocument } from "./content";
 import styles from "./work.module.css";
@@ -11,7 +16,7 @@ const safeLink = (value: string) => {
   try {
     const url = new URL(trimmed);
     if (["https:", "mailto:", "tel:"].includes(url.protocol)) {
-      return url.toString();
+      return gateZenPublicDestination(url.toString());
     }
   } catch {
     return "";
@@ -25,6 +30,8 @@ const safeMedia = (value: string) => {
   if (trimmed.startsWith("/") || trimmed.startsWith("data:image/")) {
     return trimmed;
   }
+
+  if (isDirectProgramContentUrl(trimmed)) return "";
 
   try {
     const url = new URL(trimmed);
@@ -51,7 +58,7 @@ const sandboxedDocument = (html: string) => {
     '<meta charset="utf-8">',
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
     "</head><body>",
-    html,
+    gateZenPublicHtml(html),
     "</body></html>",
   ].join("");
 };
@@ -104,7 +111,9 @@ function Block({ block }: { block: SiteBlock }) {
     }
     case "embed": {
       const href = safeLink(block.url);
-      const canEmbed = block.allowEmbed && href.startsWith("https://");
+      const directProgram = isDirectProgramContentUrl(block.url);
+      const canEmbed =
+        block.allowEmbed && href.startsWith("https://") && !directProgram;
       return (
         <section className={styles.interactive}>
           <div className={styles.interactiveBar}>

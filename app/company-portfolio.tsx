@@ -1,12 +1,15 @@
 import Image from "next/image";
+import { ARSENAL_GATEWAY_LINKS } from "../lib/program-access-links";
 import styles from "./company-portfolio.module.css";
 
 const LINKS = {
   arsenal: "https://arsenal.world",
-  businessSpace:
-    "https://arsenal.world/login?next=%2Fbusiness-spaces%2Fnew&utm_source=zenai.world&utm_medium=owned&utm_campaign=business_space_intake",
+  businessSpace: ARSENAL_GATEWAY_LINKS.business,
   pioneer: "https://arsenal.world/programs/pioneer",
   vanguard: "https://arsenal.world/programs/vanguard",
+  homeschool: "/programs#homeschool",
+  trainer: "/programs#train-the-trainer",
+  institutional: "/programs#institutional",
   start: "/start",
   constitution: "/ai-literacy-constitution",
 } as const;
@@ -51,16 +54,24 @@ const PROGRAMS = [
     title: "ZEN Homeschool Kit",
     category: "Family capability",
     copy: "ZEN AI Co.’s AI literacy offering for homeschool families and learning communities.",
-    href: LINKS.start,
+    href: LINKS.homeschool,
     tone: "home",
   },
   {
     code: "04 / MULTIPLIER PATH",
-    title: "Train-a-Trainer",
+    title: "Train-the-Trainer",
     category: "Educator advancement",
     copy: "ZEN AI Co.’s program for preparing educators, leaders, and facilitators to deliver AI literacy.",
-    href: LINKS.start,
+    href: LINKS.trainer,
     tone: "trainer",
+  },
+  {
+    code: "05 / INSTITUTIONAL",
+    title: "Institutional Programs",
+    category: "Cohort capability",
+    copy: "ZEN AI Co.'s pathways for schools, nonprofits, workforce initiatives, and public-interest partners.",
+    href: LINKS.institutional,
+    tone: "historic",
   },
 ] as const;
 
@@ -121,7 +132,7 @@ export default function CompanyPortfolio() {
             <small>Solutions + Programs</small>
           </div>
           <div>
-            <span>04</span>
+            <span>05</span>
             <strong>named program pathways</strong>
             <small>People + Communities</small>
           </div>

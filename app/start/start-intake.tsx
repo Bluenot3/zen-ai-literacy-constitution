@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { ARSENAL_GATEWAY_LINKS } from "../../lib/program-access-links";
 import { TreasuryBackdrop, TreasuryPageFrame } from "../treasury-chrome";
 import styles from "./start.module.css";
 
@@ -122,10 +123,8 @@ const STEPS = [
   ["04", "Brief", "Review and continue"],
 ] as const;
 
-const BUSINESS_SPACE_URL =
-  "https://arsenal.world/login?next=%2Fbusiness-spaces%2Fnew&utm_source=zenai.world&utm_medium=owned&utm_campaign=business_space_intake";
-const PIONEER_URL =
-  "https://arsenal.world/programs/pioneer";
+const BUSINESS_SPACE_URL = ARSENAL_GATEWAY_LINKS.business;
+const PIONEER_URL = "https://arsenal.world/programs/pioneer";
 
 function humanize(value: string) {
   return value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
@@ -198,8 +197,8 @@ export default function StartIntake() {
       : draft.audience === "learner" || draft.audience === "educator"
         ? {
             href: PIONEER_URL,
-            label: "Explore AI Pioneer ↗",
-            note: "The program opens separately; sending the brief is optional.",
+            label: "Explore ZEN Programs →",
+            note: "Public Program information opens first; protected delivery continues in Arsenal.",
           }
         : null;
 

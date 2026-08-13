@@ -10,7 +10,7 @@ const OPERATING_RECORD = [
   {
     value: "04",
     label: "named program pathways",
-    detail: "AI Pioneer, Vanguard, ZEN Homeschool Kit, and Train-a-Trainer.",
+    detail: "AI Pioneer, Vanguard, ZEN Homeschool Kit, and Train-the-Trainer.",
   },
   {
     value: "01",
