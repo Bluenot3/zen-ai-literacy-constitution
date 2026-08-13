@@ -41,6 +41,10 @@ export async function getZenSiteControl(): Promise<ZenSiteControl> {
       typeof campaign.attribution_tag === "string"
         ? campaign.attribution_tag.slice(0, 120)
         : null,
+    campaignAnnouncementId:
+      typeof campaign.announcement_id === "string"
+        ? campaign.announcement_id.slice(0, 36)
+        : null,
     homepage,
     seo: Object.keys(campaignSeo).length
       ? normalizeZenSeoControl(campaignSeo, publishedSeo)

@@ -1,3 +1,9 @@
+import {
+  isManagedZenComponentKey,
+  normalizeManagedZenComponentProps,
+  type ManagedZenComponentKey,
+  type ManagedZenComponentProps,
+} from "./managed-components";
 export type ManagedZenNavLocation = "header" | "footer";
 
 export type ManagedZenPageType =
@@ -15,7 +21,8 @@ export type ManagedZenEmbedKind =
   | "youtube"
   | "video"
   | "image"
-  | "gallery";
+  | "gallery"
+  | "component";
 
 export type ManagedZenEmbedSizing =
   | "fit"
@@ -49,6 +56,8 @@ export type ManagedZenEmbedBlock = {
   width: number;
   resizable: boolean;
   permissionProfile: ManagedZenEmbedPermission;
+  componentKey?: ManagedZenComponentKey;
+  componentProps?: ManagedZenComponentProps;
 };
 
 export type ManagedZenNavigationItem = {
@@ -155,7 +164,8 @@ const kindValue = (value: unknown): ManagedZenEmbedKind => {
     value === "youtube" ||
     value === "video" ||
     value === "image" ||
-    value === "gallery"
+    value === "gallery" ||
+    value === "component"
   ) {
     return value;
   }
@@ -187,6 +197,8 @@ const normalizeBlock = (
   const source = stringValue(value.source).trim();
   const contentHtml = stringValue(value.content_html).trim();
   const embedUrl = stringValue(value.embed_url, source).trim();
+  const componentKey = isManagedZenComponentKey(value.component_key) ? value.component_key : undefined;
+  const componentProps = componentKey ? normalizeManagedZenComponentProps(value.component_props) : undefined;
 
   return {
     id: stringValue(value.id, `managed-block-${index + 1}`),
@@ -200,6 +212,8 @@ const normalizeBlock = (
     width: numberValue(value.width, 20, 100, 100),
     resizable: value.resizable === true,
     permissionProfile: permissionValue(value.permission_profile),
+    componentKey,
+    componentProps,
   };
 };
 

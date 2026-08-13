@@ -5,6 +5,7 @@ import {
   getManagedZenHome,
   listManagedZenNavigation,
 } from "./managed-pages.server";
+import { getManagedZenResources, getZenHomepageResources } from "./managed-resources.server";
 import ZenHub from "./zen-hub";
 import { getZenSiteControl } from "./site-control.server";
 
@@ -40,13 +41,22 @@ export default async function Home() {
   ]);
 
   if (hasRenderableManagedZenPage(managedHome)) {
+    const resources = await getManagedZenResources(managedHome);
     return (
       <ManagedZenPageRenderer
         page={managedHome}
         navigation={managedNavigation}
+        resources={resources}
       />
     );
   }
 
-  return <ZenHub managedNavigation={managedNavigation} siteControl={siteControl} />;
+  const homepageResources = await getZenHomepageResources(siteControl.homepage);
+  return (
+    <ZenHub
+      managedNavigation={managedNavigation}
+      siteControl={siteControl}
+      resources={homepageResources}
+    />
+  );
 }

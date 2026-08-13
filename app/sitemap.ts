@@ -3,7 +3,7 @@ import { managedZenHref } from "./managed-pages";
 import { listManagedZenNavigation } from "./managed-pages.server";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = "https://zenai.world";
+  const base = "https://www.zenai.world";
   const staticPaths = [
     "",
     "/work",

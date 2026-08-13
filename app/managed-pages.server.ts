@@ -35,7 +35,7 @@ const responseRows = (value: unknown): unknown[] => {
 
 export async function readPublicRpc(
   functionName: string,
-  payload: Record<string, string>,
+  payload: Record<string, unknown>,
 ) {
   const { url, publishableKey } = runtimeConfig();
   if (!url || !publishableKey) return [];

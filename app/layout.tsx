@@ -4,6 +4,7 @@ import { Cormorant_Garamond, Manrope, Space_Mono } from "next/font/google";
 import { ZenSiteAnalytics } from "./site-analytics";
 import { ZenSiteAnnouncementBanner } from "./site-announcement-banner";
 import { listVisibleZenSiteAnnouncements } from "./site-announcements.server";
+import { getZenSiteControl } from "./site-control.server";
 import { ZenFunnelTracker } from "./zen-funnel-tracker";
 import "./globals.css";
 import "./treasury-chrome.css";
@@ -81,14 +82,26 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const announcements = await listVisibleZenSiteAnnouncements();
+  const [announcements, siteControl] = await Promise.all([
+    listVisibleZenSiteAnnouncements(),
+    getZenSiteControl(),
+  ]);
+  const campaignAnnouncement = siteControl.campaignAnnouncementId
+    ? announcements.find((item) => item.id === siteControl.campaignAnnouncementId)
+    : undefined;
+  const orderedAnnouncements = campaignAnnouncement
+    ? [campaignAnnouncement, ...announcements.filter((item) => item.id !== campaignAnnouncement.id)]
+    : announcements;
+  const visibleAnnouncements = siteControl.homepage.announcementEnabled
+    ? orderedAnnouncements
+    : [];
 
   return (
     <html lang="en">
       <body className={`${display.variable} ${sans.variable} ${mono.variable}`}>
         <ZenSiteAnalytics />
         <ZenFunnelTracker />
-        <ZenSiteAnnouncementBanner announcements={announcements} />
+        <ZenSiteAnnouncementBanner announcements={visibleAnnouncements} />
         {children}
       </body>
     </html>

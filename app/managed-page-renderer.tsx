@@ -17,6 +17,12 @@ import {
   type ManagedZenPage,
 } from "./managed-pages";
 import styles from "./managed-page.module.css";
+import {
+  EMPTY_MANAGED_ZEN_RESOURCES,
+  ManagedZenComponent,
+  type ManagedZenComponentResources,
+} from "./managed-component-renderer";
+
 import { TreasuryBackdrop, TreasuryPageFrame } from "./treasury-chrome";
 import workStyles from "./work/work.module.css";
 
@@ -235,7 +241,22 @@ function Gallery({ block }: { block: ManagedZenEmbedBlock }) {
   );
 }
 
-function ManagedBlock({ block }: { block: ManagedZenEmbedBlock }) {
+function ManagedBlock({ block, resources }: { block: ManagedZenEmbedBlock; resources: ManagedZenComponentResources }) {
+  if (block.kind === "component") {
+    if (!block.componentKey || !block.componentProps) {
+      return <BlockedSurface title={block.title} source="Unknown controlled component" />;
+    }
+    return (
+      <div style={{ width: `${block.width}%`, maxWidth: "100%" }}>
+        <ManagedZenComponent
+          componentKey={block.componentKey}
+          props={block.componentProps}
+          resources={resources}
+        />
+      </div>
+    );
+  }
+
   const rawSource = block.embedUrl || block.source;
   const source = block.kind === "html" ? "" : safeEmbedUrl(rawSource);
   const mediaSource = safeMediaUrl(rawSource);
@@ -345,7 +366,7 @@ function SinglePageSurface({ page }: { page: ManagedZenPage }) {
   );
 }
 
-function ManagedPageContent({ page }: { page: ManagedZenPage }) {
+function ManagedPageContent({ page, resources }: { page: ManagedZenPage; resources: ManagedZenComponentResources }) {
   const layout = page.layout;
   const flowClass =
     layout.frame === "split"
@@ -362,7 +383,7 @@ function ManagedPageContent({ page }: { page: ManagedZenPage }) {
     return (
       <div className={flowClass} style={flowStyle}>
         {page.blocks.map((block) => (
-          <ManagedBlock block={block} key={block.id} />
+          <ManagedBlock block={block} resources={resources} key={block.id} />
         ))}
       </div>
     );
@@ -371,7 +392,7 @@ function ManagedPageContent({ page }: { page: ManagedZenPage }) {
   return <SinglePageSurface page={page} />;
 }
 
-function FullCanvasPage({ page }: { page: ManagedZenPage }) {
+function FullCanvasPage({ page, resources }: { page: ManagedZenPage; resources: ManagedZenComponentResources }) {
   if (page.pageType === "iframe" || page.pageType === "embed") {
     const source = safeEmbedUrl(page.embedUrl);
     return source ? (
@@ -403,7 +424,7 @@ function FullCanvasPage({ page }: { page: ManagedZenPage }) {
     );
   }
 
-  return <ManagedPageContent page={page} />;
+  return <ManagedPageContent page={page} resources={resources} />;
 }
 
 const pageClass = (layout: ManagedZenLayout) => {
@@ -422,16 +443,19 @@ const pageClass = (layout: ManagedZenLayout) => {
 export function ManagedZenPageRenderer({
   page,
   navigation = [],
+  resources = EMPTY_MANAGED_ZEN_RESOURCES,
 }: {
   page: ManagedZenPage;
   navigation?: ManagedZenNavigationItem[];
+  resources?: ManagedZenComponentResources;
 }) {
+
   const fullCanvas =
     page.layout.chrome === "none" && page.layout.frame === "full_bleed";
   if (fullCanvas) {
     return (
       <main className={styles.fullCanvas}>
-        <FullCanvasPage page={page} />
+        <FullCanvasPage page={page} resources={resources} />
       </main>
     );
   }
@@ -468,7 +492,7 @@ export function ManagedZenPageRenderer({
             </time>
           ) : null}
         </header>
-        <ManagedPageContent page={page} />
+        <ManagedPageContent page={page} resources={resources} />
       </article>
       {page.layout.chrome !== "none" ? (
         <ManagedFooter page={page} navigation={navigation} />

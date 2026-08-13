@@ -4,7 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ARSENAL_GATEWAY_LINKS, ZEN_DESTINATIONS, buildZenDestinationUrl, type ZenDestinationKey } from "../lib/program-access-links";
+import {
+  EMPTY_MANAGED_ZEN_RESOURCES,
+  type ManagedZenComponentResources,
+} from "./managed-component-renderer";
 import { defaultZenSiteControl, type ZenSiteControl } from "./site-control";
+import ArsenalProductStage from "./arsenal-product-stage";
 import CompanyPortfolio from "./company-portfolio";
 import GatewayExpansion from "./gateway-expansion";
 import HeritageArchive from "./heritage-archive";
@@ -709,15 +714,21 @@ function RouteSigil({ index }: { index: string }) {
 export default function ZenHub({
   managedNavigation = [],
   siteControl = defaultZenSiteControl(),
+  resources = EMPTY_MANAGED_ZEN_RESOURCES,
 }: {
   managedNavigation?: ManagedZenNavigationItem[];
   siteControl?: ZenSiteControl;
+  resources?: ManagedZenComponentResources;
 }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { homepage } = siteControl;
   const campaignContext = siteControl.campaignAttributionTag
     ? { campaign: siteControl.campaignAttributionTag }
     : {};
+  const arsenalBuildHref = buildZenDestinationUrl(
+    "ARSENAL_BUILD",
+    campaignContext,
+  );
   const primaryHref = buildZenDestinationUrl(
     homepage.primaryDestination,
     campaignContext,
@@ -726,6 +737,18 @@ export default function ZenHub({
     homepage.secondaryDestination,
     campaignContext,
   );
+  const finalHref = buildZenDestinationUrl(
+    homepage.finalDestination,
+    campaignContext,
+  );
+  const sectionPosition = (section: keyof typeof homepage.sectionVisibility) => {
+    const position = homepage.sectionOrder.indexOf(section);
+    return position < 0 ? homepage.sectionOrder.length : position;
+  };
+  const featuredMedia = homepage.featuredMediaId
+    ? resources.mediaById[homepage.featuredMediaId]
+    : undefined;
+  const selectedClaims = Object.values(resources.claimsByKey);
   const [headlineLead, ...headlineRemainder] = homepage.headline.split(/\s+/);
   const managedHeaderItems = managedZenNavigationFor(
     managedNavigation,
@@ -905,17 +928,67 @@ export default function ZenHub({
         </div>
       </section>
 
-      <NationalFirstMonument />
+      <div className="controlled-home-stack">
+        <div
+          className="controlled-home-section"
+          data-home-section="programs"
+          hidden={!homepage.sectionVisibility.programs}
+          style={{ order: sectionPosition("programs") }}
+        >
+          <NationalFirstMonument />
+        </div>
 
-      <CurrencyRail
-        chapter="I"
-        title="The ZEN capability portfolio"
-        code="SOLUTIONS / PROGRAMS / HUMAN ADVANCEMENT"
-      />
+        <div
+          className="controlled-home-section"
+          data-home-section="arsenal_story"
+          hidden={!homepage.sectionVisibility.arsenal_story}
+          style={{ order: sectionPosition("arsenal_story") }}
+        >
+          <ArsenalProductStage
+            media={featuredMedia}
+            buildHref={arsenalBuildHref}
+            campaign={siteControl.campaignAttributionTag}
+          />
+          <CurrencyRail
+            chapter="I"
+            title="The ZEN capability portfolio"
+            code="SOLUTIONS / PROGRAMS / HUMAN ADVANCEMENT"
+          />
+          <CompanyPortfolio />
+        </div>
 
-      <CompanyPortfolio />
-
-      <section id="proof" className="proof-archive">
+        <div
+          className="controlled-home-section"
+          data-home-section="proof"
+          hidden={!homepage.sectionVisibility.proof}
+          style={{ order: sectionPosition("proof") }}
+        >
+          {(featuredMedia || selectedClaims.length > 0) ? (
+            <section className="home-featured-evidence" aria-labelledby="featured-evidence-title">
+              <div className="home-featured-evidence__copy" data-reveal>
+                <span className="eyebrow">Approved public record</span>
+                <h2 id="featured-evidence-title">Evidence selected in Arsenal.</h2>
+                <p>Only approved claims and explicitly published media can appear in this controlled surface.</p>
+                {selectedClaims.map((claim) => (
+                  <article className="home-featured-evidence__claim" key={claim.claimKey}>
+                    <span>{claim.status || "Verified"}</span>
+                    <strong>{claim.wording}</strong>
+                    <a href={claim.source} target="_blank" rel="noopener noreferrer">
+                      Inspect source <i aria-hidden="true">↗</i>
+                    </a>
+                  </article>
+                ))}
+              </div>
+              {featuredMedia ? (
+                <figure className="home-featured-evidence__media" data-reveal>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={featuredMedia.publicUrl} alt={featuredMedia.altText} loading="lazy" />
+                  <figcaption>{featuredMedia.title || featuredMedia.altText}</figcaption>
+                </figure>
+              ) : null}
+            </section>
+          ) : null}
+          <section id="proof" className="proof-archive">
         <div className="archive-frame" aria-hidden="true">
           <span />
           <span />
@@ -982,13 +1055,34 @@ export default function ZenHub({
             </div>
           </div>
         </div>
-      </section>
+          </section>
+        </div>
 
-      <GatewayExpansion />
+        <div
+          className="controlled-home-section"
+          data-home-section="business_solutions"
+          hidden={!homepage.sectionVisibility.business_solutions}
+          style={{ order: sectionPosition("business_solutions") }}
+        >
+          <GatewayExpansion />
+        </div>
 
-      <HeritageArchive />
+        <div
+          className="controlled-home-section"
+          data-home-section="proof_archive"
+          hidden={!homepage.sectionVisibility.proof}
+          style={{ order: sectionPosition("proof") + 0.01 }}
+        >
+          <HeritageArchive />
+        </div>
 
-      <CurrencyRail
+        <div
+          className="controlled-home-section"
+          data-home-section="capability_loop"
+          hidden={!homepage.sectionVisibility.capability_loop}
+          style={{ order: sectionPosition("capability_loop") }}
+        >
+          <CurrencyRail
         chapter="II"
         title="Choose your path"
         code="ROUTE / 001—004"
@@ -1136,9 +1230,16 @@ export default function ZenHub({
             </div>
           </div>
         </div>
-      </section>
+          </section>
+        </div>
 
-      <CurrencyRail
+        <div
+          className="controlled-home-section"
+          data-home-section="final_router"
+          hidden={!homepage.sectionVisibility.final_router}
+          style={{ order: sectionPosition("final_router") }}
+        >
+          <CurrencyRail
         chapter="IV"
         title="The next chapter"
         code="MAKE / WHAT / MATTERS"
@@ -1164,12 +1265,12 @@ export default function ZenHub({
           <div className="issuance-actions">
             <a
               className="primary-button"
-              href={LINKS.build}
-              data-zen-destination-key="ARSENAL_BUILD"
-              data-zen-cta="final-router-build"
+              href={finalHref}
+              data-zen-destination-key={homepage.finalDestination}
+              data-zen-cta="final-router-featured"
               data-zen-campaign={siteControl.campaignSlug ?? undefined}
             >
-              Build with Arsenal <span aria-hidden="true">→</span>
+              {ZEN_DESTINATIONS[homepage.finalDestination].label} <span aria-hidden="true">&rarr;</span>
             </a>
             <a
               className="secondary-button"
@@ -1214,7 +1315,9 @@ export default function ZenHub({
           <span>Intelligence into capability</span>
           <span>ZEN AI CO.</span>
         </div>
-      </section>
+          </section>
+        </div>
+      </div>
 
       <footer className="footer">
         <div className="footer-plate">

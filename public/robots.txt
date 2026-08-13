@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://zenai.world/sitemap.xml
+Sitemap: https://www.zenai.world/sitemap.xml

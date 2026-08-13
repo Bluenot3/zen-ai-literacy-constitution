@@ -99,7 +99,7 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /https:\/\/arsenal\.world\/programs\/vanguard/);
   assert.match(
     html,
-    /next=%2Fagents%2Fnew%3Futm_source%3Dzenai\.world%26utm_medium%3Downed%26utm_campaign%3Dbuild_with_arsenal/,
+    /next=%2Fagents%3Futm_source%3Dzenai\.world%26utm_medium%3Downed%26utm_campaign%3Dbuild_with_arsenal/,
   );
   assert.match(
     html,
@@ -420,7 +420,7 @@ test("removes starter-only preview infrastructure", async () => {
   ]);
 
   assert.match(page, /getManagedZenHome/);
-  assert.match(page, /<ZenHub managedNavigation=/);
+  assert.match(page, /<ZenHub[\s\S]*managedNavigation=/);
   assert.match(layout, /generateMetadata/);
   assert.match(layout, /socialImage/);
   assert.match(hub, /GuillocheField/);
@@ -542,7 +542,10 @@ test("uses a typed revenue destination registry and controlled homepage reader",
   assert.match(destinations, /utm_source/);
   assert.match(destinations, /utm_campaign/);
   assert.match(destinations, /next=/);
+  assert.match(destinations, /path: "\/agents"/);
+  assert.match(destinations, /COMMAND_BY_TEXT[\s\S]*path: "\/command"/);
   assert.match(page, /getZenSiteControl/);
+  assert.match(page, /getZenHomepageResources/);
   assert.match(page, /siteControl=/);
   assert.match(server, /get_visible_zen_site_publication/);
   assert.match(server, /get_visible_zen_campaign/);
@@ -565,6 +568,11 @@ test("renders published Command Center SEO without trusting invalid URLs", async
             featured_capability: "Command by Text",
             featured_business_solution: "Operational intelligence",
             featured_program: "ZEN Vanguard",
+            announcement_enabled: false,
+            section_order: ["final_router", "arsenal_story", "business_solutions", "capability_loop", "programs", "proof"],
+            section_visibility: { programs: false },
+            final_destination: "COMMAND_BY_TEXT",
+            featured_media_id: "20000000-0000-4000-8000-000000000010",
           },
           seo: {
             title: "ZEN Operations | Controlled",
@@ -582,6 +590,28 @@ test("renders published Command Center SEO without trusting invalid URLs", async
           seo: { title: "ZEN Campaign Focus", canonical: "javascript:blocked" },
         },
       ]);
+    }
+    if (url.endsWith("/rest/v1/rpc/list_visible_site_announcements")) {
+      return Response.json([{
+        id: "10000000-0000-4000-8000-000000000091",
+        title: "This announcement is disabled by homepage control",
+        body: "It must not render.",
+        type: "banner",
+        priority: "normal",
+        is_dismissible: true,
+        starts_at: "2026-08-13T12:00:00.000Z",
+        updated_at: "2026-08-13T12:00:00.000Z",
+        style: {},
+      }]);
+    }
+    if (url.endsWith("/rest/v1/rpc/list_visible_zen_public_media")) {
+      return Response.json([{
+        id: "20000000-0000-4000-8000-000000000010",
+        title: "Arsenal command surface",
+        media_kind: "image",
+        public_url: "https://cdn.example/approved-arsenal.png",
+        alt_text: "Real Arsenal command surface showing an agent workflow.",
+      }]);
     }
     if (url.includes("/rest/v1/rpc/")) return Response.json([]);
     return originalFetch(input);
@@ -609,6 +639,14 @@ test("renders published Command Center SEO without trusting invalid URLs", async
     assert.match(html, /Command by Text/);
     assert.match(html, /Operational intelligence/);
     assert.match(html, /ZEN Vanguard/);
+    assert.match(html, /data-home-section="final_router"[^>]*style="order:0"/);
+    assert.match(html, /Arsenal \/ Intelligent Operations Platform/);
+    assert.match(html, /src="https:\/\/cdn\.example\/approved-arsenal\.png"/);
+    assert.match(html, /Actual Arsenal interface · no simulated telemetry/);
+    assert.match(html, /data-zen-cta="arsenal-product-stage-primary"/);
+    assert.match(html, /data-home-section="programs"[^>]*hidden=""/);
+    assert.match(html, /next=%2Fcommand%3Futm_source%3Dzenai\.world/);
+    assert.doesNotMatch(html, /This announcement is disabled by homepage control/);
   } finally {
     globalThis.fetch = originalFetch;
   }
@@ -626,6 +664,16 @@ test("exposes only public release metadata to the Arsenal production origin", as
 
   assert.equal(response.headers.get("access-control-allow-origin"), "https://arsenal.world");
   assert.equal(response.headers.get("cache-control"), "no-store");
+});
+
+test("advertises the canonical www host in discovery artifacts", async () => {
+  const sitemapSource = await readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8");
+  const robots = await readFile(new URL("../public/robots.txt", import.meta.url), "utf8");
+
+  assert.match(sitemapSource, /const base = "https:\/\/www\.zenai\.world"/);
+  assert.doesNotMatch(sitemapSource, /const base = "https:\/\/zenai\.world"/);
+  assert.match(robots, /Sitemap: https:\/\/www\.zenai\.world\/sitemap\.xml/);
+  assert.doesNotMatch(robots, /Sitemap: https:\/\/zenai\.world\/sitemap\.xml/);
 });
 
 test("canonicalizes the production apex to www without changing preview hosts", async () => {

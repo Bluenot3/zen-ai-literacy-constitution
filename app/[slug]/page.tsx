@@ -6,6 +6,7 @@ import {
   getManagedZenPage,
   listManagedZenNavigation,
 } from "../managed-pages.server";
+import { getManagedZenResources } from "../managed-resources.server";
 
 export const dynamic = "force-dynamic";
 
@@ -36,6 +37,7 @@ export default async function ManagedZenWorldPage({ params }: PageProps) {
   ]);
 
   if (!page) notFound();
+  const resources = await getManagedZenResources(page);
 
-  return <ManagedZenPageRenderer page={page} navigation={navigation} />;
+  return <ManagedZenPageRenderer page={page} navigation={navigation} resources={resources} />;
 }
