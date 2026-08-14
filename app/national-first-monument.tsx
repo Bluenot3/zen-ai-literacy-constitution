@@ -52,7 +52,7 @@ export default function NationalFirstMonument() {
             <strong>A national first marking a new era of human capability.</strong>
           </div>
           <a
-            href="https://ai-pioneer-courses-20260725.zenagi.chatgpt.site/programs/pioneer/preview?source=zenai.world&utm_source=zenai.world&utm_medium=owned&utm_campaign=pioneer_launch"
+            href="https://arsenal.world/programs/pioneer"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -79,7 +79,7 @@ export default function NationalFirstMonument() {
           </p>
           <div className={styles.actions}>
             <a
-              href="https://ai-pioneer-courses-20260725.zenagi.chatgpt.site/programs/pioneer/preview?source=zenai.world&utm_source=zenai.world&utm_medium=owned&utm_campaign=pioneer_launch"
+              href="https://arsenal.world/programs/pioneer"
               target="_blank"
               rel="noopener noreferrer"
             >
