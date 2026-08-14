@@ -85,11 +85,10 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /href="\/start"/);
   assert.match(html, /href="\/ai-literacy-constitution"/);
   assert.match(html, /https:\/\/arsenal\.world/);
-  assert.match(
-    html,
-    /https:\/\/ai-pioneer-courses-20260725\.zenagi\.chatgpt\.site\/programs\/pioneer\/preview/,
-  );
-  assert.match(html, /https:\/\/us-ai-literacy\.lovable\.app\/programs\/vanguard/);
+  assert.match(html, /https:\/\/arsenal\.world\/programs\/pioneer/);
+  assert.match(html, /https:\/\/arsenal\.world\/programs\/vanguard/);
+  assert.doesNotMatch(html, /ai-pioneer-courses-20260725\.zenagi\.chatgpt\.site/);
+  assert.doesNotMatch(html, /us-ai-literacy\.lovable\.app/);
   assert.match(html, /href="\/work\?category=accomplishments"/);
   assert.doesNotMatch(html, /aipioneer\.zen\.ai|us\.zenai\.biz\/guest/);
   assert.match(html, /https:\/\/preview\.zenai\.world\/og\.png/);

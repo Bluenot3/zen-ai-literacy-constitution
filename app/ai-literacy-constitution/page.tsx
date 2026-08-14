@@ -168,7 +168,7 @@ export default function ConstitutionPage() {
           <div>
             <Link href="/start">Start with ZEN →</Link>
             <a
-              href="https://ai-pioneer-courses-20260725.zenagi.chatgpt.site/programs/pioneer/preview?source=zenai.world&utm_source=zenai.world&utm_medium=owned&utm_campaign=pioneer_launch"
+              href="https://arsenal.world/programs/pioneer"
               target="_blank"
               rel="noopener noreferrer"
             >

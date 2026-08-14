@@ -18,8 +18,7 @@ const LINKS = {
   businessSpace:
     "https://arsenal.world/login?next=%2Fbusiness-spaces%2Fnew&utm_source=zenai.world&utm_medium=owned&utm_campaign=business_space_intake",
   pioneer: "https://arsenal.world/programs/pioneer",
-  vanguard:
-    "https://us-ai-literacy.lovable.app/programs/vanguard?source=zenai.world&utm_source=zenai.world&utm_medium=owned",
+  vanguard: "https://arsenal.world/programs/vanguard",
   work: "/work",
   accomplishments: "/work?category=accomplishments",
   initiatives: "/work?category=initiatives",
