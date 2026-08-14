@@ -1,4 +1,5 @@
 import {
+  isDirectProgramContentUrl,
   isZenDestinationKey,
   type ZenDestinationKey,
 } from "../lib/program-access-links";
@@ -111,7 +112,15 @@ const safeHttpsUrl = (value: unknown, fallback: string) => {
   if (typeof value !== "string") return fallback;
   try {
     const candidate = new URL(value);
-    return candidate.protocol === "https:" ? candidate.toString() : fallback;
+    if (
+      candidate.protocol !== "https:" ||
+      candidate.username ||
+      candidate.password ||
+      isDirectProgramContentUrl(candidate.toString())
+    ) {
+      return fallback;
+    }
+    return candidate.toString();
   } catch {
     return fallback;
   }

@@ -141,6 +141,16 @@ test("managed rich text, embeds, and announcement CTAs fail closed", async () =>
     created_at: timestamp,
     updated_at: timestamp,
   };
+  const credentialAnnouncement = {
+    ...announcement,
+    id: "50000000-0000-4000-8000-000000000004",
+    title: "Credential URL containment",
+    style: {
+      ...announcement.style,
+      cta_label: "Must not render credential CTA",
+      cta_action: "https://preview:access@us-ai-literacy.lovable.app/guide",
+    },
+  };
 
   globalThis.fetch = async (input, init) => {
     const url = input instanceof Request ? input.url : String(input);
@@ -158,7 +168,7 @@ test("managed rich text, embeds, and announcement CTAs fail closed", async () =>
       );
     }
     if (url.endsWith("/list_visible_site_announcements")) {
-      return Response.json([announcement]);
+      return Response.json([announcement, credentialAnnouncement]);
     }
     return Response.json([]);
   };
@@ -172,6 +182,7 @@ test("managed rich text, embeds, and announcement CTAs fail closed", async () =>
     const homepageHtml = await homepage.text();
     assert.match(homepageHtml, /Sign in to access/);
     assert.match(homepageHtml, /https:\/\/arsenal\.world\/programs\/vanguard/);
+    assert.doesNotMatch(homepageHtml, /Must not render credential CTA/);
     assertContained(homepageHtml, "announcement CTA");
 
     const managed = await render("/managed-obfuscated", environment);
@@ -234,6 +245,21 @@ test("published Work blocks cannot emit protected curriculum destinations", asyn
           allowEmbed: true,
         },
         {
+          id: "embed-credential-vanguard",
+          type: "embed",
+          url: "https://preview:access@us-ai-literacy.lovable.app/modules/credentialed",
+          title: "Credential-bearing protected embed",
+          height: 480,
+          allowEmbed: true,
+        },
+        {
+          id: "image-credential-pioneer",
+          type: "image",
+          url: "https://preview:access@ai-pioneer-courses-20260725.zenagi.chatgpt.site/private/image.png",
+          alt: "Credential media must not render",
+          caption: "Credential media must not render",
+        },
+        {
           id: "html-vanguard",
           type: "html",
           title: "Obfuscated protected link",
@@ -265,7 +291,7 @@ test("published Work blocks cannot emit protected curriculum destinations", asyn
     assert.match(html, /https:\/\/arsenal\.world\/programs\/vanguard/);
     assert.match(html, /data-zen-program-containment/);
     assert.doesNotMatch(html, /<iframe[^>]+(?:ai-pioneer-courses|us-ai-literacy)/i);
-    assert.doesNotMatch(html, /Must not render/);
+    assert.doesNotMatch(html, /Must not render|Credential media must not render/);
     assertContained(html, "published Work page");
   } finally {
     globalThis.fetch = originalFetch;

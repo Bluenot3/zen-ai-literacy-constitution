@@ -19,6 +19,7 @@ const safeLink = (value: string) => {
 
   try {
     const url = new URL(trimmed);
+    if (url.username || url.password) return "";
     if (["https:", "mailto:", "tel:"].includes(url.protocol)) {
       return gateZenPublicDestination(url.toString());
     }
@@ -42,6 +43,7 @@ const safeMedia = (value: string) => {
 
   try {
     const url = new URL(trimmed);
+    if (url.username || url.password) return "";
     if (url.protocol === "https:") return url.toString();
   } catch {
     return "";

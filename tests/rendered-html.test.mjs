@@ -605,7 +605,11 @@ test("renders published Command Center SEO without trusting invalid URLs", async
       return Response.json([
         {
           slug: "controlled-focus",
-          seo: { title: "ZEN Campaign Focus", canonical: "javascript:blocked" },
+          seo: {
+            title: "ZEN Campaign Focus",
+            canonical: "https://preview:access@us-ai-literacy.lovable.app/guide",
+            og_image: "https://preview:access@ai-pioneer-courses-20260725.zenagi.chatgpt.site/preview.png",
+          },
         },
       ]);
     }
@@ -653,6 +657,10 @@ test("renders published Command Center SEO without trusting invalid URLs", async
     assert.match(
       html,
       /property="og:image" content="https:\/\/www\.zenai\.world\/controlled-og\.png"/,
+    );
+    assert.doesNotMatch(
+      html,
+      /ai-pioneer-courses-20260725\.zenagi\.chatgpt\.site|us-ai-literacy\.lovable\.app/,
     );
     assert.match(html, /Command by Text/);
     assert.match(html, /Operational intelligence/);

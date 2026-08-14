@@ -135,9 +135,7 @@ export function directProgramIdForUrl(value: string): NativeProgramId | null {
     const source = value.trim();
     const normalized = source.startsWith("//") ? `https:${source}` : source;
     const url = new URL(normalized);
-    if (!/^https?:$/.test(url.protocol) || url.username || url.password) {
-      return null;
-    }
+    if (!/^https?:$/.test(url.protocol)) return null;
     const hostname = url.hostname.toLowerCase().replace(/\.+$/, "");
     return DIRECT_PROGRAM_HOSTS[hostname] ?? null;
   } catch {

@@ -44,6 +44,7 @@ const ctaActionValue = (value: unknown) => {
 
   try {
     const url = new URL(action);
+    if (url.username || url.password) return "";
     return url.protocol === "https:" || url.protocol === "http:"
       ? gateZenPublicDestination(url.toString()).slice(0, 500)
       : "";
