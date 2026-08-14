@@ -99,7 +99,7 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /https:\/\/arsenal\.world\/programs\/vanguard/);
   assert.match(
     html,
-    /next=%2Fagents%3Futm_source%3Dzenai\.world%26utm_medium%3Downed%26utm_campaign%3Dbuild_with_arsenal/,
+    /next=%2Fagents%2Fnew%3Futm_source%3Dzenai\.world%26utm_medium%3Downed%26utm_campaign%3Dbuild_with_arsenal/,
   );
   assert.match(
     html,
@@ -339,6 +339,22 @@ test("uses explicit former-Wix mappings without wildcard product redirects", asy
   const unknownProduct = await render("/product-page/not-in-the-approved-map");
   assert.equal(unknownProduct.status, 404);
 
+  const pricing = await render("/pricing");
+  assert.equal(pricing.status, 308);
+  assert.equal(
+    pricing.headers.get("location"),
+    "https://arsenal.world/pricing?utm_source=zenai.world&utm_medium=migration&utm_campaign=wix_migration",
+  );
+
+  const marketplace = await render("/category/all-products");
+  assert.equal(marketplace.status, 308);
+  assert.equal(
+    marketplace.headers.get("location"),
+    "https://arsenal.world/marketplace?utm_source=zenai.world&utm_medium=migration&utm_campaign=wix_migration",
+  );
+  assert.doesNotMatch(pricing.headers.get("location") ?? "", /\/login\?next=/);
+  assert.doesNotMatch(marketplace.headers.get("location") ?? "", /\/login\?next=/);
+
   const groupPost = await render("/group/example/discussion/unapproved-post");
   assert.equal(groupPost.status, 410);
   assert.match(await groupPost.text(), /former Wix community post/);
@@ -542,7 +558,9 @@ test("uses a typed revenue destination registry and controlled homepage reader",
   assert.match(destinations, /utm_source/);
   assert.match(destinations, /utm_campaign/);
   assert.match(destinations, /next=/);
-  assert.match(destinations, /path: "\/agents"/);
+  assert.match(destinations, /ARSENAL_BUILD[\s\S]*path: "\/agents\/new"/);
+  assert.match(destinations, /PRICING[\s\S]*path: "\/pricing", requiresAuth: false/);
+  assert.match(destinations, /MARKETPLACE[\s\S]*path: "\/marketplace", requiresAuth: false/);
   assert.match(destinations, /COMMAND_BY_TEXT[\s\S]*path: "\/command"/);
   assert.match(page, /getZenSiteControl/);
   assert.match(page, /getZenHomepageResources/);

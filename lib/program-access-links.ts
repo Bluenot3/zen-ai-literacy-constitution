@@ -1,7 +1,7 @@
 export type NativeProgramId = "pioneer" | "vanguard";
 
 export type ArsenalEntryPath =
-  | "/agents"
+  | "/agents/new"
   | "/business-spaces/new"
   | "/dashboard"
   | "/command"
@@ -33,12 +33,12 @@ export interface ZenDestinationDefinition {
 }
 
 export const ZEN_DESTINATIONS: Record<ZenDestinationKey, ZenDestinationDefinition> = {
-  ARSENAL_BUILD: { key: "ARSENAL_BUILD", label: "Build with Arsenal", path: "/agents", requiresAuth: true, host: "arsenal" },
+  ARSENAL_BUILD: { key: "ARSENAL_BUILD", label: "Build with Arsenal", path: "/agents/new", requiresAuth: true, host: "arsenal" },
   BUSINESS_TRANSFORM: { key: "BUSINESS_TRANSFORM", label: "Transform a Business", path: "/business-spaces/new", requiresAuth: true, host: "arsenal" },
   PROGRAMS: { key: "PROGRAMS", label: "Join a Program", path: "/programs", requiresAuth: false, host: "zen" },
   PARTNER: { key: "PARTNER", label: "Partner with ZEN", path: "/partners/apply", requiresAuth: true, host: "arsenal" },
-  PRICING: { key: "PRICING", label: "View Arsenal Pricing", path: "/pricing", requiresAuth: true, host: "arsenal" },
-  MARKETPLACE: { key: "MARKETPLACE", label: "Explore Marketplace", path: "/marketplace", requiresAuth: true, host: "arsenal" },
+  PRICING: { key: "PRICING", label: "View Arsenal Pricing", path: "/pricing", requiresAuth: false, host: "arsenal" },
+  MARKETPLACE: { key: "MARKETPLACE", label: "Explore Marketplace", path: "/marketplace", requiresAuth: false, host: "arsenal" },
   OPERATOR: { key: "OPERATOR", label: "Become an Operator", path: "/operator-os", requiresAuth: true, host: "arsenal" },
   COMMAND_BY_TEXT: { key: "COMMAND_BY_TEXT", label: "Command by Text", path: "/command", requiresAuth: true, host: "arsenal" },
 };

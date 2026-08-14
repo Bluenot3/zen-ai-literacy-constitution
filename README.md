@@ -160,6 +160,8 @@ When managed-content configuration is unavailable, the application retains its b
 
 ## Publishing and deployment
 
+Strategic sequencing and the 12-month operating plan are governed by the [ZEN Power Ascent HQ — Source of Truth](https://app.notion.com/p/ZEN-Power-Ascent-HQ-Source-of-Truth-3d86ba60d6934c85b626e07450d5ce89?source=copy_link). Production/runtime facts and verified repository evidence remain authoritative for current implementation truth. Engineering release state is maintained in the single Arsenal final-ascent execution ledger rather than duplicated here.
+
 Production is delivered through OpenAI Sites and the custom ZEN domain.
 
 Every release should:

@@ -1,7 +1,7 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
-import { buildArsenalLoginUrl } from "../lib/program-access-links";
+import { buildArsenalLoginUrl, buildZenDestinationUrl } from "../lib/program-access-links";
 
 interface WorkerBindings {
   ASSETS: Fetcher;
@@ -197,16 +197,14 @@ const worker = {
       "/arsenal": "https://arsenal.world",
       "/solutions": "/#solutions",
       "/groups": "https://arsenal.world/community",
-      "/pricing": buildArsenalLoginUrl(
-        "/pricing",
-        "migration",
-        "wix_migration",
-      ),
-      "/category/all-products": buildArsenalLoginUrl(
-        "/marketplace",
-        "migration",
-        "wix_migration",
-      ),
+      "/pricing": buildZenDestinationUrl("PRICING", {
+        medium: "migration",
+        campaign: "wix_migration",
+      }),
+      "/category/all-products": buildZenDestinationUrl("MARKETPLACE", {
+        medium: "migration",
+        campaign: "wix_migration",
+      }),
       "/challenge-page/bb4918ca-0eea-4952-beea-53547a7bde92":
         "/programs#pioneer",
       "/challenge-page/58da3d0d-6fa1-4f41-8fc6-64dee1d9dc5e":
