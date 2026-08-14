@@ -822,14 +822,6 @@ export default function ZenHub({
           </p>
           <div className="hero-actions">
             <a
-              className="primary-button"
-              href={LINKS.pioneer}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Explore the historic program <span aria-hidden="true">↗</span>
-            </a>
-            <a
               className="secondary-button"
               href={LINKS.arsenal}
               target="_blank"
