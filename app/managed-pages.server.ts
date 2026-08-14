@@ -13,6 +13,15 @@ type RuntimeEnvironment = {
 };
 
 const ZEN_SITE_KEY = "zen_world";
+const PUBLIC_RPC_CACHE_TTL_MS = 5_000;
+const PUBLIC_RPC_CACHE_LIMIT = 64;
+
+type PublicRpcCacheEntry = {
+  expiresAt: number;
+  rows: Promise<unknown[]>;
+};
+
+const publicRpcCache = new Map<string, PublicRpcCacheEntry>();
 
 const runtimeConfig = () => {
   const runtime =
@@ -40,31 +49,53 @@ export async function readPublicRpc(
   const { url, publishableKey } = runtimeConfig();
   if (!url || !publishableKey) return [];
 
-  try {
-    const response = await fetch(`${url}/rest/v1/rpc/${functionName}`, {
-      method: "POST",
-      headers: {
-        apikey: publishableKey,
-        Authorization: `Bearer ${publishableKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-      cache: "no-store",
-      signal: AbortSignal.timeout(5_000),
-    });
+  const now = Date.now();
+  const cacheKey = `${url}|${functionName}|${JSON.stringify(payload)}`;
+  const cached = publicRpcCache.get(cacheKey);
+  if (cached && cached.expiresAt > now) return cached.rows;
+  if (cached) publicRpcCache.delete(cacheKey);
 
-    if (!response.ok) {
-      console.error(
-        `ZEN managed-page request ${functionName} failed with status ${response.status}.`,
-      );
+  for (const [key, entry] of publicRpcCache) {
+    if (entry.expiresAt <= now) publicRpcCache.delete(key);
+  }
+  if (publicRpcCache.size >= PUBLIC_RPC_CACHE_LIMIT) {
+    const oldestKey = publicRpcCache.keys().next().value;
+    if (oldestKey) publicRpcCache.delete(oldestKey);
+  }
+
+  const rows = (async () => {
+    try {
+      const response = await fetch(`${url}/rest/v1/rpc/${functionName}`, {
+        method: "POST",
+        headers: {
+          apikey: publishableKey,
+          Authorization: `Bearer ${publishableKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+        cache: "no-store",
+        signal: AbortSignal.timeout(5_000),
+      });
+
+      if (!response.ok) {
+        console.error(
+          `ZEN managed-page request ${functionName} failed with status ${response.status}.`,
+        );
+        return [];
+      }
+
+      return responseRows(await response.json());
+    } catch (error) {
+      console.error(`ZEN managed-page request ${functionName} failed.`, error);
       return [];
     }
+  })();
 
-    return responseRows(await response.json());
-  } catch (error) {
-    console.error(`ZEN managed-page request ${functionName} failed.`, error);
-    return [];
-  }
+  publicRpcCache.set(cacheKey, {
+    expiresAt: now + PUBLIC_RPC_CACHE_TTL_MS,
+    rows,
+  });
+  return rows;
 }
 
 export async function listManagedZenNavigation(): Promise<

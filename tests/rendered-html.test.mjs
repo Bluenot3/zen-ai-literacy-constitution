@@ -678,6 +678,32 @@ test("renders published Command Center SEO without trusting invalid URLs", async
   }
 });
 
+test("coalesces repeated anonymous homepage public RPC reads", async () => {
+  const originalFetch = globalThis.fetch;
+  const rpcCalls = [];
+  globalThis.fetch = async (input) => {
+    const url = input instanceof Request ? input.url : String(input);
+    if (url.startsWith("https://fanout-control.example/rest/v1/rpc/")) {
+      rpcCalls.push(url.slice(url.lastIndexOf("/") + 1));
+      return Response.json([]);
+    }
+    return originalFetch(input);
+  };
+
+  try {
+    const response = await render("/", {
+      SUPABASE_URL: "https://fanout-control.example",
+      SUPABASE_PUBLISHABLE_KEY: "public-test-key",
+    });
+    assert.equal(response.status, 200);
+    assert.ok(
+      rpcCalls.length <= 7,
+      `expected at most 7 coalesced public RPC reads, received ${rpcCalls.length}: ${rpcCalls.join(", ")}`,
+    );
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
 test("exposes only public release metadata to the Arsenal production origin", async () => {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("release-cors-test", "release-" + process.pid + "-" + Date.now());
