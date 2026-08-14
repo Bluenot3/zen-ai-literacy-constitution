@@ -5,8 +5,7 @@ const LINKS = {
   arsenal: "https://arsenal.world",
   businessSpace:
     "https://arsenal.world/login?next=%2Fbusiness-spaces%2Fnew&utm_source=zenai.world&utm_medium=owned&utm_campaign=business_space_intake",
-  pioneer:
-    "https://ai-pioneer-courses-20260725.zenagi.chatgpt.site/programs/pioneer/preview?source=zenai.world&utm_source=zenai.world&utm_medium=owned&utm_campaign=pioneer_launch",
+  pioneer: "https://arsenal.world/programs/pioneer",
   vanguard:
     "https://us-ai-literacy.lovable.app/programs/vanguard?source=zenai.world&utm_source=zenai.world&utm_medium=owned",
   start: "/start",
