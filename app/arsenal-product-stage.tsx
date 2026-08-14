@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { ManagedZenPublicMedia } from "./managed-component-renderer";
 import styles from "./arsenal-product-stage.module.css";
 
@@ -10,7 +11,16 @@ const CAPABILITIES = [
   "Channels",
   "Business Space",
   "Output",
+  "Proof",
   "Monetization",
+] as const;
+
+const SYSTEM_BANDS = [
+  ["01", "Intelligence", "Agent", "Knowledge"],
+  ["02", "Capability", "Skills", "Tools"],
+  ["03", "Orchestration", "Automations", "Channels"],
+  ["04", "Operations", "Business Space", "Output"],
+  ["05", "Economics", "Proof", "Monetization"],
 ] as const;
 
 export default function ArsenalProductStage({
@@ -49,8 +59,8 @@ export default function ArsenalProductStage({
 
         <div className={styles.evidenceShell}>
           <div className={styles.evidenceRegister}>
-            <span>Real interface evidence</span>
-            <span>{media ? "Approved public media" : "Controlled system map"}</span>
+            <span>{media ? "Real interface evidence" : "Founding evidence"}</span>
+            <span>{media ? "Approved public media" : "Founding credential + operating cutaway"}</span>
           </div>
           {media ? (
             <figure className={styles.screenshot}>
@@ -63,17 +73,102 @@ export default function ArsenalProductStage({
               </figcaption>
             </figure>
           ) : (
-            <div className={styles.systemMap} aria-label="Arsenal operating system map">
-              <div className={styles.orbit} aria-hidden="true" />
-              <div className={styles.core}>
-                <small>ZEN AI CO.</small>
-                <strong>ARSENAL</strong>
-                <span>OPERATING SYSTEM</span>
+            <div
+              className={styles.heritageSystem}
+              aria-label="ZEN founding credential connected to the Arsenal operating system"
+            >
+              <figure className={styles.credentialArtifact}>
+                <div className={styles.credentialRegister}>
+                  <span>Founding credential</span>
+                  <span>United States · MMXXIII</span>
+                </div>
+                <div className={styles.credentialImage}>
+                  <Image
+                    src="/national-first.png"
+                    alt="ZEN AI Co. — The first youth AI literacy program in United States history"
+                    width={1672}
+                    height={941}
+                    sizes="(max-width: 980px) 92vw, 52vw"
+                    unoptimized
+                  />
+                  <div className={styles.credentialSheen} aria-hidden="true" />
+                  <div className={styles.credentialCorners} aria-hidden="true">
+                    <i />
+                    <i />
+                    <i />
+                    <i />
+                  </div>
+                </div>
+                <figcaption>
+                  <span>AI Pioneer · national capability record</span>
+                  <strong>Proof before platform.</strong>
+                </figcaption>
+              </figure>
+
+              <div className={styles.cutaway}>
+                <header className={styles.cutawayHead}>
+                  <span>Arsenal / operating system cutaway</span>
+                  <strong>Capability, assembled.</strong>
+                  <p>
+                    The founding literacy mission continues as an operating
+                    system for real agents, business work, proof, and economic
+                    output.
+                  </p>
+                </header>
+
+                <figure className={styles.engineVisual}>
+                  <div className={styles.engineMachine}>
+                    <Image
+                      src="/arsenal-capability-engine.jpg"
+                      alt="Conceptual architectural visualization of the Arsenal capability engine"
+                      width={1086}
+                      height={1448}
+                      sizes="(max-width: 980px) 92vw, 38vw"
+                      unoptimized
+                    />
+                    <span className={styles.engineMark} aria-hidden="true">
+                      <Image
+                        src="/zen-mark.png"
+                        alt=""
+                        width={1254}
+                        height={1254}
+                        sizes="5rem"
+                        unoptimized
+                      />
+                    </span>
+                  </div>
+                  <figcaption>
+                    <span>Conceptual architecture · no simulated interface</span>
+                    <strong>Arsenal capability engine</strong>
+                  </figcaption>
+                </figure>
+
+                <div className={styles.systemBands}>
+                  {SYSTEM_BANDS.map(([code, label, left, right]) => (
+                    <div className={styles.systemBand} key={code}>
+                      <span>{code}</span>
+                      <small>{label}</small>
+                      <strong>{left}</strong>
+                      <i aria-hidden="true" />
+                      <strong>{right}</strong>
+                    </div>
+                  ))}
+                </div>
+
+                <div className={styles.systemNameplate}>
+                  <span>ZEN AI CO. / BUSINESS EXECUTION SYSTEM</span>
+                  <strong>ARSENAL</strong>
+                  <small>Intelligence → capability → verified value</small>
+                </div>
               </div>
-              <p>
-                An approved Arsenal screenshot can be selected from the ZEN
-                Command Center without a code release.
-              </p>
+
+              <div className={styles.transferLine} aria-hidden="true">
+                <span>01</span>
+                <i />
+                <strong>LEARN → BUILD → OPERATE → PROVE</strong>
+                <i />
+                <span>05</span>
+              </div>
             </div>
           )}
         </div>
@@ -92,7 +187,11 @@ export default function ArsenalProductStage({
         <a className={styles.secondary} href="#solutions">
           See the operating model <span aria-hidden="true">↓</span>
         </a>
-        <p>Real interface only · no simulated telemetry</p>
+        <p>
+          {media
+            ? "Real interface only · no simulated telemetry"
+            : "Founding evidence · conceptual architecture clearly labeled"}
+        </p>
       </footer>
     </section>
   );

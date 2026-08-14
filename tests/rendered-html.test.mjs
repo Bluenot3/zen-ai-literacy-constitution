@@ -92,6 +92,15 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /_energyField_/);
   assert.match(html, /_symbolOrbit_/);
   assert.match(html, /Human-led by design\./);
+  assert.match(html, /Founding credential/);
+  assert.match(html, /Founding evidence/);
+  assert.match(html, /Arsenal \/ operating system cutaway/);
+  assert.match(html, /national-first\.png/);
+  assert.match(html, /arsenal-capability-engine\.jpg/);
+  assert.match(html, /Conceptual architecture · no simulated interface/);
+  assert.match(html, /Founding evidence · conceptual architecture clearly labeled/);
+  assert.match(html, /Intelligence → capability → verified value/);
+  assert.doesNotMatch(html, /Controlled system map/);
   assert.match(html, /href="\/start"/);
   assert.match(html, /href="\/ai-literacy-constitution"/);
   assert.match(html, /https:\/\/arsenal\.world/);
@@ -495,6 +504,7 @@ test("removes starter-only preview infrastructure", async () => {
   await access(new URL("../public/zen-mark.png", import.meta.url));
   await access(new URL("../public/og.png", import.meta.url));
   await access(new URL("../public/national-first.png", import.meta.url));
+  await access(new URL("../public/arsenal-capability-engine.jpg", import.meta.url));
   await access(new URL("../public/gallery/archive-08.jpg", import.meta.url));
   await access(
     new URL(
