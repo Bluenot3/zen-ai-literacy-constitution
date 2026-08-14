@@ -1,5 +1,9 @@
 import "server-only";
 
+import {
+  gateZenPublicDestination,
+  isDirectProgramContentUrl,
+} from "../lib/program-access-links";
 import type { ManagedZenPage } from "./managed-pages";
 import type { ZenHomepageControl } from "./site-control";
 import {
@@ -60,7 +64,7 @@ function normalizeMedia(value: unknown): ManagedZenPublicMedia | null {
   const id = text(value.id, 40);
   const publicUrl = safeHttps(value.public_url);
   const altText = text(value.alt_text, 300);
-  if (!UUID_PATTERN.test(id) || !publicUrl || !altText) return null;
+  if (!UUID_PATTERN.test(id) || !publicUrl || !altText || isDirectProgramContentUrl(publicUrl)) return null;
   return { id, publicUrl, altText, title: text(value.title, 160) };
 }
 
@@ -69,11 +73,14 @@ function normalizeClaim(value: unknown): ManagedZenPublicClaim | null {
   const claimKey = text(value.claim_key, 80);
   const wording = text(value.approved_wording, 1200);
   if (!/^[a-z0-9]+(?:[-_][a-z0-9]+)*$/.test(claimKey) || !wording) return null;
+  const evidenceUrl = safeHttps(value.evidence_url);
   return {
     claimKey,
     wording,
     status: text(value.claim_status, 80).replaceAll("_", " "),
-    source: safeHttps(value.evidence_url) || "Evidence retained by ZEN AI Co.",
+    source: evidenceUrl
+      ? gateZenPublicDestination(evidenceUrl)
+      : "Evidence retained by ZEN AI Co.",
     validUntil: text(value.valid_until, 20),
   };
 }

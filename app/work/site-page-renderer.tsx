@@ -11,6 +11,10 @@ import styles from "./work.module.css";
 
 const safeLink = (value: string) => {
   const trimmed = value.trim();
+  if (trimmed.startsWith("//")) {
+    const gatedDestination = gateZenPublicDestination(trimmed);
+    return gatedDestination === trimmed ? "" : gatedDestination;
+  }
   if (trimmed.startsWith("/")) return trimmed;
 
   try {
@@ -27,7 +31,10 @@ const safeLink = (value: string) => {
 
 const safeMedia = (value: string) => {
   const trimmed = value.trim();
-  if (trimmed.startsWith("/") || trimmed.startsWith("data:image/")) {
+  if (
+    (trimmed.startsWith("/") && !trimmed.startsWith("//")) ||
+    trimmed.startsWith("data:image/")
+  ) {
     return trimmed;
   }
 

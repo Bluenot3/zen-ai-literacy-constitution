@@ -253,14 +253,14 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
     assert.match(managedHtml, /Managed runtime content/);
     assert.match(managedHtml, /sandbox="allow-scripts"/);
     assert.doesNotMatch(managedHtml, /allow-same-origin/);
-    assert.match(managedHtml, /arsenal\.world\/login\?next=/);
+    assert.match(managedHtml, /arsenal\.world\/programs\/vanguard/);
     assert.doesNotMatch(managedHtml, /us-ai-literacy\.lovable\.app/);
 
     const protectedProgram = await render("/managed-program", environment);
     assert.equal(protectedProgram.status, 200);
     const protectedProgramHtml = await protectedProgram.text();
     assert.match(protectedProgramHtml, /Protected ZEN Programs open through Arsenal/);
-    assert.match(protectedProgramHtml, /arsenal\.world\/login\?next=/);
+    assert.match(protectedProgramHtml, /arsenal\.world\/programs\/pioneer/);
     assert.doesNotMatch(protectedProgramHtml, /<iframe[^>]+ai-pioneer-courses/i);
     assert.doesNotMatch(protectedProgramHtml, /ai-pioneer-courses-20260725\.zenagi\.chatgpt\.site/);
 
@@ -306,11 +306,11 @@ test("keeps public Program discovery open and protected delivery in Arsenal", as
   assert.match(programsHtml, /Public understanding\. Protected delivery\./);
   assert.match(
     programsHtml,
-    /next=%2Fprograms%2Fpioneer%3Futm_source%3Dzenai\.world/,
+    /https:\/\/arsenal\.world\/programs\/pioneer/,
   );
   assert.match(
     programsHtml,
-    /next=%2Fprograms%2Fvanguard%3Futm_source%3Dzenai\.world/,
+    /https:\/\/arsenal\.world\/programs\/vanguard/,
   );
   assert.doesNotMatch(programsHtml, /ai-pioneer-courses-20260725\.zenagi\.chatgpt\.site/);
   assert.doesNotMatch(programsHtml, /us-ai-literacy\.lovable\.app/);

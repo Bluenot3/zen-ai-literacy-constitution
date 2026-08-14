@@ -126,18 +126,20 @@ export const ARSENAL_GATEWAY_LINKS = {
 } as const;
 
 export const PROGRAM_LOGIN_LINKS = {
-  pioneer: buildArsenalProgramLoginUrl("pioneer"),
-  vanguard: buildArsenalProgramLoginUrl("vanguard"),
+  pioneer: "https://arsenal.world/programs/pioneer",
+  vanguard: "https://arsenal.world/programs/vanguard",
 } as const;
 
 export function directProgramIdForUrl(value: string): NativeProgramId | null {
   try {
-    const normalized = value.startsWith("//") ? `https:${value}` : value;
+    const source = value.trim();
+    const normalized = source.startsWith("//") ? `https:${source}` : source;
     const url = new URL(normalized);
     if (!/^https?:$/.test(url.protocol) || url.username || url.password) {
       return null;
     }
-    return DIRECT_PROGRAM_HOSTS[url.hostname.toLowerCase()] ?? null;
+    const hostname = url.hostname.toLowerCase().replace(/\.+$/, "");
+    return DIRECT_PROGRAM_HOSTS[hostname] ?? null;
   } catch {
     return null;
   }
@@ -153,8 +155,44 @@ export function gateZenPublicDestination(value: string) {
 }
 
 export function gateZenPublicHtml(html: string) {
-  return html.replace(
+  const rewritten = html.replace(
     /(?:https?:)?\/\/(?:ai-pioneer-courses-20260725\.zenagi\.chatgpt\.site|us-ai-literacy\.lovable\.app)[^\s"'<>]*/gi,
     (destination) => gateZenPublicDestination(destination),
   );
+
+  const inspectionCopy = decodeUrlHtmlEntities(rewritten).toLowerCase();
+  const remainingProgram = Object.entries(DIRECT_PROGRAM_HOSTS).find(
+    ([hostname]) => inspectionCopy.includes(hostname),
+  )?.[1];
+
+  if (!remainingProgram) return rewritten;
+
+  return [
+    '<section data-zen-program-containment="true">',
+    "<h2>Protected Program access</h2>",
+    "<p>Sign in through Arsenal so Program access and entitlement can be verified.</p>",
+    `<a href="${PROGRAM_LOGIN_LINKS[remainingProgram]}">Sign in to access</a>`,
+    "</section>",
+  ].join("");
+}
+
+function decodeUrlHtmlEntities(value: string) {
+  let decoded = value;
+  for (let pass = 0; pass < 3; pass += 1) {
+    const next = decoded
+      .replace(/&#x([0-9a-f]+);?/gi, (_, code: string) =>
+        String.fromCodePoint(Number.parseInt(code, 16)),
+      )
+      .replace(/&#([0-9]+);?/g, (_, code: string) =>
+        String.fromCodePoint(Number.parseInt(code, 10)),
+      )
+      .replace(/&(amp|colon|period|sol);/gi, (_, name: string) =>
+        ({ amp: "&", colon: ":", period: ".", sol: "/" })[
+          name.toLowerCase()
+        ] ?? "",
+      );
+    if (next === decoded) break;
+    decoded = next;
+  }
+  return decoded;
 }

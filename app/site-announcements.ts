@@ -1,3 +1,5 @@
+import { gateZenPublicDestination } from "../lib/program-access-links";
+
 export type ZenAnnouncementPriority = "low" | "normal" | "high" | "urgent";
 
 export type ZenSiteAnnouncement = {
@@ -43,7 +45,7 @@ const ctaActionValue = (value: unknown) => {
   try {
     const url = new URL(action);
     return url.protocol === "https:" || url.protocol === "http:"
-      ? url.toString().slice(0, 500)
+      ? gateZenPublicDestination(url.toString()).slice(0, 500)
       : "";
   } catch {
     return "";
