@@ -160,7 +160,7 @@ const LEDGER = [
   },
   {
     heading: "Connect",
-    copy: "Arrive with context",
+    copy: "Activate your ZEN identity",
     links: [
       ["Start with ZEN", LINKS.start],
       ["AI Literacy Constitution", LINKS.constitution],

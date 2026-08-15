@@ -81,7 +81,7 @@ export default function GatewayExpansion() {
             agency.
           </p>
           <div className={styles.companyActions}>
-            <Link href="/start">Start with context <span aria-hidden="true">→</span></Link>
+            <Link href="/start">Start with ZEN <span aria-hidden="true">→</span></Link>
             <Link href="/ai-literacy-constitution">
               Read the AI Literacy Constitution <span aria-hidden="true">→</span>
             </Link>
@@ -224,23 +224,21 @@ export default function GatewayExpansion() {
           {Array.from({ length: 9 }, (_, index) => <span key={index} />)}
         </div>
         <div>
-          <span className={styles.eyebrow}>Arrivals · guided routing</span>
-          <h2>Tell us where capability needs to begin.</h2>
+          <span className={styles.eyebrow}>One ZEN identity · Arsenal activation</span>
+          <h2>Turn discovery into capability.</h2>
           <p>
-            The ZEN intake gathers the operating context Arsenal needs for a
-            stronger Business Space brief, or routes learners, educators,
-            communities, and partners to the right next step.
+            ZEN is the public gateway. Arsenal is the protected operating
+            environment for your account, Agents, projects, automations,
+            programs, and operating tools.
           </p>
         </div>
         <div className={styles.contactActions}>
-          <Link href="/start">Start the guided intake →</Link>
-          <a href="mailto:huxley@zenai.biz?subject=ZEN%20AI%20Co.%20inquiry">
-            Email ZEN directly
-          </a>
+          <Link href="/start">Activate / Sign in →</Link>
+          <Link href="/">Return to ZEN</Link>
         </div>
         <div className={styles.contactSerial} aria-hidden="true">
-          <span>PORT OF ENTRY / ZENAI.WORLD</span>
-          <span>NO. Z-ARRIVAL-0001</span>
+          <span>PUBLIC GATEWAY / ZENAI.WORLD</span>
+          <span>OPERATING ENVIRONMENT / ARSENAL</span>
         </div>
       </section>
     </div>

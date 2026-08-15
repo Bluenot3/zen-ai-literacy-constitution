@@ -57,6 +57,22 @@ export default function ArsenalProductStage({
           ))}
         </div>
 
+        <div className={styles.operatingFlow} aria-label="Arsenal operating flow">
+          {SYSTEM_BANDS.map(([code, label, left, right]) => (
+            <div className={styles.flowStage} key={code}>
+              <span>{code}</span>
+              <div>
+                <small>{label}</small>
+                <strong>{left}</strong>
+                <i aria-hidden="true" />
+                <strong>{right}</strong>
+              </div>
+            </div>
+          ))}
+          <div className={styles.flowSignal} aria-hidden="true">
+            <span />
+          </div>
+        </div>
         <div className={styles.evidenceShell}>
           <div className={styles.evidenceRegister}>
             <span>{media ? "Real interface evidence" : "Founding evidence"}</span>
@@ -143,17 +159,6 @@ export default function ArsenalProductStage({
                   </figcaption>
                 </figure>
 
-                <div className={styles.systemBands}>
-                  {SYSTEM_BANDS.map(([code, label, left, right]) => (
-                    <div className={styles.systemBand} key={code}>
-                      <span>{code}</span>
-                      <small>{label}</small>
-                      <strong>{left}</strong>
-                      <i aria-hidden="true" />
-                      <strong>{right}</strong>
-                    </div>
-                  ))}
-                </div>
 
                 <div className={styles.systemNameplate}>
                   <span>ZEN AI CO. / BUSINESS EXECUTION SYSTEM</span>

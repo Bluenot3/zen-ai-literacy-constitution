@@ -10,7 +10,6 @@ const LINKS = {
   homeschool: "/programs#homeschool",
   trainer: "/programs#train-the-trainer",
   institutional: "/programs#institutional",
-  start: "/start",
   constitution: "/ai-literacy-constitution",
 } as const;
 
@@ -30,6 +29,23 @@ const BUSINESS_CAPABILITIES = [
     title: "AI Strategy & Systems Integration",
     copy: "Practical architecture that connects intelligence, people, information, and execution without surrendering human control.",
   },
+] as const;
+const BUSINESS_INPUTS = [
+  "Systems",
+  "People",
+  "Repetitive work",
+  "Fragmentation",
+] as const;
+
+const OPERATING_FABRIC = [
+  "Agents",
+  "Automations",
+  "Workflows",
+  "Operational intelligence",
+  "Human approvals",
+  "Business Spaces",
+  "Outputs",
+  "Measurement",
 ] as const;
 
 const PROGRAMS = [
@@ -159,6 +175,44 @@ export default function CompanyPortfolio() {
             <strong>SMART BUSINESS SOLUTIONS</strong>
             <span>ZEN–SBS–0001</span>
           </div>
+<div className={styles.businessDoctrine}>
+            <span>Improve → Save → Automate → Measure → Scale</span>
+            <strong>One Fabric. Every System. One Truth.</strong>
+          </div>
+
+          <div
+            className={styles.transformationMap}
+            aria-label="Smart Business Solutions operating transformation"
+          >
+            <div className={styles.currentBusiness}>
+              <small>Current business</small>
+              <div>
+                {BUSINESS_INPUTS.map((input) => (
+                  <span key={input}>{input}</span>
+                ))}
+              </div>
+            </div>
+            <div className={styles.fabricCore}>
+              <span>ZEN + ARSENAL</span>
+              <strong>Connected operating fabric</strong>
+              <small>Strategy and intelligence · execution infrastructure</small>
+            </div>
+            <div className={styles.fabricCapabilities}>
+              <span>Connected operating fabric</span>
+              <div>
+                {OPERATING_FABRIC.map((capability) => (
+                  <small key={capability}>{capability}</small>
+                ))}
+              </div>
+            </div>
+            <div className={styles.measurableValue}>
+              <span>Measurable value</span>
+              <strong>Improve · Save · Automate · Measure · Scale</strong>
+            </div>
+            <div className={styles.businessSignal} aria-hidden="true">
+              <span />
+            </div>
+          </div>
 
           <div className={styles.businessGrid}>
             <div className={styles.businessCopy}>
@@ -180,8 +234,8 @@ export default function CompanyPortfolio() {
                   </div>
                 ))}
               </div>
-              <a className={styles.businessCta} href={LINKS.start}>
-                Design a business solution <span aria-hidden="true">→</span>
+              <a className={styles.businessCta} href={LINKS.businessSpace}>
+                Transform a Business <span aria-hidden="true">→</span>
               </a>
             </div>
 

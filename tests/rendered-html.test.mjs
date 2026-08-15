@@ -63,7 +63,7 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.match(html, /Train-the-Trainer/);
   assert.match(html, /Institutional Programs/);
   assert.match(html, /AI Literacy Constitution/);
-  assert.match(html, /Design a business solution/);
+  assert.match(html, /One Fabric\. Every System\. One Truth\./);
   assert.match(html, /Create a Business Space/);
   assert.match(html, /Build with Arsenal/);
   assert.match(
@@ -123,6 +123,27 @@ test("server-renders the finished ZEN gateway", async () => {
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
 });
 
+
+test("the public start route hands directly to Arsenal without intake friction", async () => {
+  const response = await render("/start");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+
+  assert.match(html, /Arsenal is ZEN(?:&#x27;|&apos;|')s operating platform/i);
+  assert.match(html, /Activate \/ Sign in with Arsenal/);
+  assert.match(html, /One ZEN identity\. Arsenal powers the operating environment\./);
+  assert.match(
+    html,
+    /https:\/\/arsenal\.world\/login\?next=%2Fdashboard%3Futm_source%3Dzenai\.world%26utm_medium%3Downed%26utm_campaign%3Dzen_start/,
+  );
+  assert.match(html, /data-zen-next="\/dashboard"/);
+  assert.match(html, /data-zen-campaign="zen_start"/);
+  assert.doesNotMatch(
+    html,
+    /Start with context|guided intake|arrival brief|Email this brief|huxley@zenai\.biz|mailto:/i,
+  );
+  assert.doesNotMatch(html, /<(?:form|input|textarea|select)\b/i);
+});
 test("renders canonical admin-managed ZEN pages with a safe home fallback", async () => {
   const originalFetch = globalThis.fetch;
   let managedHomeEnabled = false;
@@ -284,13 +305,13 @@ test("renders canonical admin-managed ZEN pages with a safe home fallback", asyn
   }
 });
 
-test("serves the structured ZEN intake and AI literacy charter", async () => {
+test("serves the frictionless Arsenal transition and AI literacy charter", async () => {
   const start = await render("/start");
   assert.equal(start.status, 200);
   const startHtml = await start.text();
-  assert.match(startHtml, /Start with context\./);
-  assert.match(startHtml, /Business or organization/);
-  assert.match(startHtml, /Nothing leaves this page|remain in this page/i);
+  assert.match(startHtml, /Activate \/ Sign in with Arsenal/);
+  assert.match(startHtml, /One ZEN identity/);
+  assert.doesNotMatch(startHtml, /Start with context|Business or organization|arrival brief/i);
 
   const constitution = await render("/ai-literacy-constitution");
   assert.equal(constitution.status, 200);
