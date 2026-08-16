@@ -1370,6 +1370,7 @@
 .visualSpecimen button {
   display: block;
   width: 100%;
+  min-height: 2.75rem;
   padding: 0.45rem;
   border: 1px solid rgba(155,119,47,0.66);
   background: rgba(255,255,255,0.72);
@@ -1540,6 +1541,7 @@
   .visualSpecimen figcaption { display: grid; gap: 0.35rem; }
   .archiveControls { grid-template-columns: 1fr; }
   .archiveControls > a { grid-column: auto; }
+  .archiveYear > small { grid-column: 3; grid-row: 1; }
   .archivePagination { grid-template-columns: 1fr 1fr; }
   .archivePagination small { grid-column: 1 / -1; grid-row: 1; text-align: center; }
   .archivePagination > :first-child { grid-column: 1; }

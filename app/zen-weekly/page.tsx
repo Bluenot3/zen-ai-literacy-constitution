@@ -120,7 +120,11 @@ export default async function ZenWeeklyHomePage({ searchParams }: PageProps) {
               <Link className={styles.leadMedia} href={latest.canonicalPath} aria-label={`Read ${latest.title}`}>
                 {latestCover ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={latestCover} alt={latest.coverAlt} fetchPriority="high" />
+                  <img
+                    src={latestCover}
+                    alt={latest.coverAlt || `${publicationDisplayTitle(latest.title)} cover`}
+                    fetchPriority="high"
+                  />
                 ) : (
                   <span className={styles.leadMediaEmpty} aria-hidden="true">ZEN Weekly</span>
                 )}
@@ -174,7 +178,11 @@ export default async function ZenWeeklyHomePage({ searchParams }: PageProps) {
                   <div className={styles.issueThumb}>
                     {cover ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={cover} alt={issue.coverAlt} loading="lazy" />
+                      <img
+                        src={cover}
+                        alt={issue.coverAlt || `${publicationDisplayTitle(issue.title)} cover`}
+                        loading="lazy"
+                      />
                     ) : <span aria-hidden="true">Z</span>}
                   </div>
                   <div className={styles.editionMeta}>
@@ -243,13 +251,6 @@ export default async function ZenWeeklyHomePage({ searchParams }: PageProps) {
             <small>{data.archive.total} public {data.archive.total === 1 ? "issue" : "issues"}</small>
           </div>
           <p className={styles.archiveIntroduction}>The published ZEN Weekly record, ordered from the current edition through earlier issues.</p>
-          {data.archive.issues.length ? (
-            <div className={styles.archiveVolumes}>
-              {archiveByYear.map(([year, issues]) => (
-                <section className={styles.archiveVolume} aria-labelledby={`archive-year-${year}`} key={year}>
-                  <header className={styles.archiveYear}>
-                    <span>Year ledger</span>
-                    <strong id={`archive-year-${year}`}>{year}</strong>
           <form className={styles.archiveControls} method="get" action="/zen-weekly">
             <label>
               <span>Search title or issue number</span>
@@ -263,6 +264,13 @@ export default async function ZenWeeklyHomePage({ searchParams }: PageProps) {
             <button type="submit">Search ledger</button>
             {(data.archive.query || data.archive.year) ? <Link href="/zen-weekly#archive">Clear</Link> : null}
           </form>
+          {data.archive.issues.length ? (
+            <div className={styles.archiveVolumes}>
+              {archiveByYear.map(([year, issues]) => (
+                <section className={styles.archiveVolume} aria-labelledby={`archive-year-${year}`} key={year}>
+                  <header className={styles.archiveYear}>
+                    <span>Year ledger</span>
+                    <strong id={`archive-year-${year}`}>{year}</strong>
                     <small>{issues.length} {issues.length === 1 ? "edition" : "editions"}</small>
                   </header>
                   <ol className={styles.archiveList}>
@@ -274,7 +282,11 @@ export default async function ZenWeeklyHomePage({ searchParams }: PageProps) {
                             <span className={styles.archivePlate}>
                               {cover ? (
                                 // eslint-disable-next-line @next/next/no-img-element
-                                <img src={cover} alt={issue.coverAlt} loading="lazy" />
+                                <img
+                                  src={cover}
+                                  alt={issue.coverAlt || `${publicationDisplayTitle(issue.title)} cover`}
+                                  loading="lazy"
+                                />
                               ) : <i aria-hidden="true">Z</i>}
                             </span>
                             <span className={styles.archiveDate}><time dateTime={issue.issueDate}>{formatPublicationDate(issue.issueDate)}</time></span>

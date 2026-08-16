@@ -216,8 +216,10 @@ function issueQuery(tabSlug: "weekly" | "today", options: IssueListOptions) {
     .replace(/\s+/g, " ")
     .trim()
     .slice(0, 80);
-  if (/^\d{1,6}$/.test(search)) query.set("edition_number", `eq.${search}`);
-  else if (search) query.set("title", `ilike.*${search.replace(/\s/g, "*")}*`);
+  if (/^\d{1,6}$/.test(search)) {
+    // Historical records may carry the issue number in the legacy title suffix without edition_number.
+    query.set("or", `(edition_number.eq.${search},title.ilike.*${search}*)`);
+  } else if (search) query.set("title", `ilike.*${search.replace(/\s/g, "*")}*`);
   query.set("order", options.order ?? "issue_date.desc,published_at.desc,id.asc");
   query.set("limit", String(Math.max(1, Math.min(options.limit, 500))));
   if (options.offset) query.set("offset", String(Math.max(0, options.offset)));

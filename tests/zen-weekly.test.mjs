@@ -88,7 +88,7 @@ const weeklyIssues = [
     tab_slug: "weekly",
     issue_date: "2026-08-07",
     edition_number: null,
-    title: "The Earlier Record",
+    title: "The Earlier Record | ZEN WEEKLY | Issue #8",
     subtitle: "",
     cover_url: null,
     masthead: {},
@@ -173,6 +173,14 @@ async function render(path, environment = mockedEnvironment()) {
       if (titleQuery) rows = rows.filter((row) => row.title.toLowerCase().includes(titleQuery));
       const edition = url.searchParams.get("edition_number")?.replace(/^eq\./, "");
       if (edition) rows = rows.filter((row) => String(row.edition_number) === edition);
+      const disjunction = url.searchParams.get("or") ?? "";
+      const numericEdition = disjunction.match(/edition_number\.eq\.(\d+)/)?.[1];
+      const numericTitle = disjunction.match(/title\.ilike\.\*(\d+)\*/)?.[1];
+      if (numericEdition && numericTitle) {
+        rows = rows.filter((row) =>
+          String(row.edition_number) === numericEdition || row.title.includes(numericTitle)
+        );
+      }
       const andFilter = url.searchParams.get("and") ?? "";
       const year = andFilter.match(/issue_date\.gte\.(20\d{2})-01-01/)?.[1];
       if (year) rows = rows.filter((row) => row.issue_date.startsWith(year));
@@ -291,6 +299,20 @@ test("private issue identities do not leak and archive filtering stays bounded",
   assert.match(html, /value="Earlier"/);
   assert.match(html, /value="2026"/);
   assert.match(html, /Search ledger/);
+
+  const numeric = await render("/zen-weekly?q=8");
+  assert.equal(numeric.status, 200);
+  const numericHtml = await numeric.text();
+  assert.match(numericHtml, /The Earlier Record/);
+  assert.match(numericHtml, /value="8"/);
+
+  const empty = await render("/zen-weekly?q=NoMatch");
+  assert.equal(empty.status, 200);
+  const emptyHtml = await empty.text();
+  assert.match(emptyHtml, /No public ZEN Weekly issues are available/);
+  assert.match(emptyHtml, /Search ledger/);
+  assert.match(emptyHtml, /value="NoMatch"/);
+  assert.match(emptyHtml, />Clear</);
 });
 
 test("RSS exposes only canonical public issue summaries", async () => {
@@ -344,6 +366,7 @@ test("ZEN Weekly source contract is server-only, filtered, responsive, and index
   assert.match(renderer, /SAFE_EMBED_HOSTS/);
   assert.match(renderer, /sandbox=""/);
   assert.match(home, /<h1 className=\{styles\.latestHeadline\}/);
+  assert.match(home, /coverAlt \|\| `\$\{publicationDisplayTitle\(.+?\.title\)\} cover`/);
   assert.match(home, /archiveByYear/);
   assert.match(home, /archivePlate/);
   assert.match(article, /type="application\/ld\+json"/);
@@ -354,7 +377,11 @@ test("ZEN Weekly source contract is server-only, filtered, responsive, and index
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(article, /redirect\(article\.canonicalPath\)/);
   assert.match(css, /:focus-visible/);
+  assert.match(css, /\.visualSpecimen button[\s\S]*min-height: 2\.75rem/);
+  assert.match(css, /\.archiveYear > small \{ grid-column: 3; grid-row: 1; \}/);
+  assert.equal(home.match(/className=\{styles\.archiveControls\}/g)?.length, 1);
   assert.match(sitemap, /listZenWeeklySitemapIssues/);
+  assert.match(server, /query\.set\("or",[\s\S]*edition_number\.eq\.[\s\S]*title\.ilike/);
   assert.match(tools, /role="progressbar"/);
   assert.match(tools, /navigator\.share/);
   assert.match(lightbox, /dialog\.showModal\(\)/);
