@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { Cormorant_Garamond, Manrope, Space_Mono } from "next/font/google";
 import { ZenSiteAnalytics } from "./site-analytics";
 import { ZenSiteAnnouncementBanner } from "./site-announcement-banner";
 import { listVisibleZenSiteAnnouncements } from "./site-announcements.server";
@@ -9,23 +8,6 @@ import { ZenFunnelTracker } from "./zen-funnel-tracker";
 import "./globals.css";
 import "./treasury-chrome.css";
 import "./site-runtime.css";
-
-const display = Cormorant_Garamond({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const sans = Manrope({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
-
-const mono = Space_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
@@ -98,7 +80,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${display.variable} ${sans.variable} ${mono.variable}`}>
+      <body>
         <ZenSiteAnalytics />
         <ZenFunnelTracker />
         <ZenSiteAnnouncementBanner announcements={visibleAnnouncements} />

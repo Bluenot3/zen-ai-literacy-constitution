@@ -124,6 +124,25 @@ test("server-renders the finished ZEN gateway", async () => {
 });
 
 
+test("self-hosts gateway fonts from deployable public URLs", async () => {
+  const [layoutSource, globalsSource] = await Promise.all([
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+  assert.doesNotMatch(layoutSource, /next\/font/);
+  assert.match(globalsSource, /url\("\/fonts\/cormorant-garamond-latin\.woff2"\)/);
+  assert.match(globalsSource, /url\("\/fonts\/manrope-latin\.woff2"\)/);
+  await Promise.all([
+    access(new URL("../public/fonts/cormorant-garamond-latin.woff2", import.meta.url)),
+    access(new URL("../public/fonts/manrope-latin.woff2", import.meta.url)),
+    access(new URL("../public/fonts/space-mono-latin-400.woff2", import.meta.url)),
+    access(new URL("../public/fonts/space-mono-latin-700.woff2", import.meta.url)),
+  ]);
+  const response = await render("/");
+  assert.equal(response.status, 200);
+  assert.doesNotMatch(await response.text(), /file:\/\/\//i);
+});
+
 test("the public start route hands directly to Arsenal without intake friction", async () => {
   const response = await render("/start");
   assert.equal(response.status, 200);
