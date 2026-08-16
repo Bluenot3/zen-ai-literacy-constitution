@@ -25,6 +25,7 @@ const LINKS = {
   businessSpace: ARSENAL_GATEWAY_LINKS.business,
   build: ARSENAL_GATEWAY_LINKS.build,
   programs: "/programs",
+  weekly: "/zen-weekly",
   pioneer: "https://arsenal.world/programs/pioneer",
   vanguard: "https://arsenal.world/programs/vanguard",
   partner: ARSENAL_GATEWAY_LINKS.partner,
@@ -128,6 +129,13 @@ const ECOSYSTEM = [
     href: LINKS.initiatives,
     tone: "gold",
   },
+  {
+    code: "Z–06",
+    name: "ZEN Weekly",
+    detail: "Long-form intelligence publication",
+    href: LINKS.weekly,
+    tone: "cyan",
+  },
 ] as const;
 
 const LEDGER = [
@@ -137,6 +145,7 @@ const LEDGER = [
     links: [
       ["AI Pioneer", LINKS.pioneer],
       ["Vanguard", LINKS.vanguard],
+      ["ZEN Weekly", LINKS.weekly],
     ],
   },
   {
@@ -802,6 +811,7 @@ export default function ZenHub({
           <a href="#solutions">Solutions</a>
           <a href="#programs">Programs</a>
           <a href="#archive">Archive</a>
+          <a href={LINKS.weekly}>ZEN Weekly</a>
           <a href={LINKS.work}>Public work</a>
           <a href={LINKS.constitution}>Constitution</a>
           <a href="#team">Team</a>
@@ -1339,6 +1349,7 @@ export default function ZenHub({
             <a href={LINKS.contact}>Contact <i aria-hidden="true">↗</i></a>
             <a href={LINKS.legacyDossier}>Legacy dossier</a>
             <a href={LINKS.gallery}>Gallery</a>
+            <a href={LINKS.weekly}>ZEN Weekly</a>
             {managedFooterItems.map((item) => (
               <a href={managedZenHref(item.slug)} key={item.id}>
                 {item.navLabel}

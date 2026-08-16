@@ -13,7 +13,11 @@ type ZenAnalyticsEvent =
   | "outbound_click"
   | "announcement_impression"
   | "announcement_click"
-  | "announcement_dismissed";
+  | "announcement_dismissed"
+  | "zen_weekly_archive_view"
+  | "zen_weekly_issue_open"
+  | "zen_weekly_art_open"
+  | "zen_weekly_share";
 
 type Gtag = (
   command: "config" | "consent" | "event" | "js",
