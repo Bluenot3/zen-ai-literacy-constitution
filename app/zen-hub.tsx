@@ -13,6 +13,7 @@ import ArsenalProductStage from "./arsenal-product-stage";
 import CompanyPortfolio from "./company-portfolio";
 import GatewayExpansion from "./gateway-expansion";
 import HeritageArchive from "./heritage-archive";
+import ArtifactCollection from "./artifact-collection";
 import NationalFirstMonument from "./national-first-monument";
 import {
   managedZenHref,
@@ -1328,6 +1329,8 @@ export default function ZenHub({
           </section>
         </div>
       </div>
+
+      <ArtifactCollection />
 
       <footer className="footer">
         <div className="footer-plate">
