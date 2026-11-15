@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 import { ArticleTools } from "../article-tools";
+import { ZenIssue200Reader } from "../issue-reader";
 import { ImageLightbox } from "../image-lightbox";
 import {
   parseZenWeeklyArticleRoute,
@@ -85,6 +86,7 @@ export default async function ZenWeeklyArticlePage({ params }: PageProps) {
   const canonicalUrl = `${canonicalHost}${article.canonicalPath}`;
   const cover = safePublicUrl(article.coverUrl);
   const readingMinutes = publicationReadingMinutes(article.sections);
+  const isIssue200EvidenceReader = article.id === "3d64f3e5-2906-4029-a977-b547346ed66f";
   const articleIssueNumber = issueNumberLabel(article)?.replace(/^Issue\s+/i, "") ?? "W";
   const previousIssue = result.previousIssue;
   const nextIssue = result.nextIssue;
@@ -159,7 +161,7 @@ export default async function ZenWeeklyArticlePage({ params }: PageProps) {
                 <time dateTime={article.issueDate}>{formatPublicationDate(article.issueDate)}</time>
                 {issueNumberLabel(article) ? <span>{issueNumberLabel(article)}</span> : null}
                 {article.byline ? <span>By {article.byline}</span> : null}
-                {readingMinutes ? <span>{readingMinutes} min read</span> : null}
+                {readingMinutes ? <span>{isIssue200EvidenceReader ? `Full evidence record · ${readingMinutes} min` : `${readingMinutes} min read`}</span> : null}
               </div>
             </div>
           </div>
@@ -179,7 +181,7 @@ export default async function ZenWeeklyArticlePage({ params }: PageProps) {
             <time dateTime={article.issueDate}>{formatPublicationDate(article.issueDate)}</time>
             <Link href="/zen-weekly#archive">Open archive</Link>
           </aside>
-          <ZenPublicationBlocks article={article} />
+          {isIssue200EvidenceReader ? <ZenIssue200Reader article={article} /> : <ZenPublicationBlocks article={article} />}
         </div>
       </article>
 
