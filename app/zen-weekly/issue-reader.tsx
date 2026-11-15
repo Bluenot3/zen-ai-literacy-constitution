@@ -26,7 +26,16 @@ type EvidenceUpdate = {
   preview: string;
 };
 
-const TOPIC_LABEL = new Map<Topic, string>(TOPICS.map((item) => [item.id, item.label]));
+const TOPIC_LABEL: Record<Topic, string> = {
+  all: "All developments",
+  aviation: "Aviation",
+  cloud: "Cloud & AI",
+  finance: "Banking",
+  industrial: "Infrastructure",
+  maritime: "Maritime",
+  security: "Security",
+  crypto: "Bitcoin & crypto",
+};
 
 // Tags classify editorial subjects only. They do NOT imply a common cause.
 const KNOWN_TOPICS: Record<number, Topic[]> = {
@@ -267,7 +276,7 @@ export function ZenIssue200Reader({ article }: { article: ZenPublicationArticle 
                 <strong>{item.title}</strong>
                 {item.preview ? <small>{item.preview}</small> : null}
                 <span className={styles.tags}>
-                  {item.topics.map((tag) => <span key={tag}>{TOPIC_LABEL.get(tag)}</span>)}
+                  {item.topics.map((tag) => <span key={tag}>{TOPIC_LABEL[tag]}</span>)}
                 </span>
               </span>
               <span className={styles.expandGlyph} aria-hidden="true">+</span>
