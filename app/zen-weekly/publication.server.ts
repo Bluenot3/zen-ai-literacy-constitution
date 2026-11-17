@@ -104,7 +104,7 @@ function runtimeConfig() {
         __ZEN_RUNTIME_ENV__?: RuntimeEnvironment;
       }
     ).__ZEN_RUNTIME_ENV__ ?? {};
-  const nodeRuntime =
+  const nodeRuntime: Record<string, string | undefined> =
     typeof process !== "undefined" ? process.env : {};
 
   return {
