@@ -192,7 +192,7 @@ function cleanMedia(value: unknown): ZenPublicationMedia {
             url,
             caption: cleanInlineText(image.caption, 1_000) || undefined,
             credit: cleanInlineText(image.credit ?? image.attribution, 500) || undefined,
-            role: image.role === "infographic" ? "infographic" : image.role === "artwork" ? "artwork" : undefined,
+            role: image.role === "infographic" ? ("infographic" as const) : image.role === "artwork" ? ("artwork" as const) : undefined,
             alt: cleanInlineText(image.alt, 500) || undefined,
           };
         })

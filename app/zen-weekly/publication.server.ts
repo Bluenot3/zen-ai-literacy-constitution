@@ -98,13 +98,13 @@ const SECTION_SELECT = [
 ].join(",");
 
 function runtimeConfig() {
-  const runtime =
+  const runtime: RuntimeEnvironment =
     (
       globalThis as typeof globalThis & {
         __ZEN_RUNTIME_ENV__?: RuntimeEnvironment;
       }
     ).__ZEN_RUNTIME_ENV__ ?? {};
-  const nodeRuntime =
+  const nodeRuntime: Record<string, string | undefined> =
     typeof process !== "undefined" ? process.env : {};
 
   return {
