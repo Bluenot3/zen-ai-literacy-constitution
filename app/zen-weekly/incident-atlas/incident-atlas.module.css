@@ -316,3 +316,12 @@
 .articleAtlasLaunch>a span{color:inherit;font-size:.9rem;}
 .articleAtlasLaunch>a:hover{background:#ffe2aa;}
 @media(max-width:760px){.articleAtlasLaunch{grid-template-columns:1fr;padding:1.2rem;margin:1rem auto;}.articleAtlasLaunch>a{justify-self:start;}}
+
+.snapshotBanner{
+  position:relative;z-index:8;display:flex;justify-content:center;align-items:center;gap:1rem 1.5rem;flex-wrap:wrap;
+  padding:1rem 2.5vw;
+  color:#ffedc9;background:#553d25;border-bottom:2px solid #d1a469;
+  text-align:center;font-size:.73rem;line-height:1.65;
+}
+.snapshotBanner strong{display:block;color:#fff4d7;font:.7rem "Space Mono",monospace;letter-spacing:.085em;}
+.snapshotBanner span{max-width:74rem;color:#ffedcd;}
