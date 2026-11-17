@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 
 import { ArticleTools } from "../article-tools";
 import { ZenIssue200Reader } from "../issue-reader";
+import atlasStyles from "../incident-atlas/incident-atlas.module.css";
 import { ImageLightbox } from "../image-lightbox";
 import {
   parseZenWeeklyArticleRoute,
@@ -172,6 +173,17 @@ export default async function ZenWeeklyArticlePage({ params }: PageProps) {
             <ImageLightbox src={cover} alt={article.coverAlt || article.title} caption={article.coverAlt} priority />
             {article.coverAlt ? <figcaption>{article.coverAlt}</figcaption> : null}
           </figure>
+        ) : null}
+
+        {isIssue200EvidenceReader ? (
+          <section className={atlasStyles.articleAtlasLaunch} aria-label="Issue 200 interactive incident atlas">
+            <div>
+              <span>NEW / INTERACTIVE INTELLIGENCE BOARD</span>
+              <h2>Explore this investigation on a world atlas</h2>
+              <p>Zoom across the incident map, filter the timeline, inspect source-linked evidence, and separate documented dependencies from unproven connections. All 37 published updates are searchable.</p>
+            </div>
+            <Link href="/zen-weekly/atlas">Open the incident atlas <span aria-hidden="true">↗</span></Link>
+          </section>
         ) : null}
 
         <div className={styles.articleReadingShell}>
