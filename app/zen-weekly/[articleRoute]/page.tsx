@@ -180,7 +180,7 @@ export default async function ZenWeeklyArticlePage({ params }: PageProps) {
             <div>
               <span>NEW / INTERACTIVE INTELLIGENCE BOARD</span>
               <h2>Explore this investigation on a world atlas</h2>
-              <p>Zoom across the incident map, filter the timeline, inspect source-linked evidence, and separate documented dependencies from unproven connections. All 37 published updates are searchable.</p>
+              <p>Zoom across the incident map, filter the timeline, inspect source-linked evidence, and separate documented dependencies from unproven connections. All {article.sections.filter(section => section.position > 0).length} published updates are searchable.</p>
             </div>
             <Link href="/zen-weekly/atlas">Open the incident atlas <span aria-hidden="true">↗</span></Link>
           </section>
