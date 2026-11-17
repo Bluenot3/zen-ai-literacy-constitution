@@ -136,9 +136,10 @@ function isWithinTime(value: string, begin: string, end: string) {
 type Props = {
   article: ZenPublicationArticle;
   retrievedAt: string;
+  sourceMode?: "live" | "verified-snapshot";
 };
 
-export function ZenWeeklyIncidentAtlas({ article, retrievedAt }: Props) {
+export function ZenWeeklyIncidentAtlas({ article, retrievedAt, sourceMode = "live" }: Props) {
   const router = useRouter();
   const svgRef = useRef<SVGSVGElement>(null);
   const drag = useRef<{ x: number; y: number; cx: number; cy: number; active: boolean } | null>(null);
@@ -275,6 +276,12 @@ export function ZenWeeklyIncidentAtlas({ article, retrievedAt }: Props) {
   return (
     <div className={styles.atlasPage}>
       <div className={styles.woodGrain} aria-hidden="true"/>
+      {sourceMode === "verified-snapshot" ? (
+        <div className={styles.snapshotBanner} role="status">
+          <strong>DATED EDITORIAL SNAPSHOT · NOT A LIVE DATA CONNECTION</strong>
+          <span>Last independently verified November 16, 2026, 6:48 PM EST. Pins and summaries are source-reviewed; new database updates will appear when the original Supabase connection is available. Full article records and original citations remain on zenai.world.</span>
+        </div>
+      ) : null}
       <div className={styles.shell}>
         <nav className={styles.navbar} aria-label="Atlas navigation">
           <div className={styles.brand}>
@@ -282,7 +289,7 @@ export function ZenWeeklyIncidentAtlas({ article, retrievedAt }: Props) {
             <div><strong>ZEN WEEKLY</strong><small>INCIDENT ATLAS · ISSUE #200</small></div>
           </div>
           <div className={styles.navActions}>
-            <span className={styles.sourceSync}><span className={styles.syncDot}/> Published evidence · through update {padUpdate(maxNumber)}</span>
+            <span className={styles.sourceSync}><span className={styles.syncDot}/> {sourceMode === "live" ? "Published evidence" : "Verified snapshot"} · through update {padUpdate(maxNumber)}</span>
             <button type="button" onClick={refresh} aria-label="Refresh the latest published incident records" disabled={isRefreshing}>{isRefreshing?"Checking…":"Refresh evidence"}</button>
             <a href={ISSUE_200_CANONICAL}>Read full investigation <span aria-hidden="true">↗</span></a>
           </div>
@@ -582,7 +589,7 @@ export function ZenWeeklyIncidentAtlas({ article, retrievedAt }: Props) {
         <footer className={styles.atlasFooter}>
           <div><strong>ZEN AI CO. / ZEN WEEKLY</strong><span>ISSUE #200 · INVESTIGATIVE ATLAS</span></div>
           <p>Public article sections are retrieved from the published Supabase record. Pins use a curated location index with explicit precision; a marker is not independent evidence. World boundaries: Natural Earth 110m public-domain geometry. No tracking pixels, paid mapping API, fabricated incident coordinates or implied cross-incident attribution.</p>
-          <div><small>Evidence retrieved: {new Date(retrievedAt).toLocaleString("en-US",{dateStyle:"medium",timeStyle:"short",timeZone:"America/New_York"})} ET</small><a href={ISSUE_200_CANONICAL}>Full source publication ↗</a></div>
+          <div><small>{sourceMode === "live" ? "Evidence retrieved" : "Snapshot verified"}: {new Date(retrievedAt).toLocaleString("en-US",{dateStyle:"medium",timeStyle:"short",timeZone:"America/New_York"})} ET</small><a href={ISSUE_200_CANONICAL}>Full source publication ↗</a></div>
         </footer>
       </div>
     </div>
