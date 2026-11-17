@@ -38,8 +38,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ZEN Weekly | ZEN AI Co.",
     description,
-  },
     images: ["/og.png"],
+  },
 };
 
 type PageProps = {
