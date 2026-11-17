@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getZenWeeklyArticle } from "../publication.server";
-import { ISSUE_200_ID, ISSUE_200_CANONICAL } from "../incident-atlas/atlas-data";
+import { ISSUE_200_ID } from "../incident-atlas/atlas-data";
 import { ZenWeeklyIncidentAtlas } from "../incident-atlas/incident-atlas";
+import { SNAPSHOT_ISSUE_200, SNAPSHOT_VERIFIED_AT } from "../incident-atlas/atlas-snapshot";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -21,14 +21,13 @@ export const metadata: Metadata = {
 export default async function ZenWeeklyAtlasPage() {
   const result = await getZenWeeklyArticle(ISSUE_200_ID);
   if (!result.available || !result.article || result.article.status !== "published") {
-    return (
-      <main style={{ minHeight:"100vh", background:"#0c1c27", color:"#e8f0e8", padding:"min(8vw, 5rem)", fontFamily:"Arial, sans-serif" }}>
-        <p style={{ color:"#d7bd84" }}>ZEN WEEKLY / SOURCE UNAVAILABLE</p>
-        <h1>The Incident Atlas cannot verify its published evidence right now.</h1>
-        <p>The existing investigation has not been altered or replaced. The tracker will return when the source service is available.</p>
-        <Link href={ISSUE_200_CANONICAL} style={{ color:"#e4cf9c" }}>Open the original Issue #200 investigation ↗</Link>
-      </main>
-    );
+    // Preview is functional without inventing a live connection. The fallback
+    // is visibly labeled, dated and never represents a changed database record.
+    return <ZenWeeklyIncidentAtlas
+      article={SNAPSHOT_ISSUE_200}
+      retrievedAt={SNAPSHOT_VERIFIED_AT}
+      sourceMode="verified-snapshot"
+    />;
   }
   return <ZenWeeklyIncidentAtlas article={result.article} retrievedAt={new Date().toISOString()} />;
 }
