@@ -1,15 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent, WheelEvent as ReactWheelEvent } from "react";
 import { useRouter } from "next/navigation";
 import type { ZenPublicationArticle, ZenPublicationBlock } from "../publication";
 import {
   ATLAS_ALL_INCIDENTS,
   ATLAS_CATEGORIES,
-  ATLAS_INCIDENTS,
   ATLASEVIDENCE_RELATIONS,
-  DISTRIBUTED_INCIDENTS,
   EVIDENCE_LABELS,
   ISSUE_200_CANONICAL,
   type AtlasCategory,
@@ -156,7 +154,6 @@ export function ZenWeeklyIncidentAtlas({ article, retrievedAt }: Props) {
   const [showRelationships, setShowRelationships] = useState(false);
   const [showFullRecord, setShowFullRecord] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [showCompact, setShowCompact] = useState(false);
 
   const sections = useMemo(() =>
     article.sections.filter(section => section.position >= 0), [article.sections]);
@@ -311,7 +308,7 @@ export function ZenWeeklyIncidentAtlas({ article, retrievedAt }: Props) {
                 type="button" key={item.id} aria-pressed={category===item.id}
                 className={category===item.id?styles.activeCategory:""}
                 onClick={()=>setCategory(item.id)}
-                style={{"--categoryColor":item.color} as React.CSSProperties}
+                style={{"--categoryColor":item.color} as CSSProperties}
               >{item.name}</button>
             ))}
           </div>
@@ -416,7 +413,7 @@ export function ZenWeeklyIncidentAtlas({ article, retrievedAt }: Props) {
                           }}
                           style={{cursor:"pointer"}}
                         >
-                          <circle cx={cluster.x} cy={cluster.y} r={radius*2.3} fill={COLORS[sample.category]} opacity={chosenInCluster?.28:.1} filter="url(#pinHalo)"/>
+                          <circle cx={cluster.x} cy={cluster.y} r={radius*2.3} fill={COLORS[sample.category]} opacity={chosenInCluster ? 0.28 : 0.1} filter="url(#pinHalo)"/>
                           <circle cx={cluster.x} cy={cluster.y} r={radius+2/view.zoom} fill="#faf1cf" stroke={chosenInCluster?"#9c6f26":"#45696d"} strokeWidth={chosenInCluster?3/view.zoom:1.7/view.zoom} />
                           <circle cx={cluster.x} cy={cluster.y} r={radius} fill={multi?"#234e62":COLORS[sample.category]} stroke={STATUS_STROKES[sample.evidence]} strokeWidth={2/view.zoom} strokeDasharray={sample.precision==="site"?undefined:`${5/view.zoom} ${2.5/view.zoom}`} />
                           {multi ? (
